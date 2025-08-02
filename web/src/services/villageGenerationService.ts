@@ -1,4 +1,4 @@
-import WFC from 'simple-wfc';
+import WFC from '../types/simple-wfc';
 import { adjacencyRules, villageTiles, WfcTile } from '../config/wfcRulesets/village';
 
 export interface VillageOptions {
