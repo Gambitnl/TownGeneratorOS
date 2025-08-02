@@ -1,0 +1,20 @@
+{
+  "name": "village-generator",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "npm run build -- --watch",
+    "build": "tsc",
+    "test": "echo 'No tests specified'"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.9",
+    "@types/react-dom": "^19.1.7",
+    "typescript": "^5.4.0"
+  }
+}
