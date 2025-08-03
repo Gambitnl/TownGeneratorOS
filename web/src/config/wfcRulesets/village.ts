@@ -1,23 +1,25 @@
 export interface WfcTile {
   id: string;
+  weight: number;
+  rules: [string[], string[], string[], string[]];
 }
 
 export const villageTiles: WfcTile[] = [
-  { id: 'grass' },
-  { id: 'dirt' },
-  { id: 'road_center' },
-  { id: 'road_edge' },
-  { id: 'building_wall_n' },
-  { id: 'building_wall_s' },
-  { id: 'building_door' },
-  { id: 'building_roof_edge' },
-  { id: 'building_roof_center' },
-  { id: 'town_wall' },
-  { id: 'gate' },
-  { id: 'tower_base' },
-  { id: 'farmland' },
-  { id: 'market_stall' },
-  { id: 'well' }
+  { id: 'grass', weight: 1, rules: [[], [], [], []] },
+  { id: 'dirt', weight: 1, rules: [[], [], [], []] },
+  { id: 'road_center', weight: 1, rules: [[], [], [], []] },
+  { id: 'road_edge', weight: 1, rules: [[], [], [], []] },
+  { id: 'building_wall_n', weight: 1, rules: [[], [], [], []] },
+  { id: 'building_wall_s', weight: 1, rules: [[], [], [], []] },
+  { id: 'building_door', weight: 1, rules: [[], [], [], []] },
+  { id: 'building_roof_edge', weight: 1, rules: [[], [], [], []] },
+  { id: 'building_roof_center', weight: 1, rules: [[], [], [], []] },
+  { id: 'town_wall', weight: 1, rules: [[], [], [], []] },
+  { id: 'gate', weight: 1, rules: [[], [], [], []] },
+  { id: 'tower_base', weight: 1, rules: [[], [], [], []] },
+  { id: 'farmland', weight: 1, rules: [[], [], [], []] },
+  { id: 'market_stall', weight: 1, rules: [[], [], [], []] },
+  { id: 'well', weight: 1, rules: [[], [], [], []] }
 ];
 
 export const adjacencyRules: Record<string, string[]> = {
@@ -37,3 +39,13 @@ export const adjacencyRules: Record<string, string[]> = {
   market_stall: ['road_edge', 'road_center'],
   well: ['road_center', 'road_edge']
 };
+
+// Map adjacencyRules to the rules property of each tile
+for (const tile of villageTiles) {
+  tile.rules = [
+    adjacencyRules[tile.id] || [], // North
+    adjacencyRules[tile.id] || [], // East
+    adjacencyRules[tile.id] || [], // South
+    adjacencyRules[tile.id] || []  // West
+  ];
+}
