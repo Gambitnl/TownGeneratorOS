@@ -22,7 +22,7 @@ export const villageTiles: WfcTile[] = [
   { id: 'well', weight: 1, rules: [[], [], [], []] }
 ];
 
-export const adjacencyRules: Record<string, string[]> = {
+const adjacencyRules: Record<string, string[]> = {
   grass: ['grass', 'dirt', 'road_edge', 'farmland'],
   dirt: ['grass', 'dirt', 'road_edge'],
   road_center: ['road_center', 'road_edge', 'gate'],
@@ -40,12 +40,28 @@ export const adjacencyRules: Record<string, string[]> = {
   well: ['road_center', 'road_edge']
 };
 
-// Map adjacencyRules to the rules property of each tile
+// Create a deep copy to avoid modifying the original object while iterating
+const symmetricalAdjacencyRules = JSON.parse(JSON.stringify(adjacencyRules));
+
+// Make the adjacency rules symmetrical
+for (const tileId in adjacencyRules) {
+    const neighbors = adjacencyRules[tileId];
+    for (const neighborId of neighbors) {
+        if (!symmetricalAdjacencyRules[neighborId]) {
+            symmetricalAdjacencyRules[neighborId] = [];
+        }
+        if (!symmetricalAdjacencyRules[neighborId].includes(tileId)) {
+            symmetricalAdjacencyRules[neighborId].push(tileId);
+        }
+    }
+}
+
+// Map symmetricalAdjacencyRules to the rules property of each tile
 for (const tile of villageTiles) {
   tile.rules = [
-    adjacencyRules[tile.id] || [], // North
-    adjacencyRules[tile.id] || [], // East
-    adjacencyRules[tile.id] || [], // South
-    adjacencyRules[tile.id] || []  // West
+    symmetricalAdjacencyRules[tile.id] || [], // North
+    symmetricalAdjacencyRules[tile.id] || [], // East
+    symmetricalAdjacencyRules[tile.id] || [], // South
+    symmetricalAdjacencyRules[tile.id] || []  // West
   ];
 }
