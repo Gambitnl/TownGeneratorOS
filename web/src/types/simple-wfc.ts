@@ -1,7 +1,14 @@
-// Minimal stub for simple-wfc
-export default class WFC {
-  constructor() {
-    // Add any initialization logic here
+import OriginalWFC, { WaveFunctionCollapseSettings, Tiles } from '@kobandavis/wfc';
+
+export class WFC extends OriginalWFC {
+  constructor(settings: WaveFunctionCollapseSettings, tiles: Tiles) {
+    super(settings, tiles);
   }
-  // Add stub methods as needed
+
+  generate(width: number, height: number): Promise<string[][]> {
+    // The generate method in OriginalWFC is solve()
+    return Promise.resolve(this.solve());
+  }
 }
+
+export type { WaveFunctionCollapseSettings, Tiles };
