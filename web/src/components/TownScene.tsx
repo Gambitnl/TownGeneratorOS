@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CityMap } from '../services/CityMap';
 import { Model } from '../services/Model';
+import { StateManager } from '../services/StateManager';
 import { Tooltip } from './Tooltip';
 import { CitySizeButton } from './CitySizeButton';
 
@@ -10,16 +11,42 @@ export const TownScene: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Initialize StateManager and create initial model
+    StateManager.pullParams();
+    StateManager.pushParams();
+    
     setLoading(true);
-    const newModel = new Model(15);
-    setModel(newModel);
+    try {
+      const newModel = new Model(StateManager.size, StateManager.seed);
+      setModel(newModel);
+    } catch (error) {
+      console.error('Error creating model:', error);
+      // Fallback: try with a different size or seed
+      try {
+        const fallbackModel = new Model(6, Date.now() % 100000);
+        setModel(fallbackModel);
+      } catch (fallbackError) {
+        console.error('Fallback model creation also failed:', fallbackError);
+      }
+    }
     setLoading(false);
   }, []);
 
   const handleGenerate = (size: number) => {
     setLoading(true);
-    const newModel = new Model(size);
-    setModel(newModel);
+    try {
+      const newModel = new Model(size);
+      setModel(newModel);
+    } catch (error) {
+      console.error('Error generating new model:', error);
+      // Try again with a random seed
+      try {
+        const fallbackModel = new Model(size, Date.now() % 100000);
+        setModel(fallbackModel);
+      } catch (fallbackError) {
+        console.error('Fallback generation also failed:', fallbackError);
+      }
+    }
     setLoading(false);
   };
 

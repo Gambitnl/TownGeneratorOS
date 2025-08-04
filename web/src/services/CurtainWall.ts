@@ -39,11 +39,42 @@ export class CurtainWall {
 
         let entrances: Point[] = [];
         if (this.patches.length > 1) {
+            // Multiple patches case - find vertices shared by multiple patches
             entrances = this.shape.vertices.filter((v: Point) => {
-                return (!reserved.some(r => r.x === v.x && r.y === v.y) && model.patchByVertex(v).filter((p: Patch) => this.patches.includes(p)).length > 1);
+                const isReserved = reserved.some(r => Math.abs(r.x - v.x) < 1e-10 && Math.abs(r.y - v.y) < 1e-10);
+                if (isReserved) return false;
+                
+                const patchesContainingVertex = model.patchByVertex(v);
+                const patchesInWall = patchesContainingVertex.filter((p: Patch) => this.patches.includes(p));
+                return patchesInWall.length > 1;
             });
         } else {
-            entrances = this.shape.vertices.filter((v: Point) => !reserved.some(r => r.x === v.x && r.y === v.y));
+            // Single patch case - any non-reserved vertex can be an entrance
+            entrances = this.shape.vertices.filter((v: Point) => {
+                return !reserved.some(r => Math.abs(r.x - v.x) < 1e-10 && Math.abs(r.y - v.y) < 1e-10);
+            });
+        }
+
+        // Fallback: if no entrances found, ensure we have at least some vertices to work with
+        if (entrances.length === 0) {
+            console.warn('No valid entrances found, using fallback logic');
+            
+            // For single patch, just use vertices that are far enough apart
+            if (this.patches.length === 1 && this.shape.vertices.length >= 3) {
+                // Use every 3rd vertex as potential entrances, or at least 1
+                const step = Math.max(1, Math.floor(this.shape.vertices.length / 3));
+                for (let i = 0; i < this.shape.vertices.length; i += step) {
+                    const v = this.shape.vertices[i];
+                    if (!reserved.some(r => Math.abs(r.x - v.x) < 1e-10 && Math.abs(r.y - v.y) < 1e-10)) {
+                        entrances.push(v);
+                    }
+                }
+            }
+            
+            // Last resort: use the first vertex if nothing else works
+            if (entrances.length === 0 && this.shape.vertices.length > 0) {
+                entrances = [this.shape.vertices[0]];
+            }
         }
 
         if (entrances.length === 0) {
