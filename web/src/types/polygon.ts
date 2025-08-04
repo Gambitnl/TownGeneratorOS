@@ -1,6 +1,6 @@
 import { Point } from './point';
 import { GeomUtils } from './geomUtils';
-import { MathUtils } from './MathUtils';
+import { MathUtils } from './mathUtils';
 
 export class Polygon {
     public vertices: Point[];
@@ -63,7 +63,68 @@ export class Polygon {
     }
 
     public contains(v: Point): boolean {
-        return this.vertices.some(p => p.x === v.x && p.y === v.y);
+        // Ray casting algorithm for point-in-polygon test
+        if (this.vertices.length < 3) {
+            return false;
+        }
+        
+        // First check if the point is exactly on a vertex
+        const isVertex = this.vertices.some(vertex => 
+            Math.abs(vertex.x - v.x) < 1e-10 && Math.abs(vertex.y - v.y) < 1e-10
+        );
+        if (isVertex) {
+            return true;
+        }
+        
+        // Ray casting algorithm
+        let inside = false;
+        const n = this.vertices.length;
+        
+        for (let i = 0; i < n; i++) {
+            const j = (i + 1) % n;
+            const xi = this.vertices[i].x;
+            const yi = this.vertices[i].y;
+            const xj = this.vertices[j].x;
+            const yj = this.vertices[j].y;
+            
+            // Check if point is on the edge
+            if (this.isPointOnEdge(v, this.vertices[i], this.vertices[j])) {
+                return true;
+            }
+            
+            // Ray casting test
+            if (((yi > v.y) !== (yj > v.y)) &&
+                (v.x < (xj - xi) * (v.y - yi) / (yj - yi) + xi)) {
+                inside = !inside;
+            }
+        }
+        
+        return inside;
+    }
+    
+    private isPointOnEdge(point: Point, edgeStart: Point, edgeEnd: Point): boolean {
+        const epsilon = 1e-10;
+        
+        // Check if point is within the bounding box of the edge
+        const minX = Math.min(edgeStart.x, edgeEnd.x) - epsilon;
+        const maxX = Math.max(edgeStart.x, edgeEnd.x) + epsilon;
+        const minY = Math.min(edgeStart.y, edgeEnd.y) - epsilon;
+        const maxY = Math.max(edgeStart.y, edgeEnd.y) + epsilon;
+        
+        if (point.x < minX || point.x > maxX || point.y < minY || point.y > maxY) {
+            return false;
+        }
+        
+        // Calculate cross product to check if point is on the line
+        const dx1 = point.x - edgeStart.x;
+        const dy1 = point.y - edgeStart.y;
+        const dx2 = edgeEnd.x - edgeStart.x;
+        const dy2 = edgeEnd.y - edgeStart.y;
+        
+        const cross = Math.abs(dx1 * dy2 - dy1 * dx2);
+        const length = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+        
+        return cross < epsilon * length;
     }
 
     public forEdge(f: (v0: Point, v1: Point) => void): void {
@@ -572,7 +633,9 @@ export class Polygon {
     }
 
     public splice(start: number, deleteCount?: number, ...items: Point[]): Point[] {
-        return this.vertices.splice(start, deleteCount, ...items);
+        return deleteCount !== undefined 
+            ? this.vertices.splice(start, deleteCount, ...items)
+            : this.vertices.splice(start, 0, ...items);
     }
 
     public last(): Point | undefined {
@@ -581,5 +644,24 @@ export class Polygon {
 
     public get length(): number {
         return this.vertices.length;
+    }
+
+    public max(scoreFn: (v: Point) => number): Point {
+        if (this.vertices.length === 0) {
+            throw new Error("Cannot find max of empty polygon");
+        }
+        
+        let maxVertex = this.vertices[0];
+        let maxScore = scoreFn(maxVertex);
+        
+        for (let i = 1; i < this.vertices.length; i++) {
+            const score = scoreFn(this.vertices[i]);
+            if (score > maxScore) {
+                maxScore = score;
+                maxVertex = this.vertices[i];
+            }
+        }
+        
+        return maxVertex;
     }
 }

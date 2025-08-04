@@ -1,8 +1,8 @@
-import { Point } from '../../geom/Point';
-import { Patch } from '../../building/Patch';
-import { Model } from '../../building/Model';
-import { CurtainWall } from '../../building/CurtainWall';
-import { Ward } from './Ward';
+import { Point } from '@/types/point';
+import { Patch } from '@/types/patch';
+import { Model } from '@/services/Model';
+import { CurtainWall } from '@/services/CurtainWall';
+import { Ward } from '@/services/Ward';
 
 // Assuming ArrayExtender is handled as a utility function or direct methods
 
@@ -30,5 +30,9 @@ export class Castle extends Ward {
 
   public getLabel(): string {
     return 'Castle';
+  }
+
+  public containsPoint(point: Point): boolean {
+    return this.patch.shape.contains(point);
   }
 }

@@ -106,8 +106,7 @@ export const CityMap: React.FC<CityMapProps> = ({ model }) => {
   const drawGate = (ctx: CanvasRenderingContext2D, brush: Brush, wall: Polygon, gate: Point, palette: Palette) => {
     ctx.strokeStyle = `#${palette.dark.toString(16)}`;
     ctx.lineWidth = Brush.THICK_STROKE * 2;
-    const dir = wall.next(gate).subtract(wall.prev(gate));
-    dir.normalize(Brush.THICK_STROKE * 1.5);
+    const dir = wall.next(gate).subtract(wall.prev(gate)).normalize().scale(Brush.THICK_STROKE * 1.5);
     ctx.beginPath();
     ctx.moveTo(gate.x - dir.x, gate.y - dir.y);
     ctx.lineTo(gate.x + dir.x, gate.y + dir.y);

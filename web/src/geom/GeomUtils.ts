@@ -8,7 +8,7 @@ export class GeomUtils {
 
   public static interpolate(p0: Point, p1: Point, ratio: number): Point {
     // Placeholder
-    return { x: 0, y: 0 };
+    return new Point(0, 0);
   }
 
   public static scalar(x1: number, y1: number, x2: number, y2: number): number {
