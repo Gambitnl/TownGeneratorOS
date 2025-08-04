@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { TownScene } from './components/TownScene';
+import './styles/global.css';
 
 const Main: React.FC = () => {
   return <TownScene />;

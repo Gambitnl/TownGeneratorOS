@@ -2,65 +2,224 @@ import React, { useState, useEffect } from 'react';
 import { CityMap } from '../services/CityMap';
 import { Model } from '../services/Model';
 import { StateManager } from '../services/StateManager';
+import { Header } from './Header';
+import { ControlPanel } from './ControlPanel';
+import { LoadingSpinner } from './LoadingSpinner';
 import { Tooltip } from './Tooltip';
-import { CitySizeButton } from './CitySizeButton';
+
+const containerStyles: React.CSSProperties = {
+  minHeight: '100vh',
+  background: 'linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%)',
+  position: 'relative',
+  overflow: 'hidden',
+};
+
+const mainContentStyles: React.CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  minHeight: '100vh',
+};
+
+const mapContainerStyles: React.CSSProperties = {
+  flex: 1,
+  position: 'relative',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  padding: '2rem',
+  paddingRight: '400px', // Make room for control panel
+  minHeight: 'calc(100vh - 200px)', // Account for header
+};
+
+const mapWrapperStyles: React.CSSProperties = {
+  background: 'var(--card-bg)',
+  borderRadius: 'var(--radius-lg)',
+  border: '2px solid var(--border-color)',
+  boxShadow: 'var(--shadow-strong)',
+  padding: '1rem',
+  maxWidth: '100%',
+  maxHeight: '100%',
+  overflow: 'auto',
+  backdropFilter: 'blur(10px)',
+  position: 'relative',
+};
+
+const mapOverlayStyles: React.CSSProperties = {
+  position: 'absolute',
+  top: '0',
+  left: '0',
+  right: '0',
+  bottom: '0',
+  background: 'linear-gradient(45deg, rgba(212, 175, 55, 0.05) 0%, transparent 25%, transparent 75%, rgba(205, 127, 50, 0.05) 100%)',
+  pointerEvents: 'none',
+  borderRadius: 'var(--radius-lg)',
+};
+
+const errorContainerStyles: React.CSSProperties = {
+  background: 'linear-gradient(135deg, rgba(220, 53, 69, 0.1) 0%, rgba(220, 53, 69, 0.05) 100%)',
+  border: '1px solid rgba(220, 53, 69, 0.3)',
+  borderRadius: 'var(--radius-md)',
+  padding: '1.5rem',
+  color: 'var(--text-primary)',
+  textAlign: 'center',
+  maxWidth: '400px',
+  margin: '2rem auto',
+};
+
+const errorTitleStyles: React.CSSProperties = {
+  fontSize: '1.25rem',
+  fontWeight: '600',
+  marginBottom: '0.5rem',
+  color: '#ff6b6b',
+};
+
+const errorMessageStyles: React.CSSProperties = {
+  fontSize: '1rem',
+  lineHeight: 1.5,
+  marginBottom: '1rem',
+};
 
 export const TownScene: React.FC = () => {
   const [model, setModel] = useState<Model | null>(null);
   const [tooltipText, setTooltipText] = useState('');
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [loadingMessage, setLoadingMessage] = useState('Initializing...');
+
+  const loadingMessages = [
+    'Generating terrain...',
+    'Placing settlements...',
+    'Building roads...',
+    'Constructing walls...',
+    'Adding districts...',
+    'Final touches...',
+  ];
 
   useEffect(() => {
-    // Initialize StateManager and create initial model
-    StateManager.pullParams();
-    StateManager.pushParams();
-    
-    setLoading(true);
-    try {
-      const newModel = new Model(StateManager.size, StateManager.seed);
-      setModel(newModel);
-    } catch (error) {
-      console.error('Error creating model:', error);
-      // Fallback: try with a different size or seed
-      try {
-        const fallbackModel = new Model(6, Date.now() % 100000);
-        setModel(fallbackModel);
-      } catch (fallbackError) {
-        console.error('Fallback model creation also failed:', fallbackError);
-      }
-    }
-    setLoading(false);
+    initializeScene();
   }, []);
 
-  const handleGenerate = (size: number) => {
+  const initializeScene = async () => {
     setLoading(true);
+    setError(null);
+    setLoadingMessage('Initializing...');
+
     try {
-      const newModel = new Model(size);
+      // Initialize StateManager
+      StateManager.pullParams();
+      StateManager.pushParams();
+
+      // Simulate progressive loading for better UX
+      for (let i = 0; i < loadingMessages.length; i++) {
+        setLoadingMessage(loadingMessages[i]);
+        await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 300));
+      }
+
+      setLoadingMessage('Creating your medieval settlement...');
+      
+      const newModel = new Model(StateManager.size, StateManager.seed);
       setModel(newModel);
+      
     } catch (error) {
-      console.error('Error generating new model:', error);
-      // Try again with a random seed
+      console.error('Error creating initial model:', error);
+      setError('Failed to generate the initial town. This might be due to an invalid configuration.');
+      
+      // Try fallback generation
       try {
-        const fallbackModel = new Model(size, Date.now() % 100000);
+        setLoadingMessage('Attempting fallback generation...');
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        const fallbackModel = new Model(8, Date.now() % 100000);
         setModel(fallbackModel);
+        setError(null);
       } catch (fallbackError) {
         console.error('Fallback generation also failed:', fallbackError);
+        setError('Unable to generate any town. Please refresh the page and try again.');
       }
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
+  };
+
+  const handleGenerate = async (size: number) => {
+    setLoading(true);
+    setError(null);
+    setModel(null);
+
+    // Random loading message selection for variety
+    const randomMessages = [
+      `Forging a settlement of ${size} districts...`,
+      `Crafting your ${size === 1 ? 'hamlet' : size < 10 ? 'village' : size < 20 ? 'town' : 'city'}...`,
+      `Summoning medieval architecture...`,
+      `Laying cobblestone foundations...`,
+    ];
+    
+    setLoadingMessage(randomMessages[Math.floor(Math.random() * randomMessages.length)]);
+
+    try {
+      // Simulate realistic generation time
+      await new Promise(resolve => setTimeout(resolve, 800 + Math.random() * 1200));
+      
+      const newModel = new Model(size);
+      setModel(newModel);
+      
+    } catch (error) {
+      console.error('Error generating new model:', error);
+      setError(`Failed to generate a town of size ${size}. This might be due to the complexity of the requested settlement.`);
+      
+      // Try with a slightly smaller size as fallback
+      if (size > 6) {
+        try {
+          setLoadingMessage('Adjusting town size...');
+          await new Promise(resolve => setTimeout(resolve, 500));
+          
+          const fallbackSize = Math.max(6, size - 2);
+          const fallbackModel = new Model(fallbackSize, Date.now() % 100000);
+          setModel(fallbackModel);
+          setError(null);
+        } catch (fallbackError) {
+          console.error('Fallback generation failed:', fallbackError);
+          setError('Generation failed. Try a smaller settlement size or refresh the page.');
+        }
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div>
-      <h1>Medieval Town Generator</h1>
-      {loading && <div>Loading...</div>}
-      {model && !loading && <CityMap model={model} />}
-      <Tooltip text={tooltipText} />
-      <div style={{ position: 'absolute', top: '1px', right: '1px', display: 'flex', flexDirection: 'column' }}>
-        <CitySizeButton label="Small Town" minSize={6} maxSize={10} onGenerate={handleGenerate} />
-        <CitySizeButton label="Large Town" minSize={10} maxSize={15} onGenerate={handleGenerate} />
-        <CitySizeButton label="Small City" minSize={15} maxSize={24} onGenerate={handleGenerate} />
-        <CitySizeButton label="Large City" minSize={24} maxSize={40} onGenerate={handleGenerate} />
+    <div style={containerStyles}>
+      <div style={mainContentStyles}>
+        <Header />
+        
+        <div style={mapContainerStyles} className="map-container">
+          {loading ? (
+            <LoadingSpinner 
+              message={loadingMessage}
+              submessage="Please wait while we craft your medieval world..."
+            />
+          ) : error ? (
+            <div style={errorContainerStyles} className="fade-in">
+              <div style={errorTitleStyles}>⚠️ Generation Error</div>
+              <div style={errorMessageStyles}>{error}</div>
+              <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>
+                Try generating a different size settlement or refresh the page.
+              </p>
+            </div>
+          ) : model ? (
+            <div style={mapWrapperStyles} className="fade-in map-wrapper">
+              <div style={mapOverlayStyles}></div>
+              <CityMap model={model} />
+            </div>
+          ) : null}
+        </div>
+
+        <ControlPanel 
+          onGenerate={handleGenerate}
+          isLoading={loading}
+        />
+        
+        <Tooltip text={tooltipText} />
       </div>
     </div>
   );

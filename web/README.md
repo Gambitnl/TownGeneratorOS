@@ -1,30 +1,173 @@
-# Medieval Fantasy City Generator (Web Port)
+# 🏰 Medieval Town Generator
 
-This directory contains the web-based port of the original Medieval Fantasy City Generator.
+A sophisticated web application for generating procedural medieval settlements with an immersive, modern UI. Create unique towns, cities, and villages with realistic layouts, districts, walls, and road networks.
 
-**Purpose:** This project is an ongoing effort to port the core city generation logic from its original Haxe / OpenFL / msignal codebase to a modern web stack using TypeScript, React, and CSS, with Node.js for potential backend services.
+## ✨ Features
 
-The goal is to eventually replace the reliance on the Haxe-compiled JavaScript output with native TypeScript implementations, allowing for easier development, maintenance, and integration with modern web technologies.
+### 🎨 **Modern UI Design**
+- **Medieval-themed interface** with gold and bronze accents
+- **Glassmorphism effects** with backdrop blur and transparency
+- **Smooth animations** and transitions throughout
+- **Responsive design** that works on desktop, tablet, and mobile
+- **Accessibility features** including proper focus states and reduced motion support
 
-## Porting Status
+### 🏘️ **Settlement Generation**
+- **Multiple settlement sizes**: Village (4-8 districts), Town (8-15), City (15-25), Capital (25-40)
+- **Procedural generation** with customizable seeds for reproducible results
+- **Realistic layouts** including walls, gates, districts, and road networks
+- **Advanced options** for custom seeds and fine-tuned generation
 
-This is a work in progress. The goal is to incrementally port the Haxe codebase to TypeScript.
+### 🛠️ **User Experience**
+- **Intuitive control panel** with organized sections
+- **Real-time loading indicators** with contextual messages
+- **Error handling** with graceful fallbacks
+- **Tooltip system** for interactive guidance
+- **Progressive enhancement** with smooth state transitions
 
-**Current UI Status:** The UI is currently not fully functional due to ongoing porting efforts. The application is encountering runtime errors as it attempts to use unported or partially ported Haxe logic. The immediate focus is to resolve these errors to get the UI to load and display correctly.
+## 🚀 Getting Started
 
-**Currently Ported Modules (with placeholders for complex logic):**
+### Prerequisites
+- Node.js 16+ 
+- npm or yarn
 
-*   `Random.ts`: Core random number generation.
-*   `Point.ts`: Basic 2D point structure with essential geometric operations.
-*   `Polygon.ts`: Represents a polygon, with placeholder methods for complex geometric operations. The `contains` method has been updated with a basic ray-casting algorithm.
-*   `GeomUtils.ts`: Placeholder for geometric utility functions.
-*   `Cutter.ts`: Placeholder for polygon cutting logic.
-*   `Patch.ts`: Represents a land patch.
-*   `Model.ts`: Overall city model, with placeholder methods for complex operations. The `findCircumference` method has been updated with a basic bounding-box implementation.
-*   `CurtainWall.ts`: Logic for city walls, with some complex methods still as placeholders. This module has been significantly ported to resolve previous errors.
-*   `Ward.ts`: Base class for different city wards, with some complex methods still as placeholders.
-*   `Castle.ts`: Specific ward type, currently relying on placeholders from `Ward.ts`.
+### Installation
+```bash
+# Clone the repository
+git clone <repository-url>
 
-**Next Steps:**
+# Navigate to the web directory
+cd web
 
-The immediate focus is to get the application's UI to load without errors. This involves progressively porting the Haxe modules that are causing runtime errors, filling in the placeholder logic as needed. Once the UI is stable, the focus will shift to ensuring the core map generation functions correctly.
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+### Build for Production
+```bash
+npm run build
+```
+
+## 🎮 How to Use
+
+1. **Launch the application** - The interface will load with an initial medieval settlement
+2. **Choose settlement size** - Use the control panel to select from Village to Capital
+3. **Generate new towns** - Click any size button to create a new settlement
+4. **Randomize** - Use the "Random Town" button for surprise generations
+5. **Custom seeds** - Expand "Advanced" to use specific seeds for reproducible results
+
+## 🏗️ Architecture
+
+### Component Structure
+```
+src/
+├── components/
+│   ├── Header.tsx          # Elegant header with title and branding
+│   ├── ControlPanel.tsx    # Main control interface
+│   ├── LoadingSpinner.tsx  # Animated loading component
+│   ├── Button.tsx          # Reusable button with variants
+│   ├── Tooltip.tsx         # Interactive tooltip system
+│   └── TownScene.tsx       # Main application container
+├── services/
+│   ├── Model.ts           # Core generation logic
+│   ├── CityMap.tsx        # Map rendering component
+│   └── ...                # Other services
+├── styles/
+│   └── global.css         # Global styles and CSS variables
+└── types/
+    └── ...                # TypeScript type definitions
+```
+
+### Design System
+
+#### Color Palette
+- **Primary**: Dark themes with medieval atmosphere
+- **Accent**: Gold (#d4af37) and Bronze (#cd7f32)
+- **Background**: Layered gradients with blur effects
+- **Text**: High contrast for accessibility
+
+#### Typography
+- **Primary**: Segoe UI family for modern readability
+- **Sizes**: Responsive scaling from mobile to desktop
+- **Weight**: Strategic use of weight for hierarchy
+
+#### Spacing & Layout
+- **CSS Variables**: Consistent spacing and sizing
+- **Grid System**: Flexible layouts for all screen sizes
+- **Responsive**: Mobile-first approach with progressive enhancement
+
+## 📱 Responsive Design
+
+The application adapts seamlessly across devices:
+
+- **Desktop (1200px+)**: Full sidebar layout with optimal spacing
+- **Tablet (768px-1200px)**: Repositioned controls with maintained functionality
+- **Mobile (< 768px)**: Stacked layout with touch-optimized controls
+- **Small Mobile (< 480px)**: Compact design with scrollable controls
+
+## 🎯 Performance Features
+
+- **Optimized animations** with GPU acceleration
+- **Efficient rendering** with proper React patterns
+- **Code splitting** for faster initial loads
+- **Modern build system** with Vite for optimal performance
+- **Reduced motion support** for accessibility
+
+## 🛡️ Accessibility
+
+- **Keyboard navigation** support
+- **Screen reader friendly** with proper ARIA labels
+- **High contrast** ratios for text readability
+- **Focus indicators** for interactive elements
+- **Reduced motion** support for sensitive users
+
+## 🔧 Customization
+
+The application uses CSS custom properties for easy theming:
+
+```css
+:root {
+  --gold: #d4af37;
+  --bronze: #cd7f32;
+  --primary-bg: #1a1a1a;
+  /* ... other variables */
+}
+```
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**Generation fails**: Try a smaller settlement size or refresh the page
+**UI not responsive**: Ensure modern browser with CSS Grid support
+**Slow performance**: Check if hardware acceleration is enabled
+
+### Browser Support
+- Chrome 88+
+- Firefox 85+
+- Safari 14+
+- Edge 88+
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🙏 Acknowledgments
+
+- Medieval town generation algorithms
+- Modern web technologies and frameworks
+- Open source community contributions
+
+---
+
+*Forge your medieval world with style and precision* ⚔️

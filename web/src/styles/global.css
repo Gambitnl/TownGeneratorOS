@@ -1,0 +1,277 @@
+/* Global Styles for Medieval Town Generator */
+
+:root {
+  /* Medieval Color Palette */
+  --primary-bg: #1a1a1a;
+  --secondary-bg: #2a2a2a;
+  --accent-bg: #3a3a3a;
+  --card-bg: rgba(42, 42, 42, 0.9);
+  --border-color: #4a4a4a;
+  
+  /* Medieval Theme Colors */
+  --gold: #d4af37;
+  --bronze: #cd7f32;
+  --iron: #71797e;
+  --parchment: #f4e4bc;
+  --dark-wood: #3c2415;
+  --stone: #6b6b6b;
+  
+  /* Text Colors */
+  --text-primary: #f0f0f0;
+  --text-secondary: #cccccc;
+  --text-muted: #999999;
+  --text-accent: var(--gold);
+  
+  /* Shadows */
+  --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-strong: 0 8px 32px rgba(0, 0, 0, 0.5);
+  
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-medium: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--primary-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--iron);
+  border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--bronze);
+}
+
+/* Loading Animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 5px var(--gold), 0 0 10px var(--gold), 0 0 15px var(--gold); }
+  50% { box-shadow: 0 0 10px var(--gold), 0 0 20px var(--gold), 0 0 30px var(--gold); }
+}
+
+/* Utility Classes */
+.fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* Focus States */
+button:focus,
+input:focus,
+select:focus {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* Selection */
+::selection {
+  background: var(--gold);
+  color: var(--primary-bg);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  /* Large tablets and small desktops */
+  .control-panel {
+    right: 1rem;
+    min-width: 260px;
+    max-width: 280px;
+  }
+  
+  .map-container {
+    padding-right: 320px !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  /* Tablets */
+  .control-panel {
+    position: fixed !important;
+    top: auto !important;
+    bottom: 1rem !important;
+    right: 1rem !important;
+    left: 1rem !important;
+    transform: none !important;
+    min-width: auto !important;
+    max-width: none !important;
+    z-index: 1001 !important;
+  }
+  
+  .map-container {
+    padding: 1rem !important;
+    padding-bottom: 200px !important;
+    min-height: calc(100vh - 300px) !important;
+  }
+  
+  .header-title {
+    font-size: 2rem !important;
+  }
+  
+  .header-subtitle {
+    font-size: 0.875rem !important;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Mobile devices */
+  :root {
+    --shadow-soft: 0 2px 4px rgba(0, 0, 0, 0.3);
+    --shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.4);
+  }
+  
+  .header {
+    padding: 1rem !important;
+  }
+  
+  .header-title {
+    font-size: 1.75rem !important;
+  }
+  
+  .header-subtitle {
+    font-size: 0.8rem !important;
+  }
+  
+  .control-panel {
+    padding: 1rem !important;
+    bottom: 0.5rem !important;
+    left: 0.5rem !important;
+    right: 0.5rem !important;
+    border-radius: var(--radius-md) var(--radius-md) 0 0 !important;
+  }
+  
+  .control-panel-title {
+    font-size: 1.1rem !important;
+  }
+  
+  .control-panel-section-title {
+    font-size: 0.9rem !important;
+  }
+  
+  .map-container {
+    padding: 0.5rem !important;
+    padding-bottom: 220px !important;
+    min-height: calc(100vh - 250px) !important;
+  }
+  
+  .map-wrapper {
+    padding: 0.5rem !important;
+  }
+  
+  .loading-spinner {
+    max-width: 280px !important;
+    padding: 2rem !important;
+  }
+  
+  .loading-spinner-text {
+    font-size: 1rem !important;
+  }
+  
+  .loading-spinner-subtext {
+    font-size: 0.8rem !important;
+  }
+  
+  .tooltip {
+    max-width: 250px !important;
+    font-size: 0.8rem !important;
+    padding: 0.5rem 0.75rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Small mobile devices */
+  .header-title {
+    font-size: 1.5rem !important;
+    line-height: 1.2 !important;
+  }
+  
+  .control-panel {
+    max-height: 60vh !important;
+    overflow-y: auto !important;
+  }
+  
+  .button-grid {
+    gap: 0.5rem !important;
+  }
+  
+  .map-container {
+    padding: 0.25rem !important;
+    padding-bottom: 240px !important;
+  }
+}
+
+/* High DPI / Retina displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .map-wrapper {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .fade-in {
+    animation: none !important;
+  }
+  
+  .glow {
+    animation: none !important;
+  }
+}
+
+/* Dark mode support (respects system preference) */
+@media (prefers-color-scheme: light) {
+  /* Users who prefer light mode might still want our dark theme for the medieval aesthetic */
+  /* But we can adjust some colors to be less harsh */
+  :root {
+    --text-primary: #e8e8e8;
+    --text-secondary: #d0d0d0;
+  }
+}
