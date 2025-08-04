@@ -1,7 +1,7 @@
 import { Polygon } from '@/types/polygon';
 import { Point } from '@/types/point';
 import { GeomUtils } from '@/types/geomUtils';
-import { MathUtils } from '@/types/mathUtils';
+import { MathUtils } from '@/types/MathUtils';
 
 export class Cutter {
     public static bisect(poly: Polygon, vertex: Point, ratio = 0.5, angle = 0.0, gap = 0.0): Polygon[] {

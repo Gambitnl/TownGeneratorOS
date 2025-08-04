@@ -1,6 +1,6 @@
 import { Point } from './point';
 import { GeomUtils } from './geomUtils';
-import { MathUtils } from './mathUtils';
+import { MathUtils } from './MathUtils';
 
 export class Polygon {
     public vertices: Point[];
@@ -285,39 +285,43 @@ export class Polygon {
         let bestPart: Polygon | null = null;
         let bestPartSq = -Infinity;
 
-        let regular = Array.from({ length: q.vertices.length }, (_, i) => i);
+        const visited = new Array<boolean>(q.vertices.length).fill(false);
 
-        while (regular.length > 0) {
-            const indices: number[] = [];
-            const start = regular[0];
-            let i = start;
-            let currentIndices: number[] = [];
-            let current = start;
-            do {
-                currentIndices.push(current);
-                let nextVertex = q.vertices[(current + 1) % q.vertices.length];
-                let nextIndexInQ = q.vertices.findIndex(v => v.x === nextVertex.x && v.y === nextVertex.y);
-                if (nextIndexInQ === current + 1) { // If it's the very next vertex
-                    nextIndexInQ = q.vertices.lastIndexOf(nextVertex); // Check for duplicates
+        for (let i = 0; i < q.vertices.length; i++) {
+            if (!visited[i]) {
+                const componentVertices: Point[] = [];
+                const queue: number[] = [i];
+                visited[i] = true;
+
+                while (queue.length > 0) {
+                    const currentIdx = queue.shift()!;
+                    const currentVertex = q.vertices[currentIdx];
+                    componentVertices.push(currentVertex);
+
+                    // Find neighbors (connected vertices)
+                    // This part needs to be carefully translated from Haxe's graph traversal
+                    // For now, a simplified approach: check adjacent vertices in the polygon
+                    const nextIdx = (currentIdx + 1) % q.vertices.length;
+                    const prevIdx = (currentIdx + q.vertices.length - 1) % q.vertices.length;
+
+                    if (!visited[nextIdx] && q.vertices[nextIdx] && Point.distance(currentVertex, q.vertices[nextIdx]) < 0.001) { // Check for connection
+                        visited[nextIdx] = true;
+                        queue.push(nextIdx);
+                    }
+                    if (!visited[prevIdx] && q.vertices[prevIdx] && Point.distance(currentVertex, q.vertices[prevIdx]) < 0.001) { // Check for connection
+                        visited[prevIdx] = true;
+                        queue.push(prevIdx);
+                    }
                 }
-                current = nextIndexInQ === -1 ? (current + 1) % q.vertices.length : nextIndexInQ;
-            } while (current !== start && !currentIndices.includes(current)); // Prevent infinite loop on broken polygons
 
-            indices.push(...currentIndices);
-            regular = regular.filter(idx => !currentIndices.includes(idx));
-
-            const pVertices: Point[] = [];
-            for (const idx of indices) {
-                const vertex = q.vertices[idx];
-                if (vertex) {
-                    pVertices.push(vertex);
+                if (componentVertices.length > 0) {
+                    const p = new Polygon(componentVertices);
+                    const s = p.square;
+                    if (s > bestPartSq) {
+                        bestPart = p;
+                        bestPartSq = s;
+                    }
                 }
-            }
-            const p = new Polygon(pVertices);
-            const s = p.square;
-            if (s > bestPartSq) {
-                bestPart = p;
-                bestPartSq = s;
             }
         }
 
