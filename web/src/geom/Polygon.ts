@@ -37,9 +37,18 @@ export class Polygon {
     return -1;
   }
 
-  public contains(v: Point): boolean {
-    // Placeholder: needs proper point-in-polygon test
-    return this.vertices.some(p => p.x === v.x && p.y === v.y);
+  public contains(p: Point): boolean {
+    // Ray casting algorithm for point-in-polygon test
+    let inside = false;
+    for (let i = 0, j = this.vertices.length - 1; i < this.vertices.length; j = i++) {
+      const xi = this.vertices[i].x, yi = this.vertices[i].y;
+      const xj = this.vertices[j].x, yj = this.vertices[j].y;
+
+      const intersect = ((yi > p.y) !== (yj > p.y)) &&
+        (p.x < (xj - xi) * (p.y - yi) / (yj - yi) + xi);
+      if (intersect) inside = !inside;
+    }
+    return inside;
   }
 
   public next(v: Point): Point {
