@@ -85,8 +85,25 @@ export class Topology {
     }
 
     public buildPath(from: Point, to: Point, exclude: Node[] = []): Street | null {
-        const startNodePoint = Array.from(this.pt2node.keys()).find((p: Point) => p.x === from.x && p.y === from.y);
-        const endNodePoint = Array.from(this.pt2node.keys()).find((p: Point) => p.x === to.x && p.y === to.y);
+        let startNodePoint: Point | null = null;
+        let minStartDist = Infinity;
+        for (const p of this.pt2node.keys()) {
+            const d = Point.distance(p, from);
+            if (d < minStartDist) {
+                minStartDist = d;
+                startNodePoint = p;
+            }
+        }
+
+        let endNodePoint: Point | null = null;
+        let minEndDist = Infinity;
+        for (const p of this.pt2node.keys()) {
+            const d = Point.distance(p, to);
+            if (d < minEndDist) {
+                minEndDist = d;
+                endNodePoint = p;
+            }
+        }
 
         if (!startNodePoint || !endNodePoint) return null;
 

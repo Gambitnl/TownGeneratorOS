@@ -34,6 +34,15 @@ export const CityMap: React.FC<CityMapProps> = ({ model }) => {
     ctx.fillStyle = `#${palette.paper.toString(16)}`;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    ctx.save();
+
+    const cityRadius = model.cityRadius * 1.2;
+    const scale = Math.min(canvas.width, canvas.height) / (2 * cityRadius);
+
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.scale(scale, -scale);
+    ctx.translate(-model.center.x, -model.center.y);
+
     for (const road of model.roads) {
       drawRoad(ctx, brush, road, palette);
     }
@@ -57,6 +66,8 @@ export const CityMap: React.FC<CityMapProps> = ({ model }) => {
     if (model.citadel) {
       drawWall(ctx, brush, (model.citadel.ward as Castle).wall, true, palette);
     }
+
+    ctx.restore();
   }, [model]);
 
   const drawRoad = (ctx: CanvasRenderingContext2D, brush: Brush, road: Street, palette: Palette) => {
