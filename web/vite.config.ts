@@ -9,6 +9,10 @@ export default defineConfig({
   build: {
     outDir: 'dist',
   },
+  server: {
+    host: true,
+    port: 3000,
+  },
   test: {
     globals: true,
     environment: 'jsdom',

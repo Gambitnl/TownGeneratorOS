@@ -6,7 +6,7 @@
   "scripts": {
     "start": "tsc --watch && copy index.html dist\\index.html && (echo SET \"s|./dist/index.js|./index.js|\" & SET \"file=dist\\index.html\" & powershell -Command \"(Get-Content $env:file) -replace $env:s, '' | Set-Content $env:file\")",
     "build": "tsc && copy index.html dist\\index.html && (echo SET \"s|./dist/index.js|./index.js|\" & SET \"file=dist\\index.html\" & powershell -Command \"(Get-Content $env:file) -replace $env:s, '' | Set-Content $env:file\")",
-    "dev": "vite",
+    "dev": "vite --debug",
     "serve": "http-server dist -p 8000",
     "test": "vitest"
   },
