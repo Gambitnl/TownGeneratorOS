@@ -69,48 +69,57 @@ export class Model {
     }
 
     private buildPatches(): void {
-        const sa = Random.float() * 2 * Math.PI;
-        const points: Point[] = [];
-        for (let i = 0; i < this.nPatches * 8; i++) {
-            const a = sa + Math.sqrt(i) * 5;
-            const r = (i === 0 ? 0 : 10 + i * (2 + Random.float()));
-            points.push(new Point(Math.cos(a) * r, Math.sin(a) * r));
-        }
+        let attempts = 0;
+        while (attempts < 10) {
+            const sa = Random.float() * 2 * Math.PI;
+            const points: Point[] = [];
+            for (let i = 0; i < this.nPatches * 8; i++) {
+                const a = sa + Math.sqrt(i) * 5;
+                const r = (i === 0 ? 0 : 10 + i * (2 + Random.float()));
+                points.push(new Point(Math.cos(a) * r, Math.sin(a) * r));
+            }
 
-        const delaunayPoints = points.map(p => [p.x, p.y] as [number, number]);
-        const voronoiPolygons = generateVoronoi(delaunayPoints, [-1000, -1000, 1000, 1000]);
+            const delaunayPoints = points.map(p => [p.x, p.y] as [number, number]);
+            const voronoiPolygons = generateVoronoi(delaunayPoints, [-1000, -1000, 1000, 1000]);
 
-        const regions = voronoiPolygons.map(poly => ({ vertices: poly.vertices.map(v => ({ c: v })) }));
+            const regions = voronoiPolygons.map(poly => ({ vertices: poly.vertices.map(v => ({ c: v })) }));
 
-        points.sort((p1: Point, p2: Point) => p1.length() - p2.length());
+            points.sort((p1: Point, p2: Point) => p1.length() - p2.length());
 
-        this.patches = [];
-        this.inner = [];
+            this.patches = [];
+            this.inner = [];
 
-        let count = 0;
-        for (const r of regions) {
-            const patch = Patch.fromRegion(r as any);
-            this.patches.push(patch);
+            let count = 0;
+            for (const r of regions) {
+                const patch = Patch.fromRegion(r as any);
+                this.patches.push(patch);
 
-            if (count === 0) {
-                this.center = patch.shape.vertices.reduce((min: Point, v: Point) => {
-                    return v.length() < min.length() ? v : min;
-                }, patch.shape.vertices[0]);
-                if (this.plazaNeeded) {
-                    this.plaza = patch;
+                if (count === 0) {
+                    this.center = patch.shape.vertices.reduce((min: Point, v: Point) => {
+                        return v.length() < min.length() ? v : min;
+                    }, patch.shape.vertices[0]);
+                    if (this.plazaNeeded) {
+                        this.plaza = patch;
+                    }
+                } else if (count === this.nPatches && this.citadelNeeded) {
+                    this.citadel = patch;
+                    this.citadel.withinCity = true;
                 }
-            } else if (count === this.nPatches && this.citadelNeeded) {
-                this.citadel = patch;
-                this.citadel.withinCity = true;
+
+                if (count < this.nPatches) {
+                    patch.withinCity = true;
+                    patch.withinWalls = this.wallsNeeded;
+                    this.inner.push(patch);
+                }
+
+                count++;
             }
 
-            if (count < this.nPatches) {
-                patch.withinCity = true;
-                patch.withinWalls = this.wallsNeeded;
-                this.inner.push(patch);
+            if (this.citadel && this.citadel.shape.compactness >= 0.75) {
+                break;
             }
 
-            count++;
+            attempts++;
         }
     }
 
