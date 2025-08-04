@@ -9,6 +9,9 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "baseUrl": "./src",
+    "paths": {
+      "@/*": ["./*"]
+    },
     "outDir": "./dist"
   },
   "include": ["src"]
