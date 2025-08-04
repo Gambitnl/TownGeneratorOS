@@ -1,6 +1,6 @@
 import { Point } from './point';
 import { GeomUtils } from './geomUtils';
-import { MathUtils } from './MathUtils';
+import { MathUtils } from './mathUtils';
 
 export class Polygon {
     public vertices: Point[];
@@ -582,7 +582,9 @@ export class Polygon {
     }
 
     public splice(start: number, deleteCount?: number, ...items: Point[]): Point[] {
-        return this.vertices.splice(start, deleteCount, ...items);
+        return deleteCount !== undefined 
+            ? this.vertices.splice(start, deleteCount, ...items)
+            : this.vertices.splice(start, 0, ...items);
     }
 
     public last(): Point | undefined {
@@ -591,5 +593,24 @@ export class Polygon {
 
     public get length(): number {
         return this.vertices.length;
+    }
+
+    public max(scoreFn: (v: Point) => number): Point {
+        if (this.vertices.length === 0) {
+            throw new Error("Cannot find max of empty polygon");
+        }
+        
+        let maxVertex = this.vertices[0];
+        let maxScore = scoreFn(maxVertex);
+        
+        for (let i = 1; i < this.vertices.length; i++) {
+            const score = scoreFn(this.vertices[i]);
+            if (score > maxScore) {
+                maxScore = score;
+                maxVertex = this.vertices[i];
+            }
+        }
+        
+        return maxVertex;
     }
 }

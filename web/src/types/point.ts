@@ -67,6 +67,12 @@ export class Point {
         return Math.sqrt(this.x * this.x + this.y * this.y);
     }
 
+    public normalize(): Point {
+        const len = this.length();
+        if (len === 0) return new Point(0, 0);
+        return new Point(this.x / len, this.y / len);
+    }
+
     public static distance(p1: { x: number, y: number }, p2: { x: number, y: number }): number {
         const dx = p1.x - p2.x;
         const dy = p1.y - p2.y;

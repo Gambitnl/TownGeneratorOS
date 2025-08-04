@@ -9,7 +9,7 @@ export class CurtainWall {
   public shape: Polygon;
   public segments: boolean[];
   public gates: Point[];
-  public towers: Point[];
+  public towers: Point[] = [];
 
   private real: boolean;
   private patches: Patch[];

@@ -1,11 +1,11 @@
-import { Point } from '../../geom/Point';
-import { GeomUtils } from '../../geom/GeomUtils';
-import { Polygon } from '../../geom/Polygon';
-import { Random } from '../../utils/Random';
+import { Point } from '@/types/point';
+import { GeomUtils } from '@/types/geomUtils';
+import { Polygon } from '@/types/polygon';
+import { Random } from '@/utils/Random';
 
-import { Cutter } from '../../building/Cutter';
-import { Patch } from '../../building/Patch';
-import { Model } from '../../building/Model';
+import { Cutter } from '@/services/Cutter';
+import { Patch } from '@/types/patch';
+import { Model } from '@/services/Model';
 
 // Assuming ArrayExtender and PointExtender are handled as utility functions or direct methods
 // For now, I'll assume direct methods or that their functionality is not critical for initial compilation.
@@ -57,7 +57,7 @@ export class Ward {
 
     return this.patch.shape.isConvex()
       ? this.patch.shape.shrink(insetDist)
-      : this.patch.shape.buffer(insetDist);
+      : this.patch.shape.buffer(insetDist) || this.patch.shape;
   }
 
   // Placeholder for containsPoint - needs proper implementation based on Haxe's PointExtender
@@ -184,7 +184,7 @@ export class Ward {
 
       const c: Point = Math.abs(GeomUtils.scalar(v.x, v.y, c1.x, c1.y)) < Math.abs(GeomUtils.scalar(v.x, v.y, c2.x, c2.y)) ? c1 : c2;
 
-      const halves = poly.cut(p1, { x: p1.x + c.x, y: p1.y + c.y }); // p1.add(c) equivalent
+      const halves = poly.cut(p1, new Point(p1.x + c.x, p1.y + c.y)); // p1.add(c) equivalent
       let buildings: Polygon[] = [];
       for (const half of halves) {
         if (half.square < minBlockSq * Math.pow(2, Random.normal() * 2 - 1)) {
@@ -203,7 +203,7 @@ export class Ward {
       return [poly];
     } else {
       const c1 = poly.vector(Ward.findLongestEdge(poly));
-      const c2 = { x: -c1.y, y: c1.x }; // c1.rotate90() equivalent
+      const c2 = new Point(-c1.y, c1.x); // c1.rotate90() equivalent
       while (true) {
         const blocks = slice(poly, c1, c2);
         if (blocks.length > 0)
