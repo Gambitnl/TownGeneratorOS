@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { VillageLayout } from '../services/villageGenerationService';
+import { Point } from '../types/point';
 
 interface Props {
   layout: VillageLayout;
@@ -18,7 +19,7 @@ export const VillagePane: FC<Props> = ({ layout, onEnterBuilding }) => {
       {layout.roads.map((road) => (
         <polyline
           key={road.id}
-          points={road.pathPoints.map((p) => `${p.x},${p.y}`).join(' ')}
+          points={road.pathPoints.vertices.map((p: Point) => `${p.x},${p.y}`).join(' ')}
           stroke="sienna"
           fill="none"
           strokeWidth={0.2}
@@ -27,7 +28,7 @@ export const VillagePane: FC<Props> = ({ layout, onEnterBuilding }) => {
       {layout.buildings.map((b) => (
         <polygon
           key={b.id}
-          points={b.polygon.map((p) => `${p.x},${p.y}`).join(' ')}
+          points={b.polygon.vertices.map((p: Point) => `${p.x},${p.y}`).join(' ')}
           fill={fillForType[b.type] || '#cfa'}
           stroke="#333"
           onClick={() => onEnterBuilding?.(b.id, b.type)}
@@ -37,7 +38,7 @@ export const VillagePane: FC<Props> = ({ layout, onEnterBuilding }) => {
       {layout.walls.map((w) => (
         <polyline
           key={w.id}
-          points={w.pathPoints.map((p) => `${p.x},${p.y}`).join(' ')}
+          points={w.pathPoints.vertices.map((p: Point) => `${p.x},${p.y}`).join(' ')}
           stroke="black"
           fill="none"
           strokeWidth={0.5}

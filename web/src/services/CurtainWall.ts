@@ -1,17 +1,18 @@
-import { Polygon } from './polygon';
-import { Patch } from './patch';
-import { Model } from './model';
+import { Polygon } from '@/types/polygon';
+import { Patch } from '@/types/patch';
+import { Model } from './Model';
+import { Point } from '@/types/point';
 
 export class CurtainWall {
     public shape: Polygon;
     public segments: boolean[];
-    public gates: { x: number, y: number }[];
-    public towers: { x: number, y: number }[];
+    public gates: Point[] = [];
+    public towers: Point[] = [];
 
     private real: boolean;
     private patches: Patch[];
 
-    constructor(real: boolean, model: Model, patches: Patch[], reserved: { x: number, y: number }[]) {
+    constructor(real: boolean, model: Model, patches: Patch[], reserved: Point[]) {
         this.real = real;
         this.patches = patches;
 
@@ -22,8 +23,8 @@ export class CurtainWall {
 
             if (real) {
                 const smoothFactor = Math.min(1, 40 / patches.length);
-                this.shape.vertices = this.shape.vertices.map((v) => {
-                    return reserved.includes(v) ? v : this.shape.smoothVertex(v, smoothFactor);
+                this.shape.vertices = this.shape.vertices.map((v: Point) => {
+                    return reserved.some(r => r.x === v.x && r.y === v.y) ? v : this.shape.smoothVertex(v, smoothFactor);
                 });
             }
         }
@@ -33,16 +34,16 @@ export class CurtainWall {
         this.buildGates(real, model, reserved);
     }
 
-    private buildGates(real: boolean, model: Model, reserved: { x: number, y: number }[]) {
+    private buildGates(real: boolean, model: Model, reserved: Point[]) {
         this.gates = [];
 
-        let entrances: { x: number, y: number }[] = [];
+        let entrances: Point[] = [];
         if (this.patches.length > 1) {
-            entrances = this.shape.vertices.filter((v) => {
-                return !reserved.includes(v) && this.patches.filter((p) => p.shape.contains(v)).length > 1;
+            entrances = this.shape.vertices.filter((v: Point) => {
+                return (!reserved.some(r => r.x === v.x && r.y === v.y) && model.patchByVertex(v).filter((p: Patch) => this.patches.includes(p)).length > 1);
             });
         } else {
-            entrances = this.shape.vertices.filter((v) => !reserved.includes(v));
+            entrances = this.shape.vertices.filter((v: Point) => !reserved.some(r => r.x === v.x && r.y === v.y));
         }
 
         if (entrances.length === 0) {
@@ -55,31 +56,29 @@ export class CurtainWall {
             this.gates.push(gate);
 
             if (real) {
-                const outerWards = model.patchByVertex(gate).filter((w) => !this.patches.includes(w));
+                const outerWards = model.patchByVertex(gate).filter((w: Patch) => !this.patches.includes(w));
                 if (outerWards.length === 1) {
-                    const outer = outerWards[0];
+                    const outer: Patch = outerWards[0];
                     if (outer.shape.vertices.length > 3) {
-                        const wall = this.shape.next(gate).subtract(this.shape.prev(gate));
-                        const out = { x: wall.y, y: -wall.x };
+                        const wallVector = this.shape.next(gate).subtract(this.shape.prev(gate));
+                        const out = new Point(wallVector.y, -wallVector.x);
 
-                        const farthest = outer.shape.vertices.reduce((farthest, v) => {
-                            if (this.shape.contains(v) || reserved.includes(v)) {
-                                return farthest;
+                        const farthest = outer.shape.vertices.reduce((farthestPoint: Point, v: Point) => {
+                            if (this.shape.contains(v) || reserved.some(r => r.x === v.x && r.y === v.y)) {
+                                return farthestPoint;
                             }
 
-                            const dir = { x: v.x - gate.x, y: v.y - gate.y };
-                            const dot = dir.x * out.x + dir.y * out.y;
-                            const len = Math.sqrt(dir.x * dir.x + dir.y * dir.y);
-                            const score = dot / len;
+                            const dir = v.subtract(gate);
+                            const score = dir.dot(out) / dir.length();
 
-                            if (score > farthest.score) {
-                                return { v, score };
+                            if (score > farthestPoint.dot(out) / farthestPoint.length()) {
+                                return v;
                             }
 
-                            return farthest;
-                        }, { v: null, score: -Infinity });
+                            return farthestPoint;
+                        }, outer.shape.vertices[0]); // Initial farthestPoint
 
-                        const newPatches = outer.shape.split(gate, farthest.v).map((half) => new Patch(half));
+                        const newPatches = outer.shape.split(gate, farthest).map((half: Polygon) => new Patch(half));
                         model.patches.splice(model.patches.indexOf(outer), 1, ...newPatches);
                     }
                 }
@@ -87,10 +86,10 @@ export class CurtainWall {
 
             if (index === 0) {
                 entrances.splice(0, 2);
-                entrances.pop();
+                if (entrances.length > 0) entrances.pop();
             } else if (index === entrances.length - 1) {
                 entrances.splice(index - 1, 2);
-                entrances.shift();
+                if (entrances.length > 0) entrances.shift();
             } else {
                 entrances.splice(index - 1, 3);
             }
@@ -101,10 +100,9 @@ export class CurtainWall {
         }
 
         if (real) {
-            this.gates.forEach((gate) => {
+            this.gates.forEach((gate: Point) => {
                 const smoothed = this.shape.smoothVertex(gate);
-                gate.x = smoothed.x;
-                gate.y = smoothed.y;
+                gate.set(smoothed);
             });
         }
     }
@@ -115,7 +113,7 @@ export class CurtainWall {
             const len = this.shape.vertices.length;
             for (let i = 0; i < len; i++) {
                 const t = this.shape.vertices[i];
-                if (!this.gates.includes(t) && (this.segments[(i + len - 1) % len] || this.segments[i])) {
+                if (!this.gates.some(g => g.x === t.x && g.y === t.y) && (this.segments[(i + len - 1) % len] || this.segments[i])) {
                     this.towers.push(t);
                 }
             }
@@ -125,12 +123,12 @@ export class CurtainWall {
     public getRadius(): number {
         let radius = 0;
         for (const v of this.shape.vertices) {
-            radius = Math.max(radius, Math.sqrt(v.x * v.x + v.y * v.y));
+            radius = Math.max(radius, v.length());
         }
         return radius;
     }
 
-    public bordersBy(p: Patch, v0: { x: number, y: number }, v1: { x: number, y: number }): boolean {
+    public bordersBy(p: Patch, v0: Point, v1: Point): boolean {
         const index = this.patches.includes(p) ?
             this.shape.findEdge(v0, v1) :
             this.shape.findEdge(v1, v0);

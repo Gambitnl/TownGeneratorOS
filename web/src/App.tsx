@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { VillagePane } from './components/VillagePane';
 import {
-  generateWfcGrid,
-  transformGridToLayout,
+  generateVillageLayout,
   VillageLayout,
   VillageOptions,
 } from './services/villageGenerationService';
@@ -34,8 +33,7 @@ export const App: React.FC = () => {
 
   const handleGenerate = async () => {
     const seed = Date.now().toString();
-    const grid = await generateWfcGrid(seed, options);
-    const l = transformGridToLayout(grid, options);
+    const l = await generateVillageLayout(seed, options);
     setLayout(l);
   };
 
