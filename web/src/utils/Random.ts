@@ -1,45 +1,40 @@
-export class Random {
-    private static _seed: number;
-    private static _a: number = 1103515245;
-    private static _c: number = 12345;
-    private static _m: number = Math.pow(2, 31);
+class Random {
+  private static g = 48271.0;
+  private static n = 2147483647;
 
-    public static reset(seed: number): void {
-        Random._seed = seed;
-    }
+  private static seed = 1;
 
-    public static float(): number {
-        Random._seed = (Random._a * Random._seed + Random._c) % Random._m;
-        return Random._seed / Random._m;
-    }
+  public static reset(seed: number = -1) {
+    Random.seed = seed !== -1 ? seed : Math.floor(Date.now() % Random.n);
+  }
 
-    public static bool(probability: number = 0.5): boolean {
-        return Random.float() < probability;
-    }
+  public static getSeed(): number {
+    return Random.seed;
+  }
 
-    public static int(min: number, max: number): number {
-        return Math.floor(Random.float() * (max - min + 1)) + min;
-    }
+  private static next(): number {
+    return (Random.seed = Math.floor((Random.seed * Random.g) % Random.n));
+  }
 
-    // Box-Muller transform for normal distribution
-    private static _nextGaussian: number | null = null;
-    public static normal(): number {
-        if (Random._nextGaussian !== null) {
-            const result = Random._nextGaussian;
-            Random._nextGaussian = null;
-            return result;
-        }
+  public static float(): number {
+    return Random.next() / Random.n;
+  }
 
-        let u = 0, v = 0;
-        while (u === 0) u = Random.float(); // Converting [0,1) to (0,1)
-        while (v === 0) v = Random.float();
+  public static normal(): number {
+    return (Random.float() + Random.float() + Random.float()) / 3;
+  }
 
-        const z0 = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
-        Random._nextGaussian = Math.sqrt(-2.0 * Math.log(u)) * Math.sin(2.0 * Math.PI * v);
-        return z0;
-    }
+  public static int(min: number, max: number): number {
+    return Math.floor(min + (Random.next() / Random.n) * (max - min));
+  }
 
-    public static fuzzy(f: number): number {
-        return Random.float() * f;
-    }
+  public static bool(chance: number = 0.5): boolean {
+    return Random.float() < chance;
+  }
+
+  public static fuzzy(f: number = 1.0): number {
+    return f === 0 ? 0.5 : (1 - f) / 2 + f * Random.normal();
+  }
 }
+
+export { Random };
