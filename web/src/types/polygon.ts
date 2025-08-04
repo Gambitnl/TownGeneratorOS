@@ -63,7 +63,17 @@ export class Polygon {
     }
 
     public contains(v: Point): boolean {
-        return this.vertices.some(p => p.x === v.x && p.y === v.y);
+        // Ray casting algorithm for point-in-polygon test
+        let inside = false;
+        for (let i = 0, j = this.vertices.length - 1; i < this.vertices.length; j = i++) {
+            const xi = this.vertices[i].x, yi = this.vertices[i].y;
+            const xj = this.vertices[j].x, yj = this.vertices[j].y;
+
+            const intersect = ((yi > v.y) !== (yj > v.y)) &&
+                (v.x < (xj - xi) * (v.y - yi) / (yj - yi) + xi);
+            if (intersect) inside = !inside;
+        }
+        return inside;
     }
 
     public forEdge(f: (v0: Point, v1: Point) => void): void {
