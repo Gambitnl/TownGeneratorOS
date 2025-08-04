@@ -26,8 +26,33 @@ export class Model {
   }
 
   public static findCircumference(patches: Patch[]): Polygon {
-    // Placeholder for complex geometric operation
-    return new Polygon([]);
+    if (patches.length === 0) {
+      return new Polygon([]);
+    }
+
+    let minX = Infinity;
+    let minY = Infinity;
+    let maxX = -Infinity;
+    let maxY = -Infinity;
+
+    for (const patch of patches) {
+      for (const vertex of patch.shape.vertices) {
+        minX = Math.min(minX, vertex.x);
+        minY = Math.min(minY, vertex.y);
+        maxX = Math.max(maxX, vertex.x);
+        maxY = Math.max(maxY, vertex.y);
+      }
+    }
+
+    // Create a rectangular polygon from the bounding box
+    const circumferenceVertices = [
+      new Point(minX, minY),
+      new Point(maxX, minY),
+      new Point(maxX, maxY),
+      new Point(minX, maxY),
+    ];
+
+    return new Polygon(circumferenceVertices);
   }
 
   public replace(oldPatch: Patch, newPatches: Patch[]): void {
