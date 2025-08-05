@@ -21,6 +21,10 @@ export class Patch {
         this.withinCity = false;
     }
 
+    public get center(): Point {
+        return this.shape.center;
+    }
+
     public static fromRegion(r: VoronoiRegion): Patch {
         return new Patch(new Polygon(r.vertices.map(v => v.c)));
     }

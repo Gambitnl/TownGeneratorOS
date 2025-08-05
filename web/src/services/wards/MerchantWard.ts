@@ -1,11 +1,11 @@
-import { Ward } from './Ward';
+import { CommonWard } from './CommonWard';
 import { Model } from '../Model';
 import { Patch } from '@/types/patch';
 import { Polygon } from '@/types/polygon';
 import { Point } from '@/types/point';
 import { Random } from '@/utils/Random';
 
-export class MerchantWard extends Ward {
+export class MerchantWard extends CommonWard {
   constructor(model: Model, patch: Patch) {
     super(model, patch);
   }
@@ -16,8 +16,8 @@ export class MerchantWard extends Ward {
     const block = this.getCityBlock();
     if (block.vertices.length < 3) return;
 
-    // Create merchant houses and shops
-    const buildings = Ward.createOrthoBuilding(block, 5, 0.7);
+    // Create merchant shops and warehouses
+    const buildings = CommonWard.createOrthoBuilding(block, 5, 0.7);
     this.geometry.push(...buildings);
   }
 

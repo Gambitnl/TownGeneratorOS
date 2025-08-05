@@ -1,11 +1,11 @@
-import { Ward } from './Ward';
+import { CommonWard } from './CommonWard';
 import { Model } from '../Model';
 import { Patch } from '@/types/patch';
 import { Polygon } from '@/types/polygon';
 import { Point } from '@/types/point';
 import { Random } from '@/utils/Random';
 
-export class Slum extends Ward {
+export class Slum extends CommonWard {
   constructor(model: Model, patch: Patch) {
     super(model, patch);
   }
@@ -17,7 +17,7 @@ export class Slum extends Ward {
     if (block.vertices.length < 3) return;
 
     // Create small, cramped buildings
-    const buildings = Ward.createOrthoBuilding(block, 8, 0.4);
+    const buildings = CommonWard.createOrthoBuilding(block, 8, 0.4);
     this.geometry.push(...buildings);
   }
 

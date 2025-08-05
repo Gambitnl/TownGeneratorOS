@@ -1,11 +1,11 @@
-import { Ward } from './Ward';
+import { CommonWard } from './CommonWard';
 import { Model } from '../Model';
 import { Patch } from '@/types/patch';
 import { Polygon } from '@/types/polygon';
 import { Point } from '@/types/point';
 import { Random } from '@/utils/Random';
 
-export class CraftsmenWard extends Ward {
+export class CraftsmenWard extends CommonWard {
   constructor(model: Model, patch: Patch) {
     super(model, patch);
   }
@@ -16,24 +16,9 @@ export class CraftsmenWard extends Ward {
     const block = this.getCityBlock();
     if (block.vertices.length < 3) return;
 
-    // Create workshops and small buildings
-    const buildings = Ward.createOrthoBuilding(block, 6, 0.6);
+    // Create workshops and craft buildings
+    const buildings = CommonWard.createOrthoBuilding(block, 6, 0.6);
     this.geometry.push(...buildings);
-
-    // Add some specialized workshop areas
-    if (Random.bool(0.4)) {
-      const center = block.vertices.reduce((sum, v) => sum.add(v), new Point(0, 0))
-        .scale(1 / block.vertices.length);
-      const workshopSize = Math.min(block.vertices.map(v => Point.distance(v, center))) * 0.2;
-      
-      const workshop = new Polygon([
-        center.add(new Point(-workshopSize, -workshopSize)),
-        center.add(new Point(workshopSize, -workshopSize)),
-        center.add(new Point(workshopSize, workshopSize)),
-        center.add(new Point(-workshopSize, workshopSize))
-      ]);
-      this.geometry.push(workshop);
-    }
   }
 
   public static rateLocation(model: Model, patch: Patch): number {

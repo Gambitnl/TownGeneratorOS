@@ -1,4 +1,5 @@
-import { Ward } from './Ward';
+import { Ward } from '../Ward';
+import { CommonWard } from './CommonWard';
 import { Model } from '../Model';
 import { Patch } from '@/types/patch';
 import { Polygon } from '@/types/polygon';
@@ -16,24 +17,9 @@ export class MilitaryWard extends Ward {
     const block = this.getCityBlock();
     if (block.vertices.length < 3) return;
 
-    // Create barracks and training grounds
-    const buildings = Ward.createOrthoBuilding(block, 4, 0.7);
+    // Create military barracks and training grounds
+    const buildings = CommonWard.createOrthoBuilding(block, 4, 0.7);
     this.geometry.push(...buildings);
-
-    // Add training ground
-    if (Random.bool(0.6)) {
-      const center = block.vertices.reduce((sum, v) => sum.add(v), new Point(0, 0))
-        .scale(1 / block.vertices.length);
-      const groundSize = Math.min(block.vertices.map(v => Point.distance(v, center))) * 0.4;
-      
-      const trainingGround = new Polygon([
-        center.add(new Point(-groundSize, -groundSize)),
-        center.add(new Point(groundSize, -groundSize)),
-        center.add(new Point(groundSize, groundSize)),
-        center.add(new Point(-groundSize, groundSize))
-      ]);
-      this.geometry.push(trainingGround);
-    }
   }
 
   public static rateLocation(model: Model, patch: Patch): number {

@@ -6,7 +6,8 @@ export class Polygon {
     public vertices: Point[];
 
     constructor(vertices: Point[] = []) {
-        this.vertices = vertices.map(v => new Point(v.x, v.y));
+        // Only create new Point objects if the input vertices are not already Point instances
+        this.vertices = vertices.map(v => v instanceof Point ? v : new Point(v.x, v.y));
     }
 
     public set(p: Polygon): void {

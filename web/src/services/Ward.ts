@@ -57,7 +57,7 @@ export class Ward {
         return result;
     }
 
-    protected filterOutskirts() {
+    public filterOutskirts() {
         const populatedEdges: { x: number, y: number, dx: number, dy: number, d: number }[] = [];
 
         const addEdge = (v1: Point, v2: Point, factor = 1.0) => {

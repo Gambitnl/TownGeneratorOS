@@ -1,4 +1,4 @@
-import { Ward } from './Ward';
+import { Ward } from '../Ward';
 import { Model } from '../Model';
 import { Patch } from '@/types/patch';
 import { Polygon } from '@/types/polygon';

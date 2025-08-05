@@ -109,6 +109,223 @@ select:focus {
   color: var(--primary-bg);
 }
 
+/* Custom Generation Panel Styles */
+.custom-generation-panel {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-top: 1rem;
+  box-shadow: var(--shadow-medium);
+}
+
+.custom-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.custom-header h4 {
+  color: var(--text-accent);
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.custom-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.custom-sections {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.custom-section {
+  background: var(--secondary-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+}
+
+.custom-section h5 {
+  color: var(--text-primary);
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.5rem;
+}
+
+/* Ward Controls */
+.ward-controls {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.ward-control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.ward-control label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.ward-control input[type="range"] {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--border-color);
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.ward-control input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--gold);
+  cursor: pointer;
+  border: 2px solid var(--bronze);
+}
+
+.ward-control input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--gold);
+  cursor: pointer;
+  border: 2px solid var(--bronze);
+}
+
+/* Infrastructure Controls */
+.infrastructure-controls {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.checkbox-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.checkbox-control label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.checkbox-control input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--gold);
+}
+
+.slider-control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.slider-control label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.slider-control input[type="range"] {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--border-color);
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.slider-control input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--gold);
+  cursor: pointer;
+  border: 2px solid var(--bronze);
+}
+
+/* Special Controls */
+.special-controls {
+  display: grid;
+  gap: 0.75rem;
+}
+
+/* Parameter Controls */
+.parameter-controls {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.parameter-control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.parameter-control label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.parameter-control input[type="range"] {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--border-color);
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.parameter-control input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--gold);
+  cursor: pointer;
+  border: 2px solid var(--bronze);
+}
+
+.parameter-control input[type="number"] {
+  width: 100px;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background: var(--card-bg);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+}
+
+.parameter-control input[type="number"]:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+
 /* Responsive Design */
 @media (max-width: 1200px) {
   /* Large tablets and small desktops */
@@ -214,6 +431,24 @@ select:focus {
     max-width: 250px !important;
     font-size: 0.8rem !important;
     padding: 0.5rem 0.75rem !important;
+  }
+
+  .custom-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+  
+  .custom-controls {
+    justify-content: center;
+  }
+  
+  .custom-sections {
+    gap: 1rem;
+  }
+  
+  .ward-controls {
+    grid-template-columns: 1fr;
   }
 }
 

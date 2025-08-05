@@ -1,4 +1,5 @@
-import { Ward } from './Ward';
+import { Ward } from '../Ward';
+import { CommonWard } from './CommonWard';
 import { Model } from '../Model';
 import { Patch } from '@/types/patch';
 import { Polygon } from '@/types/polygon';
@@ -16,8 +17,8 @@ export class AdministrationWard extends Ward {
     const block = this.getCityBlock();
     if (block.vertices.length < 3) return;
 
-    // Create administrative buildings
-    const buildings = Ward.createOrthoBuilding(block, 4, 0.8);
+    // Create administrative buildings and offices
+    const buildings = CommonWard.createOrthoBuilding(block, 4, 0.8);
     this.geometry.push(...buildings);
   }
 

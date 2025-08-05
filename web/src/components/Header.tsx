@@ -86,9 +86,9 @@ export const Header: React.FC = () => {
           <div style={ornamentLineStyles}></div>
         </div>
         <p style={subtitleStyles} className="header-subtitle">
-          Forge your own medieval settlements with procedural generation
+          Create beautiful medieval settlements with procedural generation
         </p>
-        <p style={versionStyles} className="header-version">v{packageJson.version}</p>
+        <p style={versionStyles} className="header-version">v{packageJson.version} - Stable Beta</p>
       </div>
     </header>
   );

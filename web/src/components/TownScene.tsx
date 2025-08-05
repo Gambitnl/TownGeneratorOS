@@ -141,47 +141,65 @@ export const TownScene: React.FC = () => {
     }
   };
 
-  const handleGenerate = async (size: number) => {
+  const handleGenerate = async (size: string) => {
     setLoading(true);
     setError(null);
-    setModel(null);
-
-    // Random loading message selection for variety
-    const randomMessages = [
-      `Forging a settlement of ${size} districts...`,
-      `Crafting your ${size === 1 ? 'hamlet' : size < 10 ? 'village' : size < 20 ? 'town' : 'city'}...`,
-      `Summoning medieval architecture...`,
-      `Laying cobblestone foundations...`,
-    ];
-    
-    setLoadingMessage(randomMessages[Math.floor(Math.random() * randomMessages.length)]);
 
     try {
-      // Simulate realistic generation time
-      await new Promise(resolve => setTimeout(resolve, 800 + Math.random() * 1200));
+      let nPatches: number;
       
-      const newModel = new Model(size);
-      setModel(newModel);
-      
-    } catch (error) {
-      console.error('Error generating new model:', error);
-      setError(`Failed to generate a town of size ${size}. This might be due to the complexity of the requested settlement.`);
-      
-      // Try with a slightly smaller size as fallback
-      if (size > 6) {
-        try {
-          setLoadingMessage('Adjusting town size...');
-          await new Promise(resolve => setTimeout(resolve, 500));
-          
-          const fallbackSize = Math.max(6, size - 2);
-          const fallbackModel = new Model(fallbackSize, Date.now() % 100000);
-          setModel(fallbackModel);
-          setError(null);
-        } catch (fallbackError) {
-          console.error('Fallback generation failed:', fallbackError);
-          setError('Generation failed. Try a smaller settlement size or refresh the page.');
+      // Handle different generation modes
+      if (size.startsWith('custom-')) {
+        // Custom generation mode
+        nPatches = parseInt(size.replace('custom-', ''));
+        console.log('Custom generation with', nPatches, 'patches');
+      } else {
+        // Standard size modes
+        switch (size) {
+          case 'village':
+            nPatches = 6 + Math.floor(Math.random() * 3); // 6-8 patches
+            break;
+          case 'town':
+            nPatches = 10 + Math.floor(Math.random() * 6); // 10-15 patches
+            break;
+          case 'city':
+            nPatches = 18 + Math.floor(Math.random() * 8); // 18-25 patches
+            break;
+          case 'capital':
+            nPatches = 28 + Math.floor(Math.random() * 12); // 28-39 patches
+            break;
+          default:
+            nPatches = 15;
         }
       }
+
+      const seed = Math.floor(Math.random() * 1000000);
+      const newModel = new Model(nPatches, seed);
+      
+      setModel(newModel);
+      console.log(`Generated ${size} with ${nPatches} patches, seed: ${seed}`);
+    } catch (error) {
+      console.error('Error creating model:', error);
+      setError('Failed to generate town. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRandomGenerate = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const randomSize = 8 + Math.floor(Math.random() * 25); // 8-32 patches
+      const seed = Math.floor(Math.random() * 1000000);
+      const newModel = new Model(randomSize, seed);
+      
+      setModel(newModel);
+      console.log(`Generated random town with ${randomSize} patches, seed: ${seed}`);
+    } catch (error) {
+      console.error('Error creating random model:', error);
+      setError('Failed to generate random town. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -216,10 +234,11 @@ export const TownScene: React.FC = () => {
 
         <ControlPanel 
           onGenerate={handleGenerate}
+          onRandomGenerate={handleRandomGenerate}
           isLoading={loading}
         />
         
-        <Tooltip text={tooltipText} />
+        {/* Tooltip is now handled by CityMap component */}
       </div>
     </div>
   );

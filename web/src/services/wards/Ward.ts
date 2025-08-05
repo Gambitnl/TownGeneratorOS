@@ -141,6 +141,11 @@ export class Ward {
   }
 
   public static createAlleys(p: Polygon, minSq: number, gridChaos: number, sizeChaos: number, emptyProb: number = 0.04, split: boolean = true): Polygon[] {
+    // Base case: if polygon is too small, return it as a single building
+    if (p.square < minSq) {
+      return Random.bool(emptyProb) ? [] : [p];
+    }
+
     let v: Point | null = null;
     let length = -1.0;
     p.forEdge((p0, p1) => {
@@ -151,22 +156,34 @@ export class Ward {
       }
     });
 
+    // Safety check: if no valid vertex found, return the polygon
+    if (!v || length <= 0) {
+      return Random.bool(emptyProb) ? [] : [p];
+    }
+
     const spread = 0.8 * gridChaos;
     const ratio = (1 - spread) / 2 + Random.float() * spread;
 
     const angleSpread = Math.PI / 6 * gridChaos * (p.square < minSq * 4 ? 0.0 : 1);
     const b = (Random.float() - 0.5) * angleSpread;
 
-    const halves = Cutter.bisect(p, v!, ratio, b, split ? Ward.ALLEY : 0.0);
+    const halves = Cutter.bisect(p, v, ratio, b, split ? Ward.ALLEY : 0.0);
 
     let buildings: Polygon[] = [];
     for (const half of halves) {
+      // Safety check: ensure half has valid area
+      if (half.square <= 0 || half.vertices.length < 3) {
+        continue;
+      }
+
       if (half.square < minSq * Math.pow(2, 4 * sizeChaos * (Random.float() - 0.5))) {
         if (!Random.bool(emptyProb)) {
           buildings.push(half);
         }
       } else {
-        buildings = buildings.concat(Ward.createAlleys(half, minSq, gridChaos, sizeChaos, emptyProb, half.square > minSq / (Random.float() * Random.float())));
+        // Recursive call with safety check to prevent infinite recursion
+        const subBuildings = Ward.createAlleys(half, minSq, gridChaos, sizeChaos, emptyProb, split);
+        buildings = buildings.concat(subBuildings);
       }
     }
 
@@ -174,9 +191,25 @@ export class Ward {
   }
 
   public static createOrthoBuilding(poly: Polygon, minBlockSq: number, fill: number): Polygon[] {
-    const slice = (poly: Polygon, c1: Point, c2: Point): Polygon[] => {
+    // Base case: if polygon is too small, return it
+    if (poly.square < minBlockSq) {
+      return Random.bool(fill) ? [poly] : [];
+    }
+
+    const slice = (poly: Polygon, c1: Point, c2: Point, depth: number = 0): Polygon[] => {
+      // Safety check: prevent infinite recursion
+      if (depth > 10 || poly.square < minBlockSq * 0.1) {
+        return Random.bool(fill) ? [poly] : [];
+      }
+
       const v0 = Ward.findLongestEdge(poly);
       const v1 = poly.next(v0);
+      
+      // Safety check: ensure we have valid vertices
+      if (!v0 || !v1) {
+        return Random.bool(fill) ? [poly] : [];
+      }
+
       const v = { x: v1.x - v0.x, y: v1.y - v0.y }; // v1.subtract(v0) equivalent
 
       const ratio = 0.4 + Random.float() * 0.2;
@@ -187,34 +220,51 @@ export class Ward {
       const halves = poly.cut(p1, new Point(p1.x + c.x, p1.y + c.y)); // p1.add(c) equivalent
       let buildings: Polygon[] = [];
       for (const half of halves) {
+        // Safety check: ensure half has valid area
+        if (half.square <= 0 || half.vertices.length < 3) {
+          continue;
+        }
+
         if (half.square < minBlockSq * Math.pow(2, Random.normal() * 2 - 1)) {
           if (Random.bool(fill)) {
             buildings.push(half);
           }
         }
         else {
-          buildings = buildings.concat(slice(half, c1, c2));
+          buildings = buildings.concat(slice(half, c1, c2, depth + 1));
         }
       }
       return buildings;
     };
 
-    if (poly.square < minBlockSq) {
-      return [poly];
-    } else {
-      const c1 = poly.vector(Ward.findLongestEdge(poly));
-      const c2 = new Point(-c1.y, c1.x); // c1.rotate90() equivalent
-      while (true) {
-        const blocks = slice(poly, c1, c2);
-        if (blocks.length > 0)
-          return blocks;
-      }
-    }
+    const c1 = poly.vector(Ward.findLongestEdge(poly));
+    const c2 = new Point(-c1.y, c1.x); // c1.rotate90() equivalent
+    
+    // Remove infinite loop and add safety checks
+    const blocks = slice(poly, c1, c2);
+    return blocks.length > 0 ? blocks : (Random.bool(fill) ? [poly] : []);
   }
 
   private static findLongestEdge(poly: Polygon): Point {
-    // This needs to be properly ported from Haxe's poly.min and poly.vector
-    // For now, a placeholder that returns the first vertex
-    return poly.vertices[0];
+    if (poly.vertices.length < 2) {
+      return poly.vertices[0] || new Point(0, 0);
+    }
+
+    let longestEdge = poly.vertices[0];
+    let maxLength = 0;
+
+    for (let i = 0; i < poly.vertices.length; i++) {
+      const current = poly.vertices[i];
+      const next = poly.vertices[(i + 1) % poly.vertices.length];
+      
+      const length = Math.sqrt(Math.pow(next.x - current.x, 2) + Math.pow(next.y - current.y, 2));
+      
+      if (length > maxLength) {
+        maxLength = length;
+        longestEdge = current;
+      }
+    }
+
+    return longestEdge;
   }
 }

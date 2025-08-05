@@ -1,4 +1,5 @@
-import { Ward } from './Ward';
+import { Ward } from '../Ward';
+import { CommonWard } from './CommonWard';
 import { Model } from '../Model';
 import { Patch } from '@/types/patch';
 import { Polygon } from '@/types/polygon';
@@ -17,24 +18,34 @@ export class Market extends Ward {
     if (block.vertices.length < 3) return;
 
     // Create market stalls and buildings
-    const buildings = Ward.createOrthoBuilding(block, 4, 0.7);
-    this.geometry.push(...buildings);
+    try {
+      const buildings = CommonWard.createOrthoBuilding(block, 4, 0.7);
+      this.geometry.push(...buildings);
 
-    // Add some open space for the market square
-    if (Random.bool(0.3)) {
-      const center = block.vertices.reduce((sum, v) => sum.add(v), new Point(0, 0))
-        .scale(1 / block.vertices.length);
-      const radius = Math.min(block.vertices.map(v => Point.distance(v, center))) * 0.3;
-      
-      if (radius > 2) {
-        const marketSquare = new Polygon([
-          center.add(new Point(radius, 0)),
-          center.add(new Point(0, radius)),
-          center.add(new Point(-radius, 0)),
-          center.add(new Point(0, -radius))
-        ]);
-        this.geometry.push(marketSquare);
+      // Add some open space for the market square
+      if (Random.bool(0.3)) {
+        const center = block.vertices.reduce((sum, v) => sum.add(v), new Point(0, 0))
+          .scale(1 / block.vertices.length);
+        const radius = Math.min(...block.vertices.map(v => Point.distance(v, center))) * 0.3;
+        
+        if (radius > 2) {
+          const marketSquare = new Polygon([
+            center.add(new Point(radius, 0)),
+            center.add(new Point(0, radius)),
+            center.add(new Point(-radius, 0)),
+            center.add(new Point(0, -radius))
+          ]);
+          this.geometry.push(marketSquare);
+        }
       }
+      
+      // Ensure we have at least one building
+      if (this.geometry.length === 0) {
+        this.geometry.push(block);
+      }
+    } catch (error) {
+      console.warn('Error creating market geometry, using fallback:', error);
+      this.geometry = [block];
     }
   }
 

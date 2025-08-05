@@ -1,13 +1,13 @@
-import { Ward } from './Ward';
+import { CommonWard } from './CommonWard';
 import { Model } from '../Model';
 import { Patch } from '@/types/patch';
 import { Polygon } from '@/types/polygon';
 import { Point } from '@/types/point';
 import { Random } from '@/utils/Random';
 
-export class GateWard extends Ward {
+export class GateWard extends CommonWard {
   constructor(model: Model, patch: Patch) {
-    super(model, patch);
+    super(model, patch, 4, 0.3, 0.3, 0.1);
   }
 
   public createGeometry(): void {
@@ -16,8 +16,8 @@ export class GateWard extends Ward {
     const block = this.getCityBlock();
     if (block.vertices.length < 3) return;
 
-    // Create gatehouse and guard buildings
-    const buildings = Ward.createOrthoBuilding(block, 3, 0.8);
+    // Create gate houses and defensive structures
+    const buildings = CommonWard.createOrthoBuilding(block, 3, 0.8);
     this.geometry.push(...buildings);
   }
 
