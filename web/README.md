@@ -170,7 +170,8 @@ The application uses CSS custom properties for easy theming:
 
 ### Known Issues
 
--   **Generation Failures:** The application frequently fails to generate towns due to algorithmic problems. This is a core issue that requires significant refactoring.
+-   **Infinite Recursion / Stack Overflow:** The generation process frequently crashes with a `RangeError: Maximum call stack size exceeded`. This error originates in the `Ward.ts` and `polygon.ts` files, specifically within the geometric slicing and ward creation logic. It indicates a critical bug causing an infinite recursive loop that must be fixed for the generator to be remotely stable.
+-   **Generation Failures:** The application frequently fails to generate towns due to other algorithmic problems, such as `Unable to build a street!` and `Bad citadel shape!`. This is a core issue that requires significant refactoring.
 -   **Rendering Problems:** Generated towns often display incorrectly or with missing elements due to incomplete rendering logic.
 -   **Performance Issues:** Larger settlements cause significant performance degradation and increased failure rates.
 -   **Inconsistent Results:** The same seed may produce different results due to unstable algorithms.
