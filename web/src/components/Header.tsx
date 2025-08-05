@@ -1,4 +1,5 @@
 import React from 'react';
+import packageJson from '../../package.json';
 
 const headerStyles: React.CSSProperties = {
   background: 'linear-gradient(135deg, rgba(26, 26, 26, 0.95) 0%, rgba(42, 42, 42, 0.95) 100%)',
@@ -28,6 +29,14 @@ const subtitleStyles: React.CSSProperties = {
   textAlign: 'center',
   fontStyle: 'italic',
   opacity: 0.8,
+};
+
+const versionStyles: React.CSSProperties = {
+  fontSize: '0.8rem',
+  color: 'var(--text-secondary)',
+  textAlign: 'center',
+  opacity: 0.6,
+  marginTop: '0.5rem',
 };
 
 const decorationStyles: React.CSSProperties = {
@@ -79,6 +88,7 @@ export const Header: React.FC = () => {
         <p style={subtitleStyles} className="header-subtitle">
           Forge your own medieval settlements with procedural generation
         </p>
+        <p style={versionStyles} className="header-version">v{packageJson.version}</p>
       </div>
     </header>
   );

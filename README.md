@@ -4,3 +4,9 @@ lacks some of the latest features, namely waterbodies, options UI and some small
 
 You'll need [OpenFL](https://github.com/openfl/openfl) and [msignal](https://github.com/massiveinteractive/msignal) 
 to run this code, both available through `haxelib`.
+
+## Versioning
+
+Starting now, this project will follow a versioning system. The current version is **0.1.0**.
+
+With every update to the application, the version number displayed on the app's starting page must match the latest build version specified here.
