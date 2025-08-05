@@ -138,6 +138,11 @@ The application uses CSS custom properties for easy theming:
 
 ## 🐛 Troubleshooting
 
+### Known Issues
+
+-   **Map Generation Failures:** The application currently fails to render the generated town. Instead, it displays a blank area where the map should be. This is often accompanied by errors in the developer console.
+-   **Generation Errors:** The procedural generation frequently fails with errors like `Error: Unable to build a street!` and `Error: Bad citadel shape!`. These errors originate in the core `Model.ts` logic and indicate that the port of the generation algorithm is incomplete and unstable. Debugging these issues is a top priority.
+
 ### Common Issues
 
 **Generation fails**: Try a smaller settlement size or refresh the page
@@ -149,6 +154,26 @@ The application uses CSS custom properties for easy theming:
 - Firefox 85+
 - Safari 14+
 - Edge 88+
+
+## 🗺️ Roadmap & Future Work
+
+This project is an active port of the original Haxe-based [Medieval Fantasy City Generator](https://watabou.itch.io/medieval-fantasy-city-generator/). While the new web application provides a modern UI and a solid foundation, there is still work to be done to achieve full feature parity and realize the complete vision.
+
+### Core Logic Porting
+The highest priority is to complete the port of the core generation logic from the original Haxe codebase. Key missing components include:
+-   **Wards:** Porting the remaining district types (e.g., `Cathedral`, `Market`, `Slums`, `CraftsmenWard`) to create more diverse cities.
+-   **Geometry & Mapping:** Implementing missing geometry algorithms like `Voronoi`, `Graph`, and `Spline` which are crucial for city layout.
+-   **Utilities:** Migrating the remaining helper functions from the original `utils` library.
+
+### Feature Parity
+The original generator has features not yet implemented in this version. The following are key goals:
+-   **Waterbodies:** Adding procedurally generated rivers, lakes, and coastlines.
+-   **Expanded Options UI:** Creating a more detailed control panel to expose more generation parameters to the user.
+
+### Potential Enhancements
+-   **Wave Function Collapse (WFC):** The project is set up to use WFC. Integrating this for building and texture generation would dramatically increase the detail and realism of the output.
+-   **UI/UX Polish:** Continue to refine the user interface to fully match the ambitious design goals, focusing on animations, interactivity, and visual feedback.
+-   **Performance Optimization:** Continuously profile and optimize the generation algorithms to ensure a smooth experience, especially for larger cities.
 
 ## 🤝 Contributing
 
