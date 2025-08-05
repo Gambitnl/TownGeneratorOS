@@ -1,7 +1,20 @@
 import { Patch } from '@/types/patch';
 import { Polygon } from '@/types/polygon';
 import { Street } from '@/types/street';
-import { Ward, Castle, Market, GateWard, Farm, AdministrationWard, Cathedral, CommonWard, CraftsmenWard, MerchantWard, MilitaryWard, Park, PatriciateWard, Slum } from './Ward';
+import { Ward } from './Ward';
+import { Castle } from './wards/Castle';
+import { Market } from './wards/Market';
+import { GateWard } from './wards/GateWard';
+import { Farm } from './wards/Farm';
+import { AdministrationWard } from './wards/AdministrationWard';
+import { Cathedral } from './wards/Cathedral';
+import { CommonWard } from './wards/CommonWard';
+import { CraftsmenWard } from './wards/CraftsmenWard';
+import { MerchantWard } from './wards/MerchantWard';
+import { MilitaryWard } from './wards/MilitaryWard';
+import { Park } from './wards/Park';
+import { PatriciateWard } from './wards/PatriciateWard';
+import { Slum } from './wards/Slum';
 import { CurtainWall } from './CurtainWall';
 import { Random } from '@/utils/Random';
 import { generateVoronoi } from './voronoi';
@@ -280,7 +293,22 @@ export class Model {
                     }
                 }
             } else {
-                throw new Error("Unable to build a street!");
+                // Instead of throwing an error, try alternative pathfinding
+                console.warn(`Unable to build street from gate to ${this.plaza ? 'plaza' : 'center'}, trying alternative path...`);
+                
+                // Try to find any valid path to the center
+                const alternativeEnd = this.center;
+                const alternativeStreet = this.topology.buildPath(gate, alternativeEnd, []);
+                
+                if (alternativeStreet) {
+                    this.streets.push(alternativeStreet);
+                    console.log('Alternative street path found');
+                } else {
+                    // If still no path, create a simple direct line (fallback)
+                    console.warn('Creating fallback direct street path');
+                    const fallbackStreet = new Street([gate, alternativeEnd]);
+                    this.streets.push(fallbackStreet);
+                }
             }
         }
 

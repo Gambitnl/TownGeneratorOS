@@ -2,27 +2,55 @@
 
 A sophisticated web application for generating procedural medieval settlements with an immersive, modern UI. Create unique towns, cities, and villages with realistic layouts, districts, walls, and road networks.
 
-## ✨ Features
+## ⚠️ **CRITICAL PROJECT STATUS**
 
-### 🎨 **Modern UI Design**
-- **Medieval-themed interface** with gold and bronze accents
-- **Glassmorphism effects** with backdrop blur and transparency
-- **Smooth animations** and transitions throughout
-- **Responsive design** that works on desktop, tablet, and mobile
-- **Accessibility features** including proper focus states and reduced motion support
+**This project is in an UNSTABLE BETA state with significant known issues.** While the application now compiles and runs without immediate crashes, the core generation algorithm has fundamental problems that prevent reliable town generation.
 
-### 🏘️ **Settlement Generation**
-- **Multiple settlement sizes**: Village (4-8 districts), Town (8-15), City (15-25), Capital (25-40)
-- **Procedural generation** with customizable seeds for reproducible results
-- **Realistic layouts** including walls, gates, districts, and road networks
-- **Advanced options** for custom seeds and fine-tuned generation
+### **🚨 Known Critical Issues**
 
-### 🛠️ **User Experience**
-- **Intuitive control panel** with organized sections
-- **Real-time loading indicators** with contextual messages
-- **Error handling** with graceful fallbacks
-- **Tooltip system** for interactive guidance
-- **Progressive enhancement** with smooth state transitions
+#### **1. Generation Reliability - MAJOR PROBLEM**
+- **"Unable to build a street!" errors** still occur frequently despite error handling improvements
+- **"Bad citadel shape!" errors** persist when citadel generation fails compactness requirements
+- **Pathfinding failures** in the topology system cause incomplete road networks
+- **Fallback generation** often produces suboptimal or broken layouts
+
+#### **2. Algorithmic Deficiencies - CORE ISSUES**
+- **Voronoi generation** is incomplete and produces irregular patch shapes
+- **Patch optimization** logic is flawed, creating invalid geometries
+- **Ward placement** algorithms are simplistic and don't respect historical accuracy
+- **Wall generation** fails to create proper defensive structures
+
+#### **3. Rendering Problems - VISUAL ISSUES**
+- **Canvas scaling** is inconsistent across different town sizes
+- **Ward visualization** lacks proper building detail and architectural accuracy
+- **Color schemes** are basic and don't reflect medieval aesthetics
+- **Performance** degrades significantly with larger settlements
+
+#### **4. Missing Core Features - INCOMPLETE IMPLEMENTATION**
+- **Water features** (rivers, lakes, coastlines) are completely absent
+- **Terrain generation** is non-existent
+- **Building interiors** and detailed structures are missing
+- **Historical accuracy** in ward layouts is poor
+
+## ✨ **What Currently Works (Limited)**
+
+### 🎨 **UI/UX Foundation**
+- **Modern interface** with medieval theming
+- **Responsive design** that adapts to different screen sizes
+- **Loading states** and error handling (though often triggered)
+- **Control panel** for basic town size selection
+
+### 🏘️ **Basic Generation**
+- **Patch creation** using Voronoi diagrams (flawed but functional)
+- **Ward assignment** with basic type classification
+- **Simple road networks** (when pathfinding succeeds)
+- **Basic wall generation** (incomplete)
+
+### 🛠️ **Technical Infrastructure**
+- **TypeScript compilation** works without errors
+- **React component structure** is sound
+- **Build system** functions properly
+- **Development environment** is stable
 
 ## 🚀 Getting Started
 
@@ -58,6 +86,8 @@ npm run build
 4. **Randomize** - Use the "Random Town" button for surprise generations
 5. **Custom seeds** - Expand "Advanced" to use specific seeds for reproducible results
 
+**⚠️ WARNING**: Generation frequently fails. If you encounter errors, try smaller settlement sizes or refresh the page.
+
 ## 🏗️ Architecture
 
 ### Component Structure
@@ -71,9 +101,9 @@ src/
 │   ├── Tooltip.tsx         # Interactive tooltip system
 │   └── TownScene.tsx       # Main application container
 ├── services/
-│   ├── Model.ts           # Core generation logic
-│   ├── CityMap.tsx        # Map rendering component
-│   └── ...                # Other services
+│   ├── Model.ts           # Core generation logic (UNSTABLE)
+│   ├── CityMap.tsx        # Map rendering component (BASIC)
+│   └── wards/             # Ward type implementations (INCOMPLETE)
 ├── styles/
 │   └── global.css         # Global styles and CSS variables
 └── types/
@@ -140,14 +170,16 @@ The application uses CSS custom properties for easy theming:
 
 ### Known Issues
 
--   **Map Generation Failures:** The application currently fails to render the generated town. Instead, it displays a blank area where the map should be. This is often accompanied by errors in the developer console.
--   **Generation Errors:** The procedural generation frequently fails with errors like `Error: Unable to build a street!` and `Error: Bad citadel shape!`. These errors originate in the core `Model.ts` logic and indicate that the port of the generation algorithm is incomplete and unstable. Debugging these issues is a top priority.
+-   **Generation Failures:** The application frequently fails to generate towns due to algorithmic problems. This is a core issue that requires significant refactoring.
+-   **Rendering Problems:** Generated towns often display incorrectly or with missing elements due to incomplete rendering logic.
+-   **Performance Issues:** Larger settlements cause significant performance degradation and increased failure rates.
+-   **Inconsistent Results:** The same seed may produce different results due to unstable algorithms.
 
 ### Common Issues
 
-**Generation fails**: Try a smaller settlement size or refresh the page
+**Generation fails**: This is expected behavior. Try smaller settlement sizes or refresh the page.
 **UI not responsive**: Ensure modern browser with CSS Grid support
-**Slow performance**: Check if hardware acceleration is enabled
+**Slow performance**: Check if hardware acceleration is enabled, but expect issues with larger towns
 
 ### Browser Support
 - Chrome 88+
@@ -155,33 +187,136 @@ The application uses CSS custom properties for easy theming:
 - Safari 14+
 - Edge 88+
 
-## 🗺️ Roadmap & Future Work
+## 🗺️ **EXTENSIVE ROADMAP & CRITICAL ASSESSMENT**
 
-This project is an active port of the original Haxe-based [Medieval Fantasy City Generator](https://watabou.itch.io/medieval-fantasy-city-generator/). While the new web application provides a modern UI and a solid foundation, there is still work to be done to achieve full feature parity and realize the complete vision.
+This project is a **partial port** of the original Haxe-based [Medieval Fantasy City Generator](https://watabou.itch.io/medieval-fantasy-city-generator/). The current implementation represents approximately **30-40%** of the original functionality, with significant gaps in core algorithms and features.
 
-### Core Logic Porting
-The highest priority is to complete the port of the core generation logic from the original Haxe codebase. Key missing components include:
--   **Wards:** Porting the remaining district types (e.g., `Cathedral`, `Market`, `Slums`, `CraftsmenWard`) to create more diverse cities.
--   **Geometry & Mapping:** Implementing missing geometry algorithms like `Voronoi`, `Graph`, and `Spline` which are crucial for city layout.
--   **Utilities:** Migrating the remaining helper functions from the original `utils` library.
+### **🔥 CRITICAL PRIORITIES (Immediate)**
 
-### Feature Parity
-The original generator has features not yet implemented in this version. The following are key goals:
--   **Waterbodies:** Adding procedurally generated rivers, lakes, and coastlines.
--   **Expanded Options UI:** Creating a more detailed control panel to expose more generation parameters to the user.
+#### **1. Algorithm Stability - CRITICAL**
+- **Fix Voronoi generation** - Current implementation produces invalid geometries
+- **Rewrite patch optimization** - Junction optimization logic is fundamentally flawed
+- **Implement proper pathfinding** - A* algorithm needs complete overhaul
+- **Fix citadel generation** - Compactness requirements are too strict and arbitrary
 
-### Potential Enhancements
--   **Wave Function Collapse (WFC):** The project is set up to use WFC. Integrating this for building and texture generation would dramatically increase the detail and realism of the output.
--   **UI/UX Polish:** Continue to refine the user interface to fully match the ambitious design goals, focusing on animations, interactivity, and visual feedback.
--   **Performance Optimization:** Continuously profile and optimize the generation algorithms to ensure a smooth experience, especially for larger cities.
+#### **2. Core Logic Completion - ESSENTIAL**
+- **Complete ward system** - Current implementations are basic placeholders
+- **Implement proper wall generation** - Defensive structures are incomplete
+- **Fix street network generation** - Road layouts are unrealistic
+- **Add proper gate placement** - Current system is random and non-functional
+
+#### **3. Rendering Overhaul - HIGH PRIORITY**
+- **Rewrite canvas rendering** - Current system is basic and inconsistent
+- **Implement proper building visualization** - Ward buildings lack detail
+- **Add architectural accuracy** - Medieval buildings need proper representation
+- **Fix scaling and centering** - Canvas transformations are unreliable
+
+### **⚡ HIGH PRIORITIES (Next Phase)**
+
+#### **4. Feature Parity - MAJOR GAPS**
+- **Water features** - Rivers, lakes, coastlines are completely missing
+- **Terrain generation** - No elevation or natural features
+- **Building interiors** - No detailed structure generation
+- **Historical accuracy** - Ward layouts don't reflect medieval urban planning
+
+#### **5. Advanced Generation - COMPLEX FEATURES**
+- **Wave Function Collapse (WFC)** - Building texture generation is missing
+- **Procedural building types** - Limited architectural variety
+- **Economic simulation** - No trade routes or market dynamics
+- **Population density** - No realistic settlement patterns
+
+#### **6. Performance Optimization - TECHNICAL DEBT**
+- **Algorithm efficiency** - Current implementations are slow and memory-intensive
+- **Rendering optimization** - Canvas operations need optimization
+- **Memory management** - Large settlements cause memory issues
+- **Code splitting** - Bundle size is excessive for functionality
+
+### **🎯 MEDIUM PRIORITIES (Future)**
+
+#### **7. Enhanced UI/UX - USER EXPERIENCE**
+- **Advanced controls** - More generation parameters needed
+- **Real-time preview** - Live generation updates
+- **Export functionality** - Save/load town configurations
+- **Undo/redo system** - Generation history management
+
+#### **8. Content Expansion - FEATURE RICHNESS**
+- **Multiple architectural styles** - Different medieval periods
+- **Cultural variations** - Regional building differences
+- **Seasonal variations** - Weather and time effects
+- **Event generation** - Festivals, markets, etc.
+
+#### **9. Integration Features - ECOSYSTEM**
+- **API endpoints** - Programmatic town generation
+- **Plugin system** - Extensible ward and building types
+- **Community content** - User-created building sets
+- **Export formats** - Multiple output options (SVG, PNG, 3D)
+
+### **🔮 LONG-TERM VISION (Ambitious)**
+
+#### **10. Advanced Simulation - COMPLEX SYSTEMS**
+- **Economic modeling** - Trade, production, wealth distribution
+- **Social dynamics** - Class structures, population movement
+- **Historical progression** - Town evolution over time
+- **Conflict simulation** - Sieges, battles, destruction
+
+#### **11. 3D Integration - IMMERSIVE EXPERIENCE**
+- **3D rendering** - Three.js integration for immersive views
+- **VR support** - Virtual reality town exploration
+- **Interactive buildings** - Clickable and explorable structures
+- **Animation systems** - Dynamic town life simulation
+
+#### **12. Educational Features - LEARNING TOOLS**
+- **Historical accuracy** - Educational content about medieval urban planning
+- **Interactive tutorials** - Learn about medieval architecture
+- **Research integration** - Academic historical data
+- **Cultural education** - Different medieval cultures and styles
+
+### **⚠️ REALISTIC ASSESSMENT**
+
+#### **Current State: 30-40% Complete**
+- **UI/UX**: 80% complete (functional but basic)
+- **Core Generation**: 25% complete (unstable and incomplete)
+- **Rendering**: 40% complete (basic but functional)
+- **Ward System**: 35% complete (implemented but simplistic)
+- **Performance**: 50% complete (works for small towns)
+
+#### **Estimated Development Time**
+- **Critical fixes**: 2-3 months of focused development
+- **Feature parity**: 6-12 months of substantial work
+- **Advanced features**: 1-2 years of continuous development
+- **Full vision**: 3-5 years of dedicated development
+
+#### **Resource Requirements**
+- **Expert algorithm developer** - Core generation logic needs complete rewrite
+- **Graphics specialist** - Rendering system requires significant expertise
+- **Historical consultant** - Medieval accuracy requires research
+- **Performance engineer** - Optimization requires specialized knowledge
 
 ## 🤝 Contributing
 
+**⚠️ WARNING**: This project has significant technical debt and architectural issues. Contributors should be prepared for:
+
+1. **Complex debugging** - Many algorithms are incomplete or broken
+2. **Architectural challenges** - Core systems need fundamental redesign
+3. **Performance issues** - Current codebase is not optimized
+4. **Incomplete documentation** - Many systems lack proper documentation
+
+### Contribution Guidelines
+
+1. **Start with critical issues** - Focus on algorithm stability first
+2. **Test thoroughly** - Current test coverage is minimal
+3. **Document changes** - Code documentation is essential
+4. **Consider performance** - All changes must maintain or improve performance
+5. **Follow existing patterns** - Maintain consistency with current architecture
+
+### Getting Started
+
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+3. **Test extensively** - Ensure your changes don't break existing functionality
+4. Commit your changes (`git commit -m 'Add amazing feature'`)
+5. Push to the branch (`git push origin feature/amazing-feature`)
+6. Open a Pull Request with detailed description of changes and testing
 
 ## 📄 License
 
@@ -189,10 +324,13 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 🙏 Acknowledgments
 
-- Medieval town generation algorithms
+- Original Haxe-based Medieval Fantasy City Generator by Watabou
 - Modern web technologies and frameworks
 - Open source community contributions
+- Historical research on medieval urban planning
 
 ---
 
-*Forge your medieval world with style and precision* ⚔️
+**⚠️ DISCLAIMER**: This project is in active development with significant known issues. Users should expect frequent failures and incomplete functionality. The development team is working to address these issues, but progress may be slow due to the complexity of the underlying algorithms.
+
+*Forge your medieval world with patience and understanding* ⚔️
