@@ -1,12 +1,11 @@
-import { Model } from './Model';
+import { VillageGenerator, VillageOptions as VGenOptions } from './VillageGenerator';
 import { Polygon } from '@/types/polygon';
 import { Point } from '@/types/point';
 import { Street } from '@/types/street';
-import { CurtainWall } from './CurtainWall';
 
 export interface VillageOptions {
-  type: 'farming' | 'fishing' | 'fortified';
-  size: 'small' | 'medium';
+  type: 'farming' | 'fishing' | 'fortified' | 'forest' | 'crossroads';
+  size: 'tiny' | 'small' | 'medium';
   includeFarmland?: boolean;
   includeMarket?: boolean;
   includeWalls?: boolean;
@@ -18,11 +17,14 @@ export interface Building {
   type: string;
   polygon: Polygon;
   entryPoint: Point;
+  vocation?: string;
 }
 
 export interface Road {
   id: string;
-  pathPoints: Street;
+  pathPoints: Point[] | Street;
+  roadType?: 'main' | 'side' | 'path';
+  width?: number;
 }
 
 export interface Wall {
@@ -34,61 +36,73 @@ export interface VillageLayout {
   buildings: Building[];
   roads: Road[];
   walls: Wall[];
+  center?: Point;
+  bounds?: Polygon;
 }
 
 export async function generateVillageLayout(seed: string, options: VillageOptions): Promise<VillageLayout> {
-  const nPatches = options.size === 'small' ? 15 : 24;
+  // Convert village options to generator options
+  const generatorOptions: VGenOptions = {
+    size: options.size === 'tiny' ? 'tiny' : options.size, // Handle tiny size
+    setting: mapVillageTypeToSetting(options.type),
+    includeWalls: options.includeWalls,
+    seed: seed.charCodeAt(0)
+  };
 
-  const model = new Model(nPatches, seed.charCodeAt(0));
+  // Generate village using new system
+  const generator = new VillageGenerator(generatorOptions);
+  const villageData = generator.generateVillage();
 
-  const layout: VillageLayout = { buildings: [], roads: [], walls: [] };
+  // Convert to existing interface format
+  const layout: VillageLayout = {
+    buildings: villageData.buildings.map(building => ({
+      id: building.id,
+      type: building.type,
+      polygon: building.polygon,
+      entryPoint: building.entryPoint,
+      vocation: building.vocation
+    })),
+    roads: villageData.roads.map(road => ({
+      id: road.id,
+      pathPoints: road.pathPoints,
+      roadType: road.roadType,
+      width: road.width
+    })),
+    walls: [], // Initialize empty walls array
+    center: villageData.center,
+    bounds: villageData.bounds
+  };
 
-  for (const patch of model.patches) {
-    if (patch.ward && patch.ward.geometry) {
-      for (const poly of patch.ward.geometry) {
-        layout.buildings.push({
-          id: `bldg_${patch.ward.constructor.name}_${poly.vertices[0].x}_${poly.vertices[0].y}`,
-          type: patch.ward.constructor.name.toLowerCase(),
-          polygon: poly,
-          entryPoint: poly.vertices[0]
-        });
-      }
-    }
-  }
-
-  for (const street of model.streets) {
-    layout.roads.push({
-      id: `street_${street.vertices[0].x}_${street.vertices[0].y}`,
-      pathPoints: street
-    });
-  }
-
-  for (const road of model.roads) {
-    layout.roads.push({
-      id: `road_${road.vertices[0].x}_${road.vertices[0].y}`,
-      pathPoints: road
-    });
-  }
-
-  if (model.wall) {
-    layout.walls.push({
-      id: `wall_${model.wall.shape.vertices[0].x}_${model.wall.shape.vertices[0].y}`,
-      pathPoints: model.wall.shape
-    });
-  }
-
+  // Apply filtering based on options
   if (options.includeFarmland === false) {
     layout.buildings = layout.buildings.filter(b => b.type !== 'farm');
   }
   if (options.includeMarket === false) {
     layout.buildings = layout.buildings.filter(b => b.type !== 'market');
   }
-  if (options.includeWalls === false) {
-    layout.walls = [];
-  }
   if (options.includeWells === false) {
     layout.buildings = layout.buildings.filter(b => b.type !== 'well');
   }
 
+  // Add basic walls if requested (simple circular wall around village bounds)
+  if (options.includeWalls && villageData.bounds) {
+    layout.walls.push({
+      id: 'village_wall',
+      pathPoints: villageData.bounds
+    });
+  }
+
   return layout;
+}
+
+// Helper function to map old village types to new settings
+function mapVillageTypeToSetting(type: VillageOptions['type']): VGenOptions['setting'] {
+  switch (type) {
+    case 'farming': return 'farming';
+    case 'fishing': return 'coastal';
+    case 'fortified': return 'crossroads';
+    case 'forest': return 'forest';
+    case 'crossroads': return 'crossroads';
+    default: return 'farming';
+  }
 }

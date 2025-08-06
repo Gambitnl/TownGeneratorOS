@@ -21,31 +21,52 @@ export class CommonWard extends Ward {
 
   public createGeometry(): void {
     this.geometry = [];
-    
     const block = this.getCityBlock();
     if (block.vertices.length < 3) return;
 
-    // Create buildings with improved layout for small towns
-    try {
-      // Use createAlleys for more organic building layouts
-      const buildings = Ward.createAlleys(block, this.minSq, this.gridChaos, this.sizeChaos, this.emptyProb);
-      
-      // If createAlleys doesn't produce enough buildings, fall back to createOrthoBuilding
-      if (buildings.length === 0) {
-        const orthoBuildings = Ward.createOrthoBuilding(block, this.minSq, 0.6);
-        this.geometry.push(...orthoBuildings);
-      } else {
-        this.geometry.push(...buildings);
-      }
-      
-      // Ensure we have at least one building
-      if (this.geometry.length === 0) {
-        this.geometry.push(block);
-      }
-    } catch (error) {
-      console.warn('Error creating ward geometry, using fallback:', error);
-      this.geometry = [block];
+    const housesToBuild = Random.int(2, 4);
+
+    for (let i = 0; i < housesToBuild; i++) {
+        const house = this.createHouse(block);
+        if (house) {
+            this.geometry.push(house);
+        }
     }
+  }
+
+  private createHouse(block: Polygon): Polygon | null {
+    const houseSize = 10 + Random.float() * 5;
+    const aspectRatio = 0.7 + Random.float() * 0.6;
+
+    for (let i = 0; i < 10; i++) { // Try 10 times to place a house
+        const x = block.minX + Random.float() * (block.width - houseSize);
+        const y = block.minY + Random.float() * (block.height - houseSize * aspectRatio);
+        const center = new Point(x + houseSize / 2, y + houseSize * aspectRatio / 2);
+
+        if (block.contains(center)) {
+            const house = new Polygon([
+                new Point(x, y),
+                new Point(x + houseSize, y),
+                new Point(x + houseSize, y + houseSize * aspectRatio),
+                new Point(x, y + houseSize * aspectRatio),
+            ]);
+
+            // Check for overlaps with existing houses
+            let overlaps = false;
+            for (const existing of this.geometry) {
+                if (existing.overlaps(house)) {
+                    overlaps = true;
+                    break;
+                }
+            }
+
+            if (!overlaps) {
+                return house;
+            }
+        }
+    }
+
+    return null;
   }
 
   public static rateLocation(model: Model, patch: Patch): number {

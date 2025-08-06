@@ -52,15 +52,15 @@ export class Model {
 
     constructor(nPatches: number = -1, seed: number = -1) {
         if (seed > 0) Random.reset(seed);
-        this.nPatches = nPatches !== -1 ? nPatches : 15;
+        this.nPatches = nPatches !== -1 ? nPatches : 5; // Reduced default patches
 
         // Validate input parameters
-        if (this.nPatches < 5) this.nPatches = 5;
-        if (this.nPatches > 50) this.nPatches = 50;
+        if (this.nPatches < 2) this.nPatches = 2;
+        if (this.nPatches > 10) this.nPatches = 10;
 
-        this.plazaNeeded = Random.bool();
-        this.citadelNeeded = Random.bool();
-        this.wallsNeeded = Random.bool();
+        this.plazaNeeded = false; // No plaza
+        this.citadelNeeded = false; // No citadel
+        this.wallsNeeded = Random.bool(0.5); // 50% chance of walls
 
         this.patches = [];
         this.inner = [];
@@ -310,108 +310,18 @@ export class Model {
     private buildStreets(): void {
         // Initialize topology for pathfinding
         this.topology = new Topology(this);
-        
-        const smoothStreet = (street: Street): void => {
-            if (street.vertices.length < 3) return;
 
-            const smoothed = [street.vertices[0]];
-            for (let i = 1; i < street.vertices.length - 1; i++) {
-                const prev = street.vertices[i - 1];
-                const curr = street.vertices[i];
-                const next = street.vertices[i + 1];
-
-                // Simple smoothing: average of three points
-                const smoothedPoint = new Point(
-                    (prev.x + curr.x + next.x) / 3,
-                    (prev.y + curr.y + next.y) / 3
-                );
-                smoothed.push(smoothedPoint);
-            }
-            smoothed.push(street.vertices[street.vertices.length - 1]);
-            street.vertices = smoothed;
-        };
-
-        // Build main streets from gates to center/plaza
-        for (const gate of this.gates) {
-            const target = this.plaza ? this.plaza.center : this.center;
-            
-            // Try to build a proper street using topology
-            let street: Street | null = null;
-            
-            if (this.topology) {
-                street = this.topology.buildPath(gate, target, []);
-            }
-            
-            if (street && street.vertices.length > 1) {
+        // Build one main street
+        if (this.gates.length > 1) {
+            const gate1 = this.gates[0];
+            const gate2 = this.gates[this.gates.length - 1];
+            const street = this.topology.buildPath(gate1, gate2, []);
+            if (street) {
                 this.streets.push(street);
-            } else {
-                // Fallback: create a direct street with some randomization
-                console.warn(`Unable to build street from gate to ${this.plaza ? 'plaza' : 'center'}, creating fallback path...`);
-                
-                // Create a slightly randomized direct path instead of a straight line
-                const midPoint = new Point(
-                    (gate.x + target.x) / 2 + (Random.float() - 0.5) * 20,
-                    (gate.y + target.y) / 2 + (Random.float() - 0.5) * 20
-                );
-                
-                const fallbackStreet = new Street([gate, midPoint, target]);
-                this.streets.push(fallbackStreet);
-            }
-        }
-
-        // Build secondary streets between gates
-        for (let i = 0; i < this.gates.length; i++) {
-            for (let j = i + 1; j < this.gates.length; j++) {
-                const gate1 = this.gates[i];
-                const gate2 = this.gates[j];
-                
-                // Only connect gates that are reasonably close to each other
-                const distance = Point.distance(gate1, gate2);
-                if (distance > this.cityRadius * 0.8) continue;
-                
-                let street: Street | null = null;
-                
-                if (this.topology) {
-                    street = this.topology.buildPath(gate1, gate2, []);
-                }
-                
-                if (street && street.vertices.length > 1) {
-                    this.streets.push(street);
-                }
-            }
-        }
-
-        // Build roads (smaller streets) within wards
-        for (const patch of this.inner) {
-            if (patch.ward && Random.bool(0.3)) { // 30% chance for each ward to have internal roads
-                const wardCenter = patch.center;
-                const wardVertices = patch.shape.vertices;
-                
-                // Create roads to some vertices of the ward
-                for (let i = 0; i < wardVertices.length; i += 2) { // Skip every other vertex to avoid too many roads
-                    const vertex = wardVertices[i];
-                    const distance = Point.distance(wardCenter, vertex);
-                    
-                    if (distance > 10) { // Only create roads to distant vertices
-                        const road = new Street([wardCenter, vertex]);
-                        this.roads.push(road);
-                    }
-                }
             }
         }
 
         this.tidyUpRoads();
-
-        // Smooth all streets and roads
-        for (const artery of this.arteries) {
-            smoothStreet(artery);
-        }
-        for (const street of this.streets) {
-            smoothStreet(street);
-        }
-        for (const road of this.roads) {
-            smoothStreet(road);
-        }
     }
 
     private tidyUpRoads(): void {
@@ -474,92 +384,12 @@ export class Model {
 
     private createWards(): void {
         const unassigned = [...this.inner];
-        
-        // Assign plaza ward first
-        if (this.plaza) {
-            this.plaza.ward = new Market(this, this.plaza);
-            unassigned.splice(unassigned.indexOf(this.plaza), 1);
-        }
 
-        // Assign gate wards for inner city gates
-        for (const gate of this.border!.gates) {
-            for (const patch of this.patchByVertex(gate)) {
-                if (patch.withinCity && patch.ward === null && Random.bool(this.wall === null ? 0.2 : 0.5)) {
-                    patch.ward = new GateWard(this, patch);
-                    const index = unassigned.indexOf(patch);
-                    if (index !== -1) {
-                        unassigned.splice(index, 1);
-                    }
-                }
-            }
-        }
-
-        // Define ward types with better distribution for small towns
-        const wardTypes = [
-            CraftsmenWard, CraftsmenWard, MerchantWard, CraftsmenWard, CraftsmenWard, Cathedral,
-            CraftsmenWard, CraftsmenWard, CraftsmenWard, CraftsmenWard, CraftsmenWard,
-            CraftsmenWard, CraftsmenWard, CraftsmenWard, AdministrationWard, CraftsmenWard,
-            Slum, CraftsmenWard, Slum, PatriciateWard, Market,
-            Slum, CraftsmenWard, CraftsmenWard, CraftsmenWard, Slum,
-            CraftsmenWard, CraftsmenWard, CraftsmenWard, MilitaryWard, Slum,
-            CraftsmenWard, Park, PatriciateWard, Market, MerchantWard
-        ];
-
-        // Shuffle ward types slightly for variety
-        for (let i = 0; i < Math.floor(wardTypes.length / 10); i++) {
-            const index = Random.int(0, wardTypes.length - 1);
-            const tmp = wardTypes[index];
-            wardTypes[index] = wardTypes[index + 1];
-            wardTypes[index + 1] = tmp;
-        }
-
-        // Assign remaining wards based on rating
-        while (unassigned.length > 0) {
-            let bestPatch: Patch | null = null;
-            const wardClass = wardTypes.length > 0 ? wardTypes.shift()! : Slum;
-            
-            // Find the best patch for this ward type
-            if (wardClass.rateLocation) {
-                let bestScore = -Infinity;
-                for (const patch of unassigned) {
-                    if (patch.ward === null) {
-                        const score = wardClass.rateLocation(this, patch);
-                        if (score > bestScore) {
-                            bestScore = score;
-                            bestPatch = patch;
-                        }
-                    }
-                }
-            } else {
-                // Random assignment if no rating function
-                const availablePatches = unassigned.filter(p => p.ward === null);
-                if (availablePatches.length > 0) {
-                    bestPatch = availablePatches[Random.int(0, availablePatches.length - 1)];
-                }
-            }
-
-            if (bestPatch) {
-                bestPatch.ward = new wardClass(this, bestPatch);
-                const index = unassigned.indexOf(bestPatch);
-                if (index !== -1) {
-                    unassigned.splice(index, 1);
-                }
-            } else {
-                break; // No more patches available
-            }
-        }
-
-        // Assign outskirts wards if walls exist
-        if (this.wall) {
-            for (const gate of this.wall.gates) {
-                if (!Random.bool(1 / (this.nPatches - 5))) {
-                    for (const patch of this.patchByVertex(gate)) {
-                        if (patch.ward === null) {
-                            patch.withinCity = true;
-                            patch.ward = new GateWard(this, patch);
-                        }
-                    }
-                }
+        // Assign a few common wards (houses)
+        for (let i = 0; i < Math.min(unassigned.length, 3); i++) {
+            const patch = unassigned[i];
+            if (patch) {
+                patch.ward = new CommonWard(this, patch);
             }
         }
     }

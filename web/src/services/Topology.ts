@@ -84,16 +84,66 @@ export class Topology {
         return this.blocked.some((p: Point) => p.x === v.x && p.y === v.y) ? null : n;
     }
 
+    private findClosestNode(point: Point): Node | null {
+        let closestNode: Node | null = null;
+        let minDistance = Infinity;
+
+        for (const [node, p] of this.node2pt.entries()) {
+            const distance = Point.distance(point, p);
+            if (distance < minDistance) {
+                minDistance = distance;
+                closestNode = node;
+            }
+        }
+        return closestNode;
+    }
+
     public buildPath(from: Point, to: Point, exclude: Node[] = []): Street | null {
+        let startNode: Node | null;
         const startNodePoint = Array.from(this.pt2node.keys()).find((p: Point) => p.x === from.x && p.y === from.y);
+        const fromPointIsNode = startNodePoint !== undefined;
+
+        if (fromPointIsNode) {
+            startNode = this.pt2node.get(startNodePoint!)!;
+        } else {
+            startNode = this.findClosestNode(from);
+        }
+
+        if (!startNode) {
+            console.warn("Pathfinding: 'from' point could not be resolved to a graph node.");
+            return null;
+        }
+
+        let endNode: Node | null;
         const endNodePoint = Array.from(this.pt2node.keys()).find((p: Point) => p.x === to.x && p.y === to.y);
+        const toPointIsNode = endNodePoint !== undefined;
 
-        if (!startNodePoint || !endNodePoint) return null;
+        if (toPointIsNode) {
+            endNode = this.pt2node.get(endNodePoint!)!;
+        } else {
+            endNode = this.findClosestNode(to);
+        }
 
-        const startNode = this.pt2node.get(startNodePoint)!;
-        const endNode = this.pt2node.get(endNodePoint)!;
+        if (!endNode) {
+            console.warn("Pathfinding: 'to' point could not be resolved to a graph node.");
+            return null;
+        }
 
         const path = this.graph.aStar(startNode, endNode, exclude);
-        return path === null ? null : new Street(path.map((n: Node) => this.node2pt.get(n)!));
+        if (path === null) {
+            return null;
+        }
+
+        const streetPath = path.map((n: Node) => this.node2pt.get(n)!);
+
+        if (!fromPointIsNode) {
+            streetPath.unshift(from);
+        }
+
+        if (!toPointIsNode) {
+            streetPath.push(to);
+        }
+
+        return new Street(streetPath);
     }
 }

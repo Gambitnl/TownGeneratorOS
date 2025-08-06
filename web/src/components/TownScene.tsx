@@ -6,6 +6,7 @@ import { Header } from './Header';
 import { ControlPanel } from './ControlPanel';
 import { LoadingSpinner } from './LoadingSpinner';
 import { Tooltip } from './Tooltip';
+import { Button } from './Button';
 
 const containerStyles: React.CSSProperties = {
   minHeight: '100vh',
@@ -18,6 +19,15 @@ const mainContentStyles: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
   minHeight: '100vh',
+};
+
+const headerStyles: React.CSSProperties = {
+  width: '100%',
+  padding: '1rem 2rem',
+  background: 'rgba(0, 0, 0, 0.2)',
+  backdropFilter: 'blur(10px)',
+  borderBottom: '1px solid var(--border-color)',
+  zIndex: 10,
 };
 
 
@@ -79,12 +89,48 @@ const errorMessageStyles: React.CSSProperties = {
   marginBottom: '1rem',
 };
 
+const zoomControlsStyles: React.CSSProperties = {
+  position: 'absolute',
+  bottom: '2rem',
+  right: '2rem',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.5rem',
+  zIndex: 20,
+};
+
 export const TownScene: React.FC = () => {
   const [model, setModel] = useState<Model | null>(null);
   const [tooltipText, setTooltipText] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [loadingMessage, setLoadingMessage] = useState('Initializing...');
+  const [zoom, setZoom] = useState(1);
+  const [isPanning, setIsPanning] = useState(false);
+  const [panStart, setPanStart] = useState({ x: 0, y: 0 });
+  const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
+
+  const handleZoomIn = () => setZoom(prev => Math.min(prev * 1.2, 3));
+  const handleZoomOut = () => setZoom(prev => Math.max(prev / 1.2, 0.5));
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (e.button !== 0) return;
+    setIsPanning(true);
+    setPanStart({ x: e.clientX - panOffset.x, y: e.clientY - panOffset.y });
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isPanning) return;
+    setPanOffset({ x: e.clientX - panStart.x, y: e.clientY - panStart.y });
+  };
+
+  const handleMouseUp = () => {
+    setIsPanning(false);
+  };
+
+  const handleMouseLeave = () => {
+    setIsPanning(false);
+  };
 
   const loadingMessages = [
     'Generating terrain...',
@@ -225,7 +271,18 @@ export const TownScene: React.FC = () => {
               </p>
             </div>
           ) : model ? (
-            <div style={mapWrapperStyles} className="fade-in map-wrapper">
+            <div 
+              style={{
+                ...mapWrapperStyles, 
+                transform: `translate(${panOffset.x}px, ${panOffset.y}px) scale(${zoom})`,
+                cursor: isPanning ? 'grabbing' : 'grab',
+              }}
+              className="fade-in map-wrapper"
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseLeave}
+            >
               <div style={mapOverlayStyles}></div>
               <CityMap model={model} />
             </div>
@@ -240,6 +297,10 @@ export const TownScene: React.FC = () => {
         />
       </div>
       
+      <div style={zoomControlsStyles}>
+        <Button onClick={handleZoomIn} variant="secondary" title="Zoom In">➕</Button>
+        <Button onClick={handleZoomOut} variant="secondary" title="Zoom Out">➖</Button>
+      </div>
     </div>
   );
 };
