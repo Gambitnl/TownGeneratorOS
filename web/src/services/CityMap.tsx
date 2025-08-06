@@ -44,27 +44,49 @@ export const CityMap: React.FC<CityMapProps> = ({ model }) => {
   });
   const [mapElements, setMapElements] = useState<MapElement[]>([]);
 
+  const transform = useRef({ x: 0, y: 0, scale: 1 });
+
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) {
-      return;
-    }
+    if (!canvas) return;
+
+    const resizeObserver = new ResizeObserver(() => {
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      ctx.scale(dpr, dpr);
+      drawMap();
+    });
+
+    resizeObserver.observe(canvas);
+
+    return () => resizeObserver.disconnect();
+  }, [model]);
+
+  useEffect(() => {
+    drawMap();
+  }, [model]);
+
+  const drawMap = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
-    if (!ctx) {
-      return;
-    }
+    if (!ctx) return;
 
-    // Set canvas size
-    canvas.width = 800;
-    canvas.height = 600;
+    const rect = canvas.getBoundingClientRect();
 
     const palette = Palette.DEFAULT;
     const brush = new Brush(palette);
 
     // Clear canvas with background
     ctx.fillStyle = `#${palette.paper.toString(16)}`;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillRect(0, 0, rect.width, rect.height);
 
     // Calculate bounds for centering
     let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
@@ -78,9 +100,14 @@ export const CityMap: React.FC<CityMapProps> = ({ model }) => {
       }
     }
 
-    const scale = Math.min(700 / (maxX - minX), 500 / (maxY - minY)) * 0.8;
-    const offsetX = (canvas.width - (maxX - minX) * scale) / 2 - minX * scale;
-    const offsetY = (canvas.height - (maxY - minY) * scale) / 2 - minY * scale;
+    const mapWidth = maxX - minX;
+    const mapHeight = maxY - minY;
+
+    const scale = Math.min(rect.width / mapWidth, rect.height / mapHeight) * 0.9;
+    const offsetX = (rect.width - mapWidth * scale) / 2 - minX * scale;
+    const offsetY = (rect.height - mapHeight * scale) / 2 - minY * scale;
+
+    transform.current = { x: offsetX, y: offsetY, scale };
 
     // Apply transformation
     ctx.save();
@@ -93,7 +120,7 @@ export const CityMap: React.FC<CityMapProps> = ({ model }) => {
     for (const patch of model.patches) {
       const ward = patch.ward;
       if (ward) {
-        const element = drawWard(ctx, brush, ward, palette);
+        const element = drawWard(ctx, brush, ward, palette, elements);
         if (element) {
           elements.push(element);
         }
@@ -126,14 +153,14 @@ export const CityMap: React.FC<CityMapProps> = ({ model }) => {
 
     // Draw walls
     if (model.wall) {
-      const element = drawWall(ctx, brush, model.wall, false, palette);
+      const element = drawWall(ctx, brush, model.wall, false, palette, elements);
       if (element) {
         elements.push(element);
       }
     }
 
     if (model.border) {
-      const element = drawWall(ctx, brush, model.border, false, palette);
+      const element = drawWall(ctx, brush, model.border, false, palette, elements);
       if (element) {
         elements.push(element);
       }
@@ -141,23 +168,20 @@ export const CityMap: React.FC<CityMapProps> = ({ model }) => {
 
     // Draw citadel
     if (model.citadel && model.citadel.ward instanceof Castle) {
-      const element = drawWall(ctx, brush, (model.citadel.ward as Castle).wall, true, palette);
+      const element = drawWall(ctx, brush, (model.citadel.ward as Castle).wall, true, palette, elements);
       if (element) {
         elements.push(element);
       }
     }
 
-    // Add a debug element for testing tooltip system
-    const debugElement: MapElement = {
-      type: 'ward',
-      element: null,
-      bounds: { minX: -50, minY: -50, maxX: 50, maxY: 50 },
-      tooltip: 'DEBUG: Test Element - Tooltip System Working!'
-    };
-    elements.push(debugElement);
+    
 
     ctx.restore();
     setMapElements(elements);
+  };
+
+  useEffect(() => {
+    drawMap();
   }, [model]);
 
   const handleMouseMove = (event: React.MouseEvent<HTMLCanvasElement>) => {
@@ -192,16 +216,7 @@ export const CityMap: React.FC<CityMapProps> = ({ model }) => {
     const canvas = canvasRef.current;
     if (!canvas || mapElements.length === 0) return null;
 
-    // Calculate the same transformation used in drawing
-    const allVertices = model.patches.flatMap(patch => patch.shape.vertices);
-    const minX = Math.min(...allVertices.map(v => v.x));
-    const maxX = Math.max(...allVertices.map(v => v.x));
-    const minY = Math.min(...allVertices.map(v => v.y));
-    const maxY = Math.max(...allVertices.map(v => v.y));
-
-    const scale = Math.min(700 / (maxX - minX), 500 / (maxY - minY)) * 0.8;
-    const offsetX = (canvas.width - (maxX - minX) * scale) / 2 - minX * scale;
-    const offsetY = (canvas.height - (maxY - minY) * scale) / 2 - minY * scale;
+    const { x: offsetX, y: offsetY, scale } = transform.current;
 
     // Transform mouse coordinates to world coordinates
     const worldX = (x - offsetX) / scale;
@@ -218,7 +233,7 @@ export const CityMap: React.FC<CityMapProps> = ({ model }) => {
     return null;
   };
 
-  const drawWard = (ctx: CanvasRenderingContext2D, brush: Brush, ward: Ward, palette: Palette): MapElement | null => {
+  const drawWard = (ctx: CanvasRenderingContext2D, brush: Brush, ward: Ward, palette: Palette, elements: MapElement[]): MapElement | null => {
     const patch = ward.patch;
     
     // Determine ward color based on type with improved contrast
@@ -315,7 +330,8 @@ export const CityMap: React.FC<CityMapProps> = ({ model }) => {
 
     // Draw ward geometry if available with better detail
     if (ward.geometry && ward.geometry.length > 0) {
-      drawBuilding(ctx, brush, ward.geometry, fillColor, strokeColor, 1);
+      const buildingElements = drawBuilding(ctx, brush, ward.geometry, fillColor, strokeColor, 1);
+      elements.push(...buildingElements);
     }
 
     return {
@@ -376,7 +392,7 @@ export const CityMap: React.FC<CityMapProps> = ({ model }) => {
     };
   };
 
-  const drawWall = (ctx: CanvasRenderingContext2D, brush: Brush, wall: CurtainWall, large: boolean, palette: Palette): MapElement | null => {
+  const drawWall = (ctx: CanvasRenderingContext2D, brush: Brush, wall: CurtainWall, large: boolean, palette: Palette, elements: MapElement[]): MapElement | null => {
     // Calculate bounds
     let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
     for (const point of wall.shape.vertices) {
@@ -400,12 +416,12 @@ export const CityMap: React.FC<CityMapProps> = ({ model }) => {
 
     // Draw gates
     for (const gate of wall.gates) {
-      drawGate(ctx, brush, wall.shape, gate, palette);
+      elements.push(drawGate(ctx, brush, wall.shape, gate, palette));
     }
 
     // Draw towers
     for (const tower of wall.towers) {
-      drawTower(ctx, brush, tower, large ? 3 : 2, palette);
+      elements.push(drawTower(ctx, brush, tower, large ? 3 : 2, palette));
     }
 
     return {
@@ -416,7 +432,7 @@ export const CityMap: React.FC<CityMapProps> = ({ model }) => {
     };
   };
 
-  const drawTower = (ctx: CanvasRenderingContext2D, brush: Brush, p: Point, r: number, palette: Palette) => {
+  const drawTower = (ctx: CanvasRenderingContext2D, brush: Brush, p: Point, r: number, palette: Palette): MapElement => {
     ctx.fillStyle = `#${palette.dark.toString(16)}`;
     ctx.beginPath();
     ctx.arc(p.x, p.y, r, 0, 2 * Math.PI);
@@ -425,9 +441,16 @@ export const CityMap: React.FC<CityMapProps> = ({ model }) => {
     ctx.strokeStyle = `#${palette.medium.toString(16)}`;
     ctx.lineWidth = 1;
     ctx.stroke();
+
+    return {
+      type: 'tower',
+      element: p,
+      bounds: { minX: p.x - r, minY: p.y - r, maxX: p.x + r, maxY: p.y + r },
+      tooltip: 'Tower'
+    };
   };
 
-  const drawGate = (ctx: CanvasRenderingContext2D, brush: Brush, wall: Polygon, gate: Point, palette: Palette) => {
+  const drawGate = (ctx: CanvasRenderingContext2D, brush: Brush, wall: Polygon, gate: Point, palette: Palette): MapElement => {
     ctx.strokeStyle = `#${palette.dark.toString(16)}`;
     ctx.lineWidth = 3;
     
@@ -439,9 +462,18 @@ export const CityMap: React.FC<CityMapProps> = ({ model }) => {
     ctx.moveTo(gate.x - dir.x, gate.y - dir.y);
     ctx.lineTo(gate.x + dir.x, gate.y + dir.y);
     ctx.stroke();
+
+    return {
+      type: 'gate',
+      element: gate,
+      bounds: { minX: gate.x - 2, minY: gate.y - 2, maxX: gate.x + 2, maxY: gate.y + 2 },
+      tooltip: 'Gate'
+    };
   };
 
-  const drawBuilding = (ctx: CanvasRenderingContext2D, brush: Brush, blocks: Polygon[], fill: number, line: number, thickness: number) => {
+  const drawBuilding = (ctx: CanvasRenderingContext2D, brush: Brush, blocks: Polygon[], fill: number, line: number, thickness: number): MapElement[] => {
+    const elements: MapElement[] = [];
+
     ctx.strokeStyle = `#${line.toString(16)}`;
     ctx.lineWidth = thickness;
     
@@ -452,6 +484,21 @@ export const CityMap: React.FC<CityMapProps> = ({ model }) => {
       }
       ctx.closePath();
       ctx.stroke();
+
+      let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+      for (const vertex of block.vertices) {
+        minX = Math.min(minX, vertex.x);
+        minY = Math.min(minY, vertex.y);
+        maxX = Math.max(maxX, vertex.x);
+        maxY = Math.max(maxY, vertex.y);
+      }
+
+      elements.push({
+        type: 'ward',
+        element: block,
+        bounds: { minX, minY, maxX, maxY },
+        tooltip: 'Building'
+      });
     }
 
     ctx.fillStyle = `#${fill.toString(16)}`;
@@ -463,6 +510,8 @@ export const CityMap: React.FC<CityMapProps> = ({ model }) => {
       ctx.closePath();
       ctx.fill();
     }
+
+    return elements;
   };
 
   return (

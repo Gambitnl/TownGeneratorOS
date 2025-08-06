@@ -20,15 +20,15 @@ const mainContentStyles: React.CSSProperties = {
   minHeight: '100vh',
 };
 
+
+
 const mapContainerStyles: React.CSSProperties = {
   flex: 1,
-  position: 'relative',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
   padding: '2rem',
-  paddingRight: '400px', // Make room for control panel
-  minHeight: 'calc(100vh - 200px)', // Account for header
+  overflow: 'auto',
 };
 
 const mapWrapperStyles: React.CSSProperties = {
@@ -208,7 +208,7 @@ export const TownScene: React.FC = () => {
   return (
     <div style={containerStyles}>
       <div style={mainContentStyles}>
-        <Header />
+        <Header style={headerStyles} />
         
         <div style={mapContainerStyles} className="map-container">
           {loading ? (
@@ -236,10 +236,10 @@ export const TownScene: React.FC = () => {
           onGenerate={handleGenerate}
           onRandomGenerate={handleRandomGenerate}
           isLoading={loading}
+          style={{ gridColumn: '2 / 3', gridRow: '2 / 3' }}
         />
-        
-        {/* Tooltip is now handled by CityMap component */}
       </div>
+      
     </div>
   );
 };

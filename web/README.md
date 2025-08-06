@@ -2,57 +2,35 @@
 
 A sophisticated web application for generating procedural medieval settlements with an immersive, modern UI. Create unique towns, cities, and villages with realistic layouts, districts, walls, and road networks.
 
-## ⚠️ **CRITICAL PROJECT STATUS - UPDATED v0.2.0**
+## ⚠️ **CRITICAL PROJECT STATUS - UPDATED v0.3.0**
 
-**This project has been significantly enhanced and is now in STABLE BETA state.** The critical infinite recursion issues have been resolved, tooltip functionality has been added, and small town generation has been greatly improved. The application now generates towns reliably with interactive features.
+**This project is in a STABLE BETA state.** The rendering engine has been significantly overhauled to resolve critical scaling and layout issues. The application now provides a responsive and visually consistent experience across all devices. While generation quality remains a priority, the user-facing experience is now substantially more robust.
 
-### **✅ RECENT CRITICAL FIXES & ENHANCEMENTS (December 2024)**
+### **✅ RECENT CRITICAL FIXES & ENHANCEMENTS (v0.3.0)**
 
-#### **1. Interactive Features - NEW**
-- **✅ Added mouse hover tooltips** for all map elements (wards, streets, walls, gates)
-- **✅ Enhanced map interaction** with detailed information on hover
-- **✅ Improved visual feedback** with cursor changes and tooltip positioning
-- **✅ Added element identification** for better user experience
+#### **1. Responsive Rendering Engine - NEW**
+- **✅ Implemented a fully responsive canvas** that adapts to container size changes.
+- **✅ Correctly handles device pixel ratio** for crisp rendering on high-DPI screens.
+- **✅ Dynamic map scaling and centering** ensures the entire town is always visible and properly centered.
+- **✅ Optimized tooltip positioning** with a cached transformation matrix for efficiency.
 
-#### **2. Small Town Generation - MAJOR IMPROVEMENT**
-- **✅ Improved patch generation** based on original Haxe implementation
-- **✅ Enhanced ward assignment** with better distribution and rating system
-- **✅ Better building layouts** using createAlleys for organic structures
-- **✅ Improved geometry generation** with fallback mechanisms
-- **✅ Enhanced market layouts** with proper stalls and open spaces
-
-#### **3. Algorithm Stability - RESOLVED**
-- **✅ Fixed infinite recursion** in `Ward.createAlleys()` and `Ward.createOrthoBuilding()` methods
-- **✅ Implemented proper `findLongestEdge()`** algorithm with safety checks
-- **✅ Added recursion depth limits** and validation to prevent stack overflows
-- **✅ Fixed Polygon constructor** to avoid unnecessary object creation
-- **✅ Resolved Ward inheritance issues** by correcting import paths and method visibility
-
-#### **4. Error Handling - IMPROVED**
-- **✅ Added comprehensive error handling** in Model constructor with fallback generation
-- **✅ Implemented input validation** for patch counts and other parameters
-- **✅ Added safety checks** throughout the generation pipeline
-- **✅ Created fallback model generation** for when primary generation fails
-
-#### **5. Street Generation - STABILIZED**
-- **✅ Improved pathfinding robustness** with better fallback mechanisms
-- **✅ Enhanced street network generation** with secondary connections between gates
-- **✅ Added internal road generation** within wards
-- **✅ Implemented street smoothing** for more natural road layouts
+#### **2. Robust Layout System - MAJOR IMPROVEMENT**
+- **✅ Rebuilt the main layout using CSS Grid** for a flexible and responsive design.
+- **✅ Removed all hardcoded dimensions** that caused layout issues.
+- **✅ Added media queries** to ensure the layout adapts to different screen sizes, including a stacked layout for mobile devices.
 
 ### **🚨 REMAINING CRITICAL ISSUES**
 
-#### **1. Generation Quality - MEDIUM PRIORITY**
-- **Voronoi generation** still produces some irregular patch shapes that need optimization
-- **Ward placement** algorithms could be more historically accurate
-- **Wall generation** creates basic structures but lacks defensive realism
-- **Building variety** is limited and needs more architectural diversity
+#### **1. Generation Quality - HIGH PRIORITY**
+- **Voronoi generation** still produces some irregular patch shapes that need optimization.
+- **Ward placement** algorithms could be more historically accurate.
+- **Wall generation** creates basic structures but lacks defensive realism.
+- **Building variety** is limited and needs more architectural diversity.
 
 #### **2. Rendering Problems - VISUAL ISSUES**
-- **Canvas scaling** is inconsistent across different town sizes
-- **Ward visualization** lacks proper building detail and architectural accuracy
-- **Color schemes** are basic and don't reflect medieval aesthetics
-- **Performance** degrades with larger settlements
+- **Ward visualization** lacks proper building detail and architectural accuracy.
+- **Color schemes** are basic and don't reflect medieval aesthetics.
+- **Performance** degrades with larger settlements.
 
 #### **3. Missing Core Features - INCOMPLETE IMPLEMENTATION**
 - **Water features** (rivers, lakes, coastlines) are completely absent

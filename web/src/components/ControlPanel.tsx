@@ -134,34 +134,54 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
     <div className="control-panel">
       <div className="control-section">
         <h3>Generate Settlement</h3>
-        <div className="button-grid">
+        <div className="button-stack">
           <Button 
             variant="primary" 
+            className="generation-button"
             onClick={() => handleSizeGenerate('village')}
             disabled={isLoading}
+            title="Generates a small settlement (6-8 patches)"
           >
-            Village
+            <div>
+              <span role="img" aria-label="village icon">🏡</span> Village (Small)
+              <p>A small, quiet settlement with a few houses and a single main road.</p>
+            </div>
           </Button>
           <Button 
             variant="primary" 
+            className="generation-button"
             onClick={() => handleSizeGenerate('town')}
             disabled={isLoading}
+            title="Generates a medium settlement (10-15 patches)"
           >
-            Town
+            <div>
+              <span role="img" aria-label="town icon">🏘️</span> Town (Medium)
+              <p>A bustling town with a market, a church, and several streets.</p>
+            </div>
           </Button>
           <Button 
             variant="primary" 
+            className="generation-button"
             onClick={() => handleSizeGenerate('city')}
             disabled={isLoading}
+            title="Generates a large settlement (18-25 patches)"
           >
-            City
+            <div>
+              <span role="img" aria-label="city icon">🏙️</span> City (Large)
+              <p>A large, walled city with multiple districts and a complex road network.</p>
+            </div>
           </Button>
           <Button 
             variant="primary" 
+            className="generation-button"
             onClick={() => handleSizeGenerate('capital')}
             disabled={isLoading}
+            title="Generates a huge settlement (28-40 patches)"
           >
-            Capital
+            <div>
+              <span role="img" aria-label="capital icon">🏰</span> Capital (Huge)
+              <p>A massive capital city with a castle, a cathedral, and a sprawling metropolis.</p>
+            </div>
           </Button>
           <Button 
             variant="secondary" 
@@ -454,6 +474,25 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
       )}
 
       {isLoading && <LoadingSpinner />}
+
+      <style>{`
+        .button-stack {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+        .generation-button {
+          padding: 1.5rem;
+          text-align: left;
+          display: flex;
+          flex-direction: column;
+        }
+        .generation-button p {
+          font-size: 0.875rem;
+          margin: 0.5rem 0 0 0;
+          color: var(--text-secondary);
+        }
+      `}</style>
     </div>
   );
 };

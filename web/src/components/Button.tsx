@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 
 interface ButtonProps {
-  label: string;
+  children: React.ReactNode;
   onClick: () => void;
-  variant?: 'primary' | 'secondary' | 'accent';
+  variant?: 'primary' | 'secondary' | 'accent' | 'outline';
   size?: 'small' | 'medium' | 'large';
   disabled?: boolean;
   icon?: string;
+  className?: string;
+  title?: string;
 }
 
 const getButtonStyles = (
@@ -89,6 +91,11 @@ const getButtonStyles = (
       color: disabled ? 'var(--text-muted)' : 'var(--text-primary)',
       border: `1px solid ${disabled ? 'var(--border-color)' : 'transparent'}`,
     },
+  outline: {
+      background: 'transparent',
+      color: 'var(--text-primary)',
+      border: `1px solid ${isHovered ? 'var(--gold)' : 'var(--border-color)'}`,
+    },
   };
 
   return {
@@ -104,12 +111,14 @@ const iconStyles: React.CSSProperties = {
 };
 
 export const Button: React.FC<ButtonProps> = ({ 
-  label, 
+  children, 
   onClick, 
   variant = 'primary', 
   size = 'medium',
   disabled = false,
-  icon
+  icon,
+  className,
+  title
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
@@ -132,10 +141,11 @@ export const Button: React.FC<ButtonProps> = ({
       onMouseDown={() => setIsPressed(true)}
       onMouseUp={() => setIsPressed(false)}
       disabled={disabled}
-      className="fade-in"
+      className={`fade-in ${className}`}
+      title={title}
     >
       {icon && <span style={iconStyles}>{icon}</span>}
-      {label}
+      {children}
     </button>
   );
 };
