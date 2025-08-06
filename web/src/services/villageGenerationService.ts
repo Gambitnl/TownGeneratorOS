@@ -29,7 +29,16 @@ export interface Road {
 
 export interface Wall {
   id: string;
-  pathPoints: Polygon;
+  pathPoints?: Polygon; // For backwards compatibility
+  segments?: Point[];   // New wall format
+  gates?: Gate[];
+}
+
+export interface Gate {
+  id: string;
+  position: Point;
+  direction: number;
+  width: number;
 }
 
 export interface VillageLayout {
@@ -68,7 +77,16 @@ export async function generateVillageLayout(seed: string, options: VillageOption
       roadType: road.roadType,
       width: road.width
     })),
-    walls: [], // Initialize empty walls array
+    walls: villageData.walls.map(wall => ({
+      id: wall.id,
+      segments: wall.segments,
+      gates: wall.gates.map(gate => ({
+        id: gate.id,
+        position: gate.position,
+        direction: gate.direction,
+        width: gate.width
+      }))
+    })),
     center: villageData.center,
     bounds: villageData.bounds
   };
@@ -84,13 +102,8 @@ export async function generateVillageLayout(seed: string, options: VillageOption
     layout.buildings = layout.buildings.filter(b => b.type !== 'well');
   }
 
-  // Add basic walls if requested (simple circular wall around village bounds)
-  if (options.includeWalls && villageData.bounds) {
-    layout.walls.push({
-      id: 'village_wall',
-      pathPoints: villageData.bounds
-    });
-  }
+  // Walls are now generated automatically by the VillageGenerator based on size/chance
+  // No need to add them manually here
 
   return layout;
 }

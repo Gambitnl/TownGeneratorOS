@@ -35,6 +35,23 @@ class Random {
   public static fuzzy(f: number = 1.0): number {
     return f === 0 ? 0.5 : (1 - f) / 2 + f * Random.normal();
   }
+
+  public static choose<T>(array: T[]): T {
+    if (array.length === 0) {
+      throw new Error('Cannot choose from empty array');
+    }
+    const index = Random.int(0, array.length);
+    return array[index];
+  }
+
+  public static shuffle<T>(array: T[]): T[] {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Random.int(0, i + 1);
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  }
 }
 
 export { Random };

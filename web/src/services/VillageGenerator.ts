@@ -2,6 +2,7 @@ import { Point } from '@/types/point';
 import { Polygon } from '@/types/polygon';
 import { Street } from '@/types/street';
 import { Random } from '@/utils/Random';
+import { BuildingLibrary } from './BuildingLibrary';
 
 export interface VillageBuilding {
   id: string;
@@ -18,16 +19,32 @@ export interface VillageRoad {
   width: number;
 }
 
+export interface VillageWall {
+  id: string;
+  segments: Point[];
+  gates: VillageGate[];
+}
+
+export interface VillageGate {
+  id: string;
+  position: Point;
+  direction: number; // angle of the gate opening
+  width: number;
+}
+
 export interface VillageLayout {
   buildings: VillageBuilding[];
   roads: VillageRoad[];
+  walls: VillageWall[];
   center: Point;
   bounds: Polygon;
 }
 
 export type VillageBuildingType = 
   | 'house' | 'inn' | 'blacksmith' | 'farm' | 'mill' | 'woodworker' 
-  | 'fisher' | 'market' | 'chapel' | 'stable' | 'well' | 'granary';
+  | 'fisher' | 'market' | 'chapel' | 'stable' | 'well' | 'granary'
+  | 'alchemist' | 'herbalist' | 'magic_shop' | 'temple' | 'monster_hunter' 
+  | 'enchanter' | 'fortune_teller';
 
 export interface VillageOptions {
   size: 'tiny' | 'small' | 'medium';
@@ -39,12 +56,18 @@ export interface VillageOptions {
 // Core vocations that most villages have
 const CORE_VOCATIONS: VillageBuildingType[] = ['inn', 'blacksmith'];
 
+// Fantasy/magical vocations that add D&D flavor
+const FANTASY_VOCATIONS: VillageBuildingType[] = [
+  'alchemist', 'herbalist', 'magic_shop', 'temple', 'monster_hunter', 
+  'enchanter', 'fortune_teller'
+];
+
 // Optional vocations based on setting and chance
 const VOCATION_POOLS = {
-  farming: ['mill', 'granary', 'stable'] as VillageBuildingType[],
-  coastal: ['fisher', 'market'] as VillageBuildingType[],  
-  forest: ['woodworker', 'mill'] as VillageBuildingType[],
-  crossroads: ['market', 'stable', 'inn'] as VillageBuildingType[]
+  farming: ['mill', 'granary', 'stable', 'herbalist', 'temple'] as VillageBuildingType[],
+  coastal: ['fisher', 'market', 'fortune_teller', 'temple'] as VillageBuildingType[],  
+  forest: ['woodworker', 'mill', 'monster_hunter', 'herbalist'] as VillageBuildingType[],
+  crossroads: ['market', 'stable', 'inn', 'magic_shop', 'enchanter'] as VillageBuildingType[]
 };
 
 export class VillageGenerator {
@@ -75,9 +98,13 @@ export class VillageGenerator {
     // 3. Place buildings along roads
     const buildings = this.placeBuildingsAlongRoads(roads, buildingTypes);
     
+    // 4. Generate walls if needed
+    const walls = this.generateWalls(roads, buildings);
+    
     return {
       buildings,
       roads,
+      walls,
       center: this.center,
       bounds: this.bounds
     };
@@ -265,7 +292,7 @@ export class VillageGenerator {
     
     // Add setting-specific vocations
     const settingPool = VOCATION_POOLS[this.options.setting];
-    const settingCount = Math.min(settingPool.length, Random.int(1, 3));
+    const settingCount = Math.min(settingPool.length, Random.int(2, 4));
     
     for (let i = 0; i < settingCount; i++) {
       const vocation = Random.choose(settingPool);
@@ -274,9 +301,22 @@ export class VillageGenerator {
       }
     }
     
-    // Add optional vocations based on village size
-    const optionalVocations: VillageBuildingType[] = ['chapel', 'mill', 'well'];
-    const optionalCount = this.options.size === 'medium' ? Random.int(1, 2) : Random.int(0, 1);
+    // Add fantasy vocations for D&D flavor (30-60% chance based on village size)
+    const fantasyChance = this.options.size === 'tiny' ? 0.3 : this.options.size === 'small' ? 0.5 : 0.7;
+    const fantasyCount = this.options.size === 'tiny' ? Random.int(0, 2) : this.options.size === 'small' ? Random.int(1, 3) : Random.int(2, 4);
+    
+    for (let i = 0; i < fantasyCount; i++) {
+      if (Random.bool(fantasyChance)) {
+        const fantasyVocation = Random.choose(FANTASY_VOCATIONS);
+        if (!types.includes(fantasyVocation)) {
+          types.push(fantasyVocation);
+        }
+      }
+    }
+    
+    // Add optional mundane vocations based on village size
+    const optionalVocations: VillageBuildingType[] = ['chapel', 'mill', 'well', 'market'];
+    const optionalCount = this.options.size === 'medium' ? Random.int(1, 3) : Random.int(0, 2);
     
     for (let i = 0; i < optionalCount; i++) {
       const vocation = Random.choose(optionalVocations);
@@ -285,8 +325,10 @@ export class VillageGenerator {
       }
     }
     
-    // Fill remaining slots with houses
+    // Fill remaining slots with houses (ensure at least 60% are houses for believability)
     const remainingSlots = count - types.length;
+    const minHouses = Math.max(remainingSlots, Math.floor(count * 0.6) - (types.length - types.filter(t => t === 'house').length));
+    
     for (let i = 0; i < remainingSlots; i++) {
       types.push('house');
     }
@@ -300,7 +342,7 @@ export class VillageGenerator {
     
     for (let i = 0; i < buildingTypes.length; i++) {
       const buildingType = buildingTypes[i];
-      const building = this.placeSingleBuilding(buildingType, roads, usedPositions, i);
+      const building = this.placeSingleBuilding(buildingType, roads, usedPositions, i, buildings);
       
       if (building) {
         buildings.push(building);
@@ -315,10 +357,11 @@ export class VillageGenerator {
     type: VillageBuildingType, 
     roads: VillageRoad[], 
     usedPositions: Point[],
-    buildingIndex: number
+    buildingIndex: number,
+    existingBuildings: VillageBuilding[] = []
   ): VillageBuilding | null {
     
-    const maxAttempts = 20;
+    const maxAttempts = 30;
     
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
       // Choose road to place building near
@@ -327,35 +370,148 @@ export class VillageGenerator {
       
       // Determine building placement offset from road
       const setbackDistance = this.getBuildingSetback(type, road.roadType);
-      const setbackAngle = Random.float() * Math.PI * 2;
       
-      const buildingCenter = new Point(
-        roadPoint.x + Math.cos(setbackAngle) * setbackDistance,
-        roadPoint.y + Math.sin(setbackAngle) * setbackDistance
-      );
+      // Instead of random angle, pick perpendicular directions from road
+      const roadDirection = this.getRoadDirection(road, roadPoint);
+      const perpendicularAngle1 = roadDirection + Math.PI/2;
+      const perpendicularAngle2 = roadDirection - Math.PI/2;
       
-      // Check if position is valid
-      if (!this.bounds.contains(buildingCenter)) continue;
+      // Try both sides of the road
+      const angles = [perpendicularAngle1, perpendicularAngle2];
       
-      const tooClose = usedPositions.some(pos => 
-        Point.distance(pos, buildingCenter) < this.getMinBuildingDistance(type)
-      );
-      
-      if (tooClose) continue;
-      
-      // Create building polygon
-      const polygon = this.createBuildingPolygon(type, buildingCenter, roadPoint);
-      
-      return {
-        id: `building_${buildingIndex}`,
-        type,
-        polygon,
-        entryPoint: this.findClosestPointOnPolygon(polygon, roadPoint),
-        vocation: type !== 'house' ? type : undefined
-      };
+      for (const angle of angles) {
+        const buildingCenter = new Point(
+          roadPoint.x + Math.cos(angle) * setbackDistance,
+          roadPoint.y + Math.sin(angle) * setbackDistance
+        );
+        
+        // Check if position is valid
+        if (!this.bounds.contains(buildingCenter)) continue;
+        
+        // Check distance to other buildings
+        const tooClose = usedPositions.some(pos => 
+          Point.distance(pos, buildingCenter) < this.getMinBuildingDistance(type)
+        );
+        
+        if (tooClose) continue;
+        
+        // Create building polygon aligned with road
+        const roadDirection = this.getRoadDirection(road, roadPoint);
+        const polygon = this.createBuildingPolygon(type, buildingCenter, roadDirection);
+        
+        // Check for overlaps with existing buildings
+        const overlaps = existingBuildings.some(existing => 
+          this.doPolygonsOverlap(polygon, existing.polygon)
+        );
+        
+        if (overlaps) continue;
+        
+        // Check if building intersects with any road
+        const intersectsRoad = roads.some(roadToCheck => 
+          this.doesBuildingIntersectRoad(polygon, roadToCheck)
+        );
+        
+        if (intersectsRoad) continue;
+        
+        return {
+          id: `building_${buildingIndex}`,
+          type,
+          polygon,
+          entryPoint: this.findClosestPointOnPolygon(polygon, roadPoint),
+          vocation: type !== 'house' ? type : undefined
+        };
+      }
     }
     
     return null;
+  }
+  
+  private getRoadDirection(road: VillageRoad, point: Point): number {
+    // Find the closest segment of the road to get direction
+    let closestDistance = Infinity;
+    let direction = 0;
+    
+    for (let i = 0; i < road.pathPoints.length - 1; i++) {
+      const p1 = road.pathPoints[i];
+      const p2 = road.pathPoints[i + 1];
+      const distance = Point.distance(point, p1);
+      
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        direction = Math.atan2(p2.y - p1.y, p2.x - p1.x);
+      }
+    }
+    
+    return direction;
+  }
+  
+  private doPolygonsOverlap(poly1: Polygon, poly2: Polygon): boolean {
+    // Simple overlap check - if any vertex of one polygon is inside the other
+    for (const vertex of poly1.vertices) {
+      if (poly2.contains(vertex)) return true;
+    }
+    for (const vertex of poly2.vertices) {
+      if (poly1.contains(vertex)) return true;
+    }
+    return false;
+  }
+  
+  private doesBuildingIntersectRoad(buildingPolygon: Polygon, road: VillageRoad): boolean {
+    const roadWidth = road.width || 4;
+    
+    // Check if any road point is too close to the building
+    for (let i = 0; i < road.pathPoints.length - 1; i++) {
+      const p1 = road.pathPoints[i];
+      const p2 = road.pathPoints[i + 1];
+      
+      // Check if any building vertex is too close to the road segment
+      for (const vertex of buildingPolygon.vertices) {
+        const distanceToRoad = this.distancePointToLineSegment(vertex, p1, p2);
+        if (distanceToRoad < roadWidth / 2 + 2) { // +2 for buffer
+          return true;
+        }
+      }
+      
+      // Also check if road points are inside building
+      if (buildingPolygon.contains(p1) || buildingPolygon.contains(p2)) {
+        return true;
+      }
+    }
+    
+    return false;
+  }
+  
+  private distancePointToLineSegment(point: Point, lineStart: Point, lineEnd: Point): number {
+    const A = point.x - lineStart.x;
+    const B = point.y - lineStart.y;
+    const C = lineEnd.x - lineStart.x;
+    const D = lineEnd.y - lineStart.y;
+
+    const dot = A * C + B * D;
+    const lenSq = C * C + D * D;
+    
+    if (lenSq === 0) {
+      return Math.sqrt(A * A + B * B);
+    }
+    
+    const param = dot / lenSq;
+    
+    let xx, yy;
+    
+    if (param < 0) {
+      xx = lineStart.x;
+      yy = lineStart.y;
+    } else if (param > 1) {
+      xx = lineEnd.x;
+      yy = lineEnd.y;
+    } else {
+      xx = lineStart.x + param * C;
+      yy = lineStart.y + param * D;
+    }
+
+    const dx = point.x - xx;
+    const dy = point.y - yy;
+    return Math.sqrt(dx * dx + dy * dy);
   }
   
   private selectRoadForBuilding(type: VillageBuildingType, roads: VillageRoad[]): VillageRoad {
@@ -378,38 +534,42 @@ export class VillageGenerator {
   }
   
   private getBuildingSetback(type: VillageBuildingType, roadType: string): number {
-    let baseSetback = roadType === 'main' ? 8 : 5;
+    let baseSetback = roadType === 'main' ? 12 : 8;
     
     // Farms need more space
-    if (type === 'farm') baseSetback *= 2;
+    if (type === 'farm') baseSetback *= 1.5;
     
-    // Add random variation
-    return baseSetback + Random.float() * 10;
+    // Reduce random variation for more organized placement
+    return baseSetback + Random.float() * 5;
   }
   
   private getMinBuildingDistance(type: VillageBuildingType): number {
-    return type === 'farm' ? 25 : 12;
+    return type === 'farm' ? 30 : 18;
   }
   
-  private createBuildingPolygon(type: VillageBuildingType, center: Point, roadPoint: Point): Polygon {
+  private createBuildingPolygon(type: VillageBuildingType, center: Point, roadDirection: number): Polygon {
     const size = this.getBuildingSize(type);
-    const orientation = Math.atan2(roadPoint.y - center.y, roadPoint.x - center.x);
     
-    // Create rectangular building oriented toward road
+    // Align building parallel to road, with the longer side facing the road
+    // If road is horizontal (angle ~0), building should also be horizontal
+    let buildingOrientation = roadDirection;
+    
+    // Ensure building's longer dimension faces the road for better aesthetics
     const width = size.width;
     const height = size.height;
     
+    // Create building rectangle aligned with road
     const corners = [
-      new Point(-width/2, -height/2),
-      new Point(width/2, -height/2),
-      new Point(width/2, height/2),
-      new Point(-width/2, height/2)
+      new Point(-width/2, -height/2), // back left
+      new Point(width/2, -height/2),  // back right  
+      new Point(width/2, height/2),   // front right
+      new Point(-width/2, height/2)   // front left
     ];
     
-    // Rotate and translate
+    // Rotate building to align with road and translate to position
     return new Polygon(corners.map(corner => {
-      const rotatedX = corner.x * Math.cos(orientation) - corner.y * Math.sin(orientation);
-      const rotatedY = corner.x * Math.sin(orientation) + corner.y * Math.cos(orientation);
+      const rotatedX = corner.x * Math.cos(buildingOrientation) - corner.y * Math.sin(buildingOrientation);
+      const rotatedY = corner.x * Math.sin(buildingOrientation) + corner.y * Math.cos(buildingOrientation);
       
       return new Point(center.x + rotatedX, center.y + rotatedY);
     }));
@@ -417,29 +577,266 @@ export class VillageGenerator {
   
   private getBuildingSize(type: VillageBuildingType): { width: number, height: number } {
     const baseSize = {
-      house: { width: 8, height: 6 },
-      inn: { width: 12, height: 10 },
-      blacksmith: { width: 10, height: 8 },
-      farm: { width: 15, height: 12 },
-      mill: { width: 8, height: 8 },
-      woodworker: { width: 10, height: 8 },
-      fisher: { width: 8, height: 6 },
-      market: { width: 12, height: 8 },
-      chapel: { width: 10, height: 14 },
-      stable: { width: 12, height: 8 },
-      well: { width: 3, height: 3 },
-      granary: { width: 8, height: 8 }
+      house: { width: 12, height: 9 },
+      inn: { width: 16, height: 12 },
+      blacksmith: { width: 14, height: 11 },
+      farm: { width: 18, height: 15 },
+      mill: { width: 11, height: 11 },
+      woodworker: { width: 13, height: 10 },
+      fisher: { width: 10, height: 8 },
+      market: { width: 15, height: 10 },
+      chapel: { width: 12, height: 16 },
+      stable: { width: 15, height: 10 },
+      well: { width: 4, height: 4 },
+      granary: { width: 10, height: 10 },
+      alchemist: { width: 11, height: 9 },
+      herbalist: { width: 10, height: 8 },
+      magic_shop: { width: 12, height: 10 },
+      temple: { width: 14, height: 18 },
+      monster_hunter: { width: 13, height: 10 },
+      enchanter: { width: 12, height: 10 },
+      fortune_teller: { width: 9, height: 9 }
     };
     
     const size = baseSize[type] || baseSize.house;
     
-    // Add slight variation
-    const variation = 0.8 + Random.float() * 0.4;
+    // Reduce variation for more consistent sizing
+    const variation = 0.9 + Random.float() * 0.2;
     
     return {
       width: size.width * variation,
       height: size.height * variation
     };
+  }
+  
+  private generateWalls(roads: VillageRoad[], buildings: VillageBuilding[]): VillageWall[] {
+    // Determine if this settlement should have walls
+    const wallChance = this.getWallChance();
+    
+    if (!Random.bool(wallChance)) {
+      return [];
+    }
+    
+    // Calculate wall perimeter that encompasses all buildings
+    const wallPoints = this.generateWallPointsAroundBuildings(buildings, roads);
+    
+    // Find where roads exit the village to place gates
+    const gates = this.generateGates(roads, wallPoints);
+    
+    return [{
+      id: 'main_wall',
+      segments: wallPoints,
+      gates
+    }];
+  }
+  
+  private getWallChance(): number {
+    switch (this.options.size) {
+      case 'tiny': return 0.1;   // 10% chance for hamlets
+      case 'small': return 0.3;  // 30% chance for villages
+      case 'medium': return 0.6; // 60% chance for medium villages
+      default: return 0.1;
+    }
+  }
+  
+  private generateWallPointsAroundBuildings(buildings: VillageBuilding[], roads: VillageRoad[]): Point[] {
+    if (buildings.length === 0) {
+      // Fallback to simple circular wall
+      return this.generateWallPoints(this.getVillageRadius() * 0.8);
+    }
+    
+    // Find the bounding box of all buildings
+    let minX = Infinity, maxX = -Infinity;
+    let minY = Infinity, maxY = -Infinity;
+    
+    buildings.forEach(building => {
+      building.polygon.vertices.forEach(vertex => {
+        minX = Math.min(minX, vertex.x);
+        maxX = Math.max(maxX, vertex.x);
+        minY = Math.min(minY, vertex.y);
+        maxY = Math.max(maxY, vertex.y);
+      });
+    });
+    
+    // Also consider road extents for gates
+    roads.forEach(road => {
+      road.pathPoints.forEach(point => {
+        minX = Math.min(minX, point.x);
+        maxX = Math.max(maxX, point.x);
+        minY = Math.min(minY, point.y);
+        maxY = Math.max(maxY, point.y);
+      });
+    });
+    
+    // Add buffer around the settlement
+    const buffer = 15 + Random.float() * 10; // 15-25 unit buffer
+    minX -= buffer;
+    maxX += buffer;
+    minY -= buffer;
+    maxY += buffer;
+    
+    // Calculate center and dimensions
+    const centerX = (minX + maxX) / 2;
+    const centerY = (minY + maxY) / 2;
+    const width = maxX - minX;
+    const height = maxY - minY;
+    
+    // Create wall points in a rounded rectangle or oval shape
+    const points: Point[] = [];
+    const segments = 20; // More points for smoother walls
+    
+    for (let i = 0; i < segments; i++) {
+      const angle = (i / segments) * Math.PI * 2;
+      
+      // Create an oval that encompasses the settlement
+      const baseRadiusX = width / 2;
+      const baseRadiusY = height / 2;
+      
+      // Add some irregularity to make it look more organic
+      const variation = 0.9 + Random.float() * 0.2; // Less variation for more predictable encompassing
+      
+      const x = centerX + Math.cos(angle) * baseRadiusX * variation;
+      const y = centerY + Math.sin(angle) * baseRadiusY * variation;
+      
+      points.push(new Point(x, y));
+    }
+    
+    return points;
+  }
+  
+  private generateWallPoints(radius: number): Point[] {
+    const points: Point[] = [];
+    const segments = 16; // More segments for smoother walls
+    
+    for (let i = 0; i < segments; i++) {
+      const angle = (i / segments) * Math.PI * 2;
+      
+      // Add some variation to make walls less perfectly circular
+      const variation = 0.85 + Random.float() * 0.3;
+      const r = radius * variation;
+      
+      points.push(new Point(
+        this.center.x + Math.cos(angle) * r,
+        this.center.y + Math.sin(angle) * r
+      ));
+    }
+    
+    return points;
+  }
+  
+  private generateGates(roads: VillageRoad[], wallPoints: Point[]): VillageGate[] {
+    const gates: VillageGate[] = [];
+    
+    if (wallPoints.length === 0) return gates;
+    
+    // Find where roads extend beyond the settlement and would need gates
+    const roadExtensions = this.findRoadWallIntersections(roads, wallPoints);
+    
+    // Create gates for each road intersection
+    for (const intersection of roadExtensions) {
+      gates.push({
+        id: `gate_${gates.length}`,
+        position: intersection.wallPoint,
+        direction: intersection.roadDirection,
+        width: intersection.roadType === 'main' ? 10 : 8
+      });
+    }
+    
+    // Ensure at least one gate if there are walls but no road intersections
+    if (gates.length === 0) {
+      // Place a gate at a reasonable location (e.g., facing the main road direction)
+      const mainRoad = roads.find(r => r.roadType === 'main');
+      if (mainRoad) {
+        const roadCenter = mainRoad.pathPoints[Math.floor(mainRoad.pathPoints.length / 2)];
+        const gatePosition = this.findClosestWallPoint(roadCenter, wallPoints);
+        if (gatePosition) {
+          gates.push({
+            id: 'main_gate',
+            position: gatePosition,
+            direction: this.getRoadDirection(mainRoad, roadCenter),
+            width: 10
+          });
+        }
+      }
+      
+      // Fallback to random wall point
+      if (gates.length === 0) {
+        const randomWallPoint = Random.choose(wallPoints);
+        gates.push({
+          id: 'main_gate',
+          position: randomWallPoint,
+          direction: 0,
+          width: 10
+        });
+      }
+    }
+    
+    return gates;
+  }
+  
+  private findRoadWallIntersections(roads: VillageRoad[], wallPoints: Point[]): Array<{
+    wallPoint: Point;
+    roadDirection: number;
+    roadType: string;
+  }> {
+    const intersections: Array<{
+      wallPoint: Point;
+      roadDirection: number;
+      roadType: string;
+    }> = [];
+    
+    // Check each road to see where it would intersect the wall
+    for (const road of roads) {
+      // Check both endpoints of each road
+      const endpoints = [road.pathPoints[0], road.pathPoints[road.pathPoints.length - 1]];
+      
+      for (const endpoint of endpoints) {
+        // Find the closest wall point to this road endpoint
+        const closestWallPoint = this.findClosestWallPoint(endpoint, wallPoints);
+        
+        if (closestWallPoint) {
+          // Check if this road actually extends beyond the wall (i.e., needs a gate)
+          const distanceToWall = Point.distance(endpoint, closestWallPoint);
+          
+          // If the road endpoint is reasonably close to the wall, create a gate
+          if (distanceToWall < 40) {
+            const roadDirection = this.getRoadDirection(road, endpoint);
+            
+            // Don't create duplicate gates in the same area
+            const existingNearby = intersections.some(existing => 
+              Point.distance(existing.wallPoint, closestWallPoint) < 20
+            );
+            
+            if (!existingNearby) {
+              intersections.push({
+                wallPoint: closestWallPoint,
+                roadDirection: roadDirection,
+                roadType: road.roadType
+              });
+            }
+          }
+        }
+      }
+    }
+    
+    return intersections;
+  }
+  
+  private findClosestWallPoint(roadPoint: Point, wallPoints: Point[]): Point | null {
+    if (wallPoints.length === 0) return null;
+    
+    let closestPoint = wallPoints[0];
+    let closestDistance = Point.distance(roadPoint, closestPoint);
+    
+    for (const wallPoint of wallPoints) {
+      const distance = Point.distance(roadPoint, wallPoint);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestPoint = wallPoint;
+      }
+    }
+    
+    return closestPoint;
   }
   
   private findClosestPointOnPolygon(polygon: Polygon, targetPoint: Point): Point {

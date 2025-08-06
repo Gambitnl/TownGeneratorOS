@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Button } from './Button';
-import { LoadingSpinner } from './LoadingSpinner';
 
 interface ControlPanelProps {
   onGenerate: (size: string) => void;
@@ -8,489 +7,247 @@ interface ControlPanelProps {
   isLoading: boolean;
 }
 
-interface CustomGenerationSettings {
-  // Ward counts
-  castleCount: number;
-  marketCount: number;
-  cathedralCount: number;
-  militaryWardCount: number;
-  patriciateWardCount: number;
-  craftsmenWardCount: number;
-  merchantWardCount: number;
-  slumCount: number;
-  parkCount: number;
-  farmCount: number;
-  administrationWardCount: number;
-  gateWardCount: number;
-  commonWardCount: number;
-  
-  // Infrastructure
-  hasWalls: boolean;
-  hasGates: boolean;
-  hasTowers: boolean;
-  streetDensity: number; // 0-1
-  roadDensity: number; // 0-1
-  
-  // Special features
-  hasPlaza: boolean;
-  hasCitadel: boolean;
-  
-  // Generation parameters
-  totalPatches: number;
-  seed: number;
-}
-
 export const ControlPanel: React.FC<ControlPanelProps> = ({ 
   onGenerate, 
   onRandomGenerate, 
   isLoading 
 }) => {
-  const [showAdvanced, setShowAdvanced] = useState(false);
-  const [showCustom, setShowCustom] = useState(false);
-  const [customSettings, setCustomSettings] = useState<CustomGenerationSettings>({
-    // Default ward counts
-    castleCount: 1,
-    marketCount: 1,
-    cathedralCount: 1,
-    militaryWardCount: 1,
-    patriciateWardCount: 2,
-    craftsmenWardCount: 3,
-    merchantWardCount: 2,
-    slumCount: 2,
-    parkCount: 1,
-    farmCount: 2,
-    administrationWardCount: 1,
-    gateWardCount: 2,
-    commonWardCount: 4,
-    
-    // Infrastructure
-    hasWalls: true,
-    hasGates: true,
-    hasTowers: true,
-    streetDensity: 0.7,
-    roadDensity: 0.5,
-    
-    // Special features
-    hasPlaza: true,
-    hasCitadel: true,
-    
-    // Generation parameters
-    totalPatches: 20,
-    seed: Math.floor(Math.random() * 1000000)
-  });
-
-  const handleSizeGenerate = (size: string) => {
-    onGenerate(size);
-  };
-
-  const handleCustomGenerate = () => {
-    // Convert custom settings to a generation command
-    const totalWards = Object.values(customSettings).filter((v, i) => 
-      i < 13 && typeof v === 'number'
-    ).reduce((sum, count) => sum + (count as number), 0);
-    
-    console.log('Custom generation settings:', customSettings);
-    console.log('Total wards to generate:', totalWards);
-    
-    // For now, use the total patches as a size indicator
-    onGenerate(`custom-${customSettings.totalPatches}`);
-  };
-
-  const updateCustomSetting = (key: keyof CustomGenerationSettings, value: number | boolean) => {
-    setCustomSettings(prev => ({
-      ...prev,
-      [key]: value
-    }));
-  };
-
-  const resetCustomSettings = () => {
-    setCustomSettings({
-      castleCount: 1,
-      marketCount: 1,
-      cathedralCount: 1,
-      militaryWardCount: 1,
-      patriciateWardCount: 2,
-      craftsmenWardCount: 3,
-      merchantWardCount: 2,
-      slumCount: 2,
-      parkCount: 1,
-      farmCount: 2,
-      administrationWardCount: 1,
-      gateWardCount: 2,
-      commonWardCount: 4,
-      hasWalls: true,
-      hasGates: true,
-      hasTowers: true,
-      streetDensity: 0.7,
-      roadDensity: 0.5,
-      hasPlaza: true,
-      hasCitadel: true,
-      totalPatches: 20,
-      seed: Math.floor(Math.random() * 1000000)
-    });
-  };
+  const [activeCategory, setActiveCategory] = useState<'settlements' | 'villages' | null>('settlements');
 
   return (
     <div className="control-panel">
+      {/* Main Settlement Types */}
       <div className="control-section">
-        <h3>Generate Settlement</h3>
-        <div className="button-stack">
+        <h3>🏰 Generate Settlement</h3>
+        <div className="settlement-grid">
           <Button 
             variant="primary" 
-            className="generation-button"
-            onClick={() => handleSizeGenerate('village')}
+            className="settlement-button village"
+            onClick={() => onGenerate('village')}
             disabled={isLoading}
-            title="Generates a small settlement (6-8 patches)"
+            title="Generate a medieval village (20-30 buildings)"
           >
-            <div>
-              <span role="img" aria-label="village icon">🏡</span> Village (Small)
-              <p>A small, quiet settlement with a few houses and a single main road.</p>
+            <span className="settlement-icon">🏡</span>
+            <div className="settlement-info">
+              <h4>Village</h4>
+              <p>Organic medieval settlement with curved roads and varied buildings</p>
             </div>
           </Button>
+
           <Button 
             variant="primary" 
-            className="generation-button"
-            onClick={() => handleSizeGenerate('town')}
+            className="settlement-button town"
+            onClick={() => onGenerate('town')}
             disabled={isLoading}
-            title="Generates a medium settlement (10-15 patches)"
+            title="Generate a medieval town (10-15 districts)"
           >
-            <div>
-              <span role="img" aria-label="town icon">🏘️</span> Town (Medium)
-              <p>A bustling town with a market, a church, and several streets.</p>
+            <span className="settlement-icon">🏘️</span>
+            <div className="settlement-info">
+              <h4>Town</h4>
+              <p>Growing town with market square and multiple districts</p>
             </div>
           </Button>
+
           <Button 
             variant="primary" 
-            className="generation-button"
-            onClick={() => handleSizeGenerate('city')}
+            className="settlement-button city"
+            onClick={() => onGenerate('city')}
             disabled={isLoading}
-            title="Generates a large settlement (18-25 patches)"
+            title="Generate a medieval city (18-25 districts)"
           >
-            <div>
-              <span role="img" aria-label="city icon">🏙️</span> City (Large)
-              <p>A large, walled city with multiple districts and a complex road network.</p>
+            <span className="settlement-icon">🏙️</span>
+            <div className="settlement-info">
+              <h4>City</h4>
+              <p>Large walled city with complex districts and roads</p>
             </div>
           </Button>
+
           <Button 
             variant="primary" 
-            className="generation-button"
-            onClick={() => handleSizeGenerate('capital')}
+            className="settlement-button capital"
+            onClick={() => onGenerate('capital')}
             disabled={isLoading}
-            title="Generates a huge settlement (28-40 patches)"
+            title="Generate a medieval capital (28-40 districts)"
           >
-            <div>
-              <span role="img" aria-label="capital icon">🏰</span> Capital (Huge)
-              <p>A massive capital city with a castle, a cathedral, and a sprawling metropolis.</p>
+            <span className="settlement-icon">🏰</span>
+            <div className="settlement-info">
+              <h4>Capital</h4>
+              <p>Massive capital with castle, cathedral, and sprawling districts</p>
             </div>
           </Button>
+        </div>
+      </div>
+
+      {/* Village Types */}
+      <div className="control-section">
+        <h3>🏞️ Village Types</h3>
+        <div className="village-types">
+          <Button 
+            variant="outline" 
+            className="village-type-button"
+            onClick={() => onGenerate('hamlet')}
+            disabled={isLoading}
+            title="Generate a tiny hamlet (12-18 buildings)"
+          >
+            🏕️ Hamlet
+          </Button>
+          <Button 
+            variant="outline" 
+            className="village-type-button"
+            onClick={() => onGenerate('village-coastal')}
+            disabled={isLoading}
+            title="Generate a coastal fishing village"
+          >
+            🐟 Fishing Village  
+          </Button>
+          <Button 
+            variant="outline" 
+            className="village-type-button"
+            onClick={() => onGenerate('village-forest')}
+            disabled={isLoading}
+            title="Generate a forest woodcutter village"
+          >
+            🌲 Forest Village
+          </Button>
+        </div>
+      </div>
+
+      {/* Quick Actions */}
+      <div className="control-section">
+        <div className="quick-actions">
           <Button 
             variant="secondary" 
-            onClick={() => setShowCustom(!showCustom)}
+            onClick={onRandomGenerate}
             disabled={isLoading}
+            title="Generate random settlement"
           >
-            🎛️ Custom
+            🎲 Surprise Me
           </Button>
         </div>
       </div>
 
-      {showCustom && (
-        <div className="custom-generation-panel">
-          <div className="custom-header">
-            <h4>🎛️ Custom Town Generation</h4>
-            <div className="custom-controls">
-              <Button variant="outline" size="small" onClick={resetCustomSettings}>
-                Reset
-              </Button>
-              <Button variant="primary" size="small" onClick={handleCustomGenerate}>
-                Generate Custom Town
-              </Button>
-            </div>
-          </div>
-
-          <div className="custom-sections">
-            {/* Ward Distribution */}
-            <div className="custom-section">
-              <h5>🏛️ Ward Distribution</h5>
-              <div className="ward-controls">
-                <div className="ward-control">
-                  <label>Castle: {customSettings.castleCount}</label>
-                  <input 
-                    type="range" 
-                    min="0" max="3" 
-                    value={customSettings.castleCount}
-                    onChange={(e) => updateCustomSetting('castleCount', parseInt(e.target.value))}
-                  />
-                </div>
-                <div className="ward-control">
-                  <label>Market: {customSettings.marketCount}</label>
-                  <input 
-                    type="range" 
-                    min="0" max="5" 
-                    value={customSettings.marketCount}
-                    onChange={(e) => updateCustomSetting('marketCount', parseInt(e.target.value))}
-                  />
-                </div>
-                <div className="ward-control">
-                  <label>Cathedral: {customSettings.cathedralCount}</label>
-                  <input 
-                    type="range" 
-                    min="0" max="3" 
-                    value={customSettings.cathedralCount}
-                    onChange={(e) => updateCustomSetting('cathedralCount', parseInt(e.target.value))}
-                  />
-                </div>
-                <div className="ward-control">
-                  <label>Military: {customSettings.militaryWardCount}</label>
-                  <input 
-                    type="range" 
-                    min="0" max="4" 
-                    value={customSettings.militaryWardCount}
-                    onChange={(e) => updateCustomSetting('militaryWardCount', parseInt(e.target.value))}
-                  />
-                </div>
-                <div className="ward-control">
-                  <label>Patriciate: {customSettings.patriciateWardCount}</label>
-                  <input 
-                    type="range" 
-                    min="0" max="6" 
-                    value={customSettings.patriciateWardCount}
-                    onChange={(e) => updateCustomSetting('patriciateWardCount', parseInt(e.target.value))}
-                  />
-                </div>
-                <div className="ward-control">
-                  <label>Craftsmen: {customSettings.craftsmenWardCount}</label>
-                  <input 
-                    type="range" 
-                    min="0" max="8" 
-                    value={customSettings.craftsmenWardCount}
-                    onChange={(e) => updateCustomSetting('craftsmenWardCount', parseInt(e.target.value))}
-                  />
-                </div>
-                <div className="ward-control">
-                  <label>Merchant: {customSettings.merchantWardCount}</label>
-                  <input 
-                    type="range" 
-                    min="0" max="6" 
-                    value={customSettings.merchantWardCount}
-                    onChange={(e) => updateCustomSetting('merchantWardCount', parseInt(e.target.value))}
-                  />
-                </div>
-                <div className="ward-control">
-                  <label>Slum: {customSettings.slumCount}</label>
-                  <input 
-                    type="range" 
-                    min="0" max="8" 
-                    value={customSettings.slumCount}
-                    onChange={(e) => updateCustomSetting('slumCount', parseInt(e.target.value))}
-                  />
-                </div>
-                <div className="ward-control">
-                  <label>Park: {customSettings.parkCount}</label>
-                  <input 
-                    type="range" 
-                    min="0" max="4" 
-                    value={customSettings.parkCount}
-                    onChange={(e) => updateCustomSetting('parkCount', parseInt(e.target.value))}
-                  />
-                </div>
-                <div className="ward-control">
-                  <label>Farm: {customSettings.farmCount}</label>
-                  <input 
-                    type="range" 
-                    min="0" max="6" 
-                    value={customSettings.farmCount}
-                    onChange={(e) => updateCustomSetting('farmCount', parseInt(e.target.value))}
-                  />
-                </div>
-                <div className="ward-control">
-                  <label>Administration: {customSettings.administrationWardCount}</label>
-                  <input 
-                    type="range" 
-                    min="0" max="3" 
-                    value={customSettings.administrationWardCount}
-                    onChange={(e) => updateCustomSetting('administrationWardCount', parseInt(e.target.value))}
-                  />
-                </div>
-                <div className="ward-control">
-                  <label>Gate Ward: {customSettings.gateWardCount}</label>
-                  <input 
-                    type="range" 
-                    min="0" max="4" 
-                    value={customSettings.gateWardCount}
-                    onChange={(e) => updateCustomSetting('gateWardCount', parseInt(e.target.value))}
-                  />
-                </div>
-                <div className="ward-control">
-                  <label>Common: {customSettings.commonWardCount}</label>
-                  <input 
-                    type="range" 
-                    min="0" max="10" 
-                    value={customSettings.commonWardCount}
-                    onChange={(e) => updateCustomSetting('commonWardCount', parseInt(e.target.value))}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Infrastructure */}
-            <div className="custom-section">
-              <h5>🏗️ Infrastructure</h5>
-              <div className="infrastructure-controls">
-                <div className="checkbox-control">
-                  <label>
-                    <input 
-                      type="checkbox" 
-                      checked={customSettings.hasWalls}
-                      onChange={(e) => updateCustomSetting('hasWalls', e.target.checked)}
-                    />
-                    City Walls
-                  </label>
-                </div>
-                <div className="checkbox-control">
-                  <label>
-                    <input 
-                      type="checkbox" 
-                      checked={customSettings.hasGates}
-                      onChange={(e) => updateCustomSetting('hasGates', e.target.checked)}
-                    />
-                    Gates
-                  </label>
-                </div>
-                <div className="checkbox-control">
-                  <label>
-                    <input 
-                      type="checkbox" 
-                      checked={customSettings.hasTowers}
-                      onChange={(e) => updateCustomSetting('hasTowers', e.target.checked)}
-                    />
-                    Towers
-                  </label>
-                </div>
-                <div className="slider-control">
-                  <label>Street Density: {Math.round(customSettings.streetDensity * 100)}%</label>
-                  <input 
-                    type="range" 
-                    min="0" max="1" step="0.1"
-                    value={customSettings.streetDensity}
-                    onChange={(e) => updateCustomSetting('streetDensity', parseFloat(e.target.value))}
-                  />
-                </div>
-                <div className="slider-control">
-                  <label>Road Density: {Math.round(customSettings.roadDensity * 100)}%</label>
-                  <input 
-                    type="range" 
-                    min="0" max="1" step="0.1"
-                    value={customSettings.roadDensity}
-                    onChange={(e) => updateCustomSetting('roadDensity', parseFloat(e.target.value))}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Special Features */}
-            <div className="custom-section">
-              <h5>⭐ Special Features</h5>
-              <div className="special-controls">
-                <div className="checkbox-control">
-                  <label>
-                    <input 
-                      type="checkbox" 
-                      checked={customSettings.hasPlaza}
-                      onChange={(e) => updateCustomSetting('hasPlaza', e.target.checked)}
-                    />
-                    Central Plaza
-                  </label>
-                </div>
-                <div className="checkbox-control">
-                  <label>
-                    <input 
-                      type="checkbox" 
-                      checked={customSettings.hasCitadel}
-                      onChange={(e) => updateCustomSetting('hasCitadel', e.target.checked)}
-                    />
-                    Citadel
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            {/* Generation Parameters */}
-            <div className="custom-section">
-              <h5>⚙️ Generation Parameters</h5>
-              <div className="parameter-controls">
-                <div className="parameter-control">
-                  <label>Total Patches: {customSettings.totalPatches}</label>
-                  <input 
-                    type="range" 
-                    min="10" max="50" 
-                    value={customSettings.totalPatches}
-                    onChange={(e) => updateCustomSetting('totalPatches', parseInt(e.target.value))}
-                  />
-                </div>
-                <div className="parameter-control">
-                  <label>Seed: {customSettings.seed}</label>
-                  <input 
-                    type="number" 
-                    value={customSettings.seed}
-                    onChange={(e) => updateCustomSetting('seed', parseInt(e.target.value) || 0)}
-                  />
-                  <Button 
-                    variant="outline" 
-                    size="small" 
-                    onClick={() => updateCustomSetting('seed', Math.floor(Math.random() * 1000000))}
-                  >
-                    Random
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      <div className="control-section">
-        <Button 
-          variant="secondary" 
-          onClick={onRandomGenerate}
-          disabled={isLoading}
-        >
-          🎲 Random Town
-        </Button>
-        
-        <Button 
-          variant="outline" 
-          onClick={() => setShowAdvanced(!showAdvanced)}
-          disabled={isLoading}
-        >
-          {showAdvanced ? 'Hide' : 'Show'} Advanced
-        </Button>
-      </div>
-
-      {showAdvanced && (
-        <div className="advanced-section">
-          <h4>Advanced Options</h4>
-          <p>Advanced generation options will be available here.</p>
-        </div>
-      )}
-
-      {isLoading && <LoadingSpinner />}
-
       <style>{`
-        .button-stack {
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-        }
-        .generation-button {
+        .control-panel {
+          background: rgba(0, 0, 0, 0.8);
+          backdrop-filter: blur(10px);
+          border-radius: 12px;
           padding: 1.5rem;
-          text-align: left;
-          display: flex;
-          flex-direction: column;
+          margin: 1rem;
+          max-width: 400px;
+          color: white;
         }
-        .generation-button p {
+
+        .control-section {
+          margin-bottom: 1.5rem;
+        }
+
+        .control-section h3 {
+          margin: 0 0 1rem 0;
+          font-size: 1.25rem;
+          font-weight: 600;
+        }
+
+        .settlement-grid {
+          display: grid;
+          gap: 0.75rem;
+        }
+
+        .settlement-button {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          padding: 1rem;
+          background: rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 8px;
+          text-align: left;
+          transition: all 0.2s ease;
+          width: 100%;
+        }
+
+        .settlement-button:hover {
+          background: rgba(255, 255, 255, 0.15);
+          border-color: rgba(255, 255, 255, 0.3);
+          transform: translateY(-1px);
+        }
+
+        .settlement-button:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+          transform: none;
+        }
+
+        .settlement-icon {
+          font-size: 1.5rem;
+          flex-shrink: 0;
+        }
+
+        .settlement-info {
+          flex: 1;
+        }
+
+        .settlement-info h4 {
+          margin: 0 0 0.25rem 0;
+          font-size: 1rem;
+          font-weight: 600;
+        }
+
+        .settlement-info p {
+          margin: 0;
           font-size: 0.875rem;
-          margin: 0.5rem 0 0 0;
-          color: var(--text-secondary);
+          color: rgba(255, 255, 255, 0.7);
+          line-height: 1.3;
+        }
+
+        .quick-actions {
+          display: flex;
+          gap: 0.5rem;
+        }
+
+        .quick-actions button {
+          flex: 1;
+        }
+
+        .village-types {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 0.5rem;
+        }
+
+        .village-type-button {
+          padding: 0.75rem;
+          text-align: center;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 6px;
+          font-size: 0.875rem;
+          transition: all 0.2s ease;
+        }
+
+        .village-type-button:hover {
+          background: rgba(255, 255, 255, 0.1);
+          border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Hover animations */
+        .settlement-button.village:hover {
+          border-color: #8fbc8f;
+          box-shadow: 0 0 20px rgba(143, 188, 143, 0.3);
+        }
+
+        .settlement-button.town:hover {
+          border-color: #daa520;
+          box-shadow: 0 0 20px rgba(218, 165, 32, 0.3);
+        }
+
+        .settlement-button.city:hover {
+          border-color: #4682b4;
+          box-shadow: 0 0 20px rgba(70, 130, 180, 0.3);
+        }
+
+        .settlement-button.capital:hover {
+          border-color: #cd853f;
+          box-shadow: 0 0 20px rgba(205, 133, 63, 0.3);
         }
       `}</style>
     </div>

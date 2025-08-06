@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { CityMap } from '../services/CityMap';
 import { Model } from '../services/Model';
 import { StateManager } from '../services/StateManager';
+import { generateVillageLayout, VillageLayout } from '../services/villageGenerationService';
+import { VillagePane } from './VillagePane';
 import { Header } from './Header';
 import { ControlPanel } from './ControlPanel';
 import { LoadingSpinner } from './LoadingSpinner';
@@ -37,8 +39,9 @@ const mapContainerStyles: React.CSSProperties = {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  padding: '2rem',
+  padding: '1rem',
   overflow: 'auto',
+  minHeight: '600px',
 };
 
 const mapWrapperStyles: React.CSSProperties = {
@@ -46,12 +49,17 @@ const mapWrapperStyles: React.CSSProperties = {
   borderRadius: 'var(--radius-lg)',
   border: '2px solid var(--border-color)',
   boxShadow: 'var(--shadow-strong)',
-  padding: '1rem',
-  maxWidth: '100%',
-  maxHeight: '100%',
+  padding: '0.5rem',
+  width: '95vw',
+  maxWidth: '1400px',
+  height: '80vh',
+  minHeight: '700px',
   overflow: 'auto',
   backdropFilter: 'blur(10px)',
   position: 'relative',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 };
 
 const mapOverlayStyles: React.CSSProperties = {
@@ -101,6 +109,8 @@ const zoomControlsStyles: React.CSSProperties = {
 
 export const TownScene: React.FC = () => {
   const [model, setModel] = useState<Model | null>(null);
+  const [villageLayout, setVillageLayout] = useState<VillageLayout | null>(null);
+  const [generationType, setGenerationType] = useState<'city' | 'village' | null>(null);
   const [tooltipText, setTooltipText] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -190,43 +200,78 @@ export const TownScene: React.FC = () => {
   const handleGenerate = async (size: string) => {
     setLoading(true);
     setError(null);
+    setModel(null);
+    setVillageLayout(null);
 
     try {
-      let nPatches: number;
-      
-      // Handle different generation modes
-      if (size.startsWith('custom-')) {
-        // Custom generation mode
-        nPatches = parseInt(size.replace('custom-', ''));
-        console.log('Custom generation with', nPatches, 'patches');
-      } else {
-        // Standard size modes
-        switch (size) {
-          case 'village':
-            nPatches = 6 + Math.floor(Math.random() * 3); // 6-8 patches
-            break;
-          case 'town':
-            nPatches = 10 + Math.floor(Math.random() * 6); // 10-15 patches
-            break;
-          case 'city':
-            nPatches = 18 + Math.floor(Math.random() * 8); // 18-25 patches
-            break;
-          case 'capital':
-            nPatches = 28 + Math.floor(Math.random() * 12); // 28-39 patches
-            break;
-          default:
-            nPatches = 15;
-        }
-      }
+      const seed = Math.floor(Math.random() * 1000000).toString();
 
-      const seed = Math.floor(Math.random() * 1000000);
-      const newModel = new Model(nPatches, seed);
-      
-      setModel(newModel);
-      console.log(`Generated ${size} with ${nPatches} patches, seed: ${seed}`);
+      // Use village generator for small settlements
+      if (size === 'village' || size === 'hamlet' || size.startsWith('village-')) {
+        setLoadingMessage('Crafting your medieval village...');
+        setGenerationType('village');
+        
+        let villageSize: 'tiny' | 'small' | 'medium' = 'small';
+        let villageType: 'farming' | 'fishing' | 'fortified' | 'forest' | 'crossroads' = 'farming';
+        
+        // Determine village size
+        if (size === 'hamlet') {
+          villageSize = 'tiny';
+        } else if (size === 'village') {
+          villageSize = 'small';
+        }
+        
+        // Determine village type based on suffix
+        if (size === 'village-coastal') {
+          villageType = 'fishing';
+        } else if (size === 'village-forest') {
+          villageType = 'forest';
+        } else {
+          villageType = 'farming';
+        }
+        
+        const layout = await generateVillageLayout(seed, {
+          type: villageType,
+          size: villageSize,
+          includeWalls: false,
+          includeFarmland: villageType === 'farming'
+        });
+        
+        setVillageLayout(layout);
+        console.log(`Generated ${size} (${villageType} ${villageSize}) with ${layout.buildings.length} buildings, seed: ${seed}`);
+      } 
+      // Use city generator for larger settlements  
+      else {
+        setLoadingMessage('Building your medieval city...');
+        setGenerationType('city');
+        
+        let nPatches: number;
+        
+        if (size.startsWith('custom-')) {
+          nPatches = parseInt(size.replace('custom-', ''));
+        } else {
+          switch (size) {
+            case 'town':
+              nPatches = 10 + Math.floor(Math.random() * 6); // 10-15 patches
+              break;
+            case 'city':
+              nPatches = 18 + Math.floor(Math.random() * 8); // 18-25 patches
+              break;
+            case 'capital':
+              nPatches = 28 + Math.floor(Math.random() * 12); // 28-39 patches
+              break;
+            default:
+              nPatches = 15;
+          }
+        }
+
+        const newModel = new Model(nPatches, parseInt(seed));
+        setModel(newModel);
+        console.log(`Generated ${size} city with ${nPatches} patches, seed: ${seed}`);
+      }
     } catch (error) {
-      console.error('Error creating model:', error);
-      setError('Failed to generate town. Please try again.');
+      console.error('Error creating settlement:', error);
+      setError('Failed to generate settlement. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -270,7 +315,23 @@ export const TownScene: React.FC = () => {
                 Try generating a different size settlement or refresh the page.
               </p>
             </div>
-          ) : model ? (
+          ) : generationType === 'village' && villageLayout ? (
+            <div 
+              style={{
+                ...mapWrapperStyles, 
+                transform: `translate(${panOffset.x}px, ${panOffset.y}px) scale(${zoom})`,
+                cursor: isPanning ? 'grabbing' : 'grab',
+              }}
+              className="fade-in map-wrapper"
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseLeave}
+            >
+              <div style={mapOverlayStyles}></div>
+              <VillagePane layout={villageLayout} />
+            </div>
+          ) : generationType === 'city' && model ? (
             <div 
               style={{
                 ...mapWrapperStyles, 
@@ -289,12 +350,20 @@ export const TownScene: React.FC = () => {
           ) : null}
         </div>
 
-        <ControlPanel 
-          onGenerate={handleGenerate}
-          onRandomGenerate={handleRandomGenerate}
-          isLoading={loading}
-          style={{ gridColumn: '2 / 3', gridRow: '2 / 3' }}
-        />
+        <div style={{ 
+          position: 'fixed', 
+          top: '100px', 
+          left: '20px', 
+          zIndex: 100,
+          maxHeight: 'calc(100vh - 120px)',
+          overflow: 'auto'
+        }}>
+          <ControlPanel 
+            onGenerate={handleGenerate}
+            onRandomGenerate={handleRandomGenerate}
+            isLoading={loading}
+          />
+        </div>
       </div>
       
       <div style={zoomControlsStyles}>
