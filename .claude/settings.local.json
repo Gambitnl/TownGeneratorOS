@@ -6,7 +6,13 @@
       "Bash(rm:*)",
       "Bash(npm run dev:*)",
       "Bash(npm run test:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(find:*)",
+      "Bash(cp:*)",
+      "Bash(ls:*)",
+      "Bash(mkdir:*)",
+      "Bash(dir:*)",
+      "Bash(npm run:*)"
     ],
     "deny": []
   }

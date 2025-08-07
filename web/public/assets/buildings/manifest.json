@@ -1,0 +1,590 @@
+{
+  "version": "2.0.0",
+  "description": "Building assets for Medieval Fantasy Town Generator - Forgotten Adventures Pack",
+  "categories": {
+    "walls": {
+      "description": "Wall components for building construction",
+      "assets": [
+        {
+          "name": "wall_brick_earthy_a1",
+          "path": "/assets/buildings/walls/wall_brick_earthy_a1_1x1.png",
+          "type": "wall",
+          "material": "brick",
+          "style": "earthy",
+          "size": "1x1",
+          "category": "structural"
+        },
+        {
+          "name": "wall_brick_redrock_a1",
+          "path": "/assets/buildings/walls/wall_brick_redrock_a1_1x1.png",
+          "type": "wall",
+          "material": "brick",
+          "style": "redrock",
+          "size": "1x1",
+          "category": "structural"
+        },
+        {
+          "name": "wall_brick_sandstone_a1",
+          "path": "/assets/buildings/walls/wall_brick_sandstone_a1_1x1.png",
+          "type": "wall",
+          "material": "brick",
+          "style": "sandstone",
+          "size": "1x1",
+          "category": "structural"
+        },
+        {
+          "name": "wall_brick_slate_a1",
+          "path": "/assets/buildings/walls/wall_brick_slate_a1_1x1.png",
+          "type": "wall",
+          "material": "brick",
+          "style": "slate",
+          "size": "1x1",
+          "category": "structural"
+        },
+        {
+          "name": "wall_brick_volcanic_a1",
+          "path": "/assets/buildings/walls/wall_brick_volcanic_a1_1x1.png",
+          "type": "wall",
+          "material": "brick",
+          "style": "volcanic",
+          "size": "1x1",
+          "category": "structural"
+        },
+        {
+          "name": "wall_plaster_wood_dark_a1",
+          "path": "/assets/buildings/walls/wall_plaster_wood_dark_a1_1x1.png",
+          "type": "wall",
+          "material": "wood",
+          "style": "dark",
+          "size": "1x1",
+          "category": "structural"
+        },
+        {
+          "name": "wall_plaster_wood_light_a1",
+          "path": "/assets/buildings/walls/wall_plaster_wood_light_a1_1x1.png",
+          "type": "wall",
+          "material": "wood",
+          "style": "light",
+          "size": "1x1",
+          "category": "structural"
+        },
+        {
+          "name": "wall_plaster_wood_ashen_a1",
+          "path": "/assets/buildings/walls/wall_plaster_wood_ashen_a1_1x1.png",
+          "type": "wall",
+          "material": "wood",
+          "style": "ashen",
+          "size": "1x1",
+          "category": "structural"
+        },
+        {
+          "name": "wall_stone_earthy_metal_gray_a1",
+          "path": "/assets/buildings/walls/wall_stone_earthy_metal_gray_a1_1x1.png",
+          "type": "wall",
+          "material": "stone",
+          "style": "earthy",
+          "size": "1x1",
+          "category": "structural"
+        },
+        {
+          "name": "wall_stone_slate_metal_rusty_a1",
+          "path": "/assets/buildings/walls/wall_stone_slate_metal_rusty_a1_1x1.png",
+          "type": "wall",
+          "material": "stone",
+          "style": "slate",
+          "size": "1x1",
+          "category": "structural"
+        }
+      ]
+    },
+    "doors": {
+      "description": "Doors, gates, and entrances",
+      "assets": [
+        {
+          "name": "door_metal_gray_a",
+          "path": "/assets/buildings/doors/door_metal_gray_a_1x1.png",
+          "type": "door",
+          "material": "metal",
+          "style": "gray",
+          "size": "1x1",
+          "category": "entrance"
+        },
+        {
+          "name": "door_metal_rusty_a",
+          "path": "/assets/buildings/doors/door_metal_rusty_a_1x1.png",
+          "type": "door",
+          "material": "metal",
+          "style": "rusty",
+          "size": "1x1",
+          "category": "entrance"
+        },
+        {
+          "name": "door_stone_earthy_a",
+          "path": "/assets/buildings/doors/door_stone_earthy_a_1x1.png",
+          "type": "door",
+          "material": "stone",
+          "style": "earthy",
+          "size": "1x1",
+          "category": "entrance"
+        },
+        {
+          "name": "door_stone_redrock_a",
+          "path": "/assets/buildings/doors/door_stone_redrock_a_1x1.png",
+          "type": "door",
+          "material": "stone",
+          "style": "redrock",
+          "size": "1x1",
+          "category": "entrance"
+        },
+        {
+          "name": "door_stone_sandstone_a",
+          "path": "/assets/buildings/doors/door_stone_sandstone_a_1x1.png",
+          "type": "door",
+          "material": "stone",
+          "style": "sandstone",
+          "size": "1x1",
+          "category": "entrance"
+        },
+        {
+          "name": "door_wood_ashen_a",
+          "path": "/assets/buildings/doors/door_wood_ashen_a_1x1.png",
+          "type": "door",
+          "material": "wood",
+          "style": "ashen",
+          "size": "1x1",
+          "category": "entrance"
+        },
+        {
+          "name": "door_wood_dark_a",
+          "path": "/assets/buildings/doors/door_wood_dark_a_1x1.png",
+          "type": "door",
+          "material": "wood",
+          "style": "dark",
+          "size": "1x1",
+          "category": "entrance"
+        },
+        {
+          "name": "door_wood_light_a",
+          "path": "/assets/buildings/doors/door_wood_light_a_1x1.png",
+          "type": "door",
+          "material": "wood",
+          "style": "light",
+          "size": "1x1",
+          "category": "entrance"
+        },
+        {
+          "name": "door_wood_red_a",
+          "path": "/assets/buildings/doors/door_wood_red_a_1x1.png",
+          "type": "door",
+          "material": "wood",
+          "style": "red",
+          "size": "1x1",
+          "category": "entrance"
+        }
+      ]
+    },
+    "windows": {
+      "description": "Windows and openings",
+      "assets": [
+        {
+          "name": "window_metal_gray_a1",
+          "path": "/assets/buildings/windows/window_metal_gray_a1_1x1.png",
+          "type": "window",
+          "material": "metal",
+          "style": "gray",
+          "size": "1x1",
+          "category": "functional"
+        },
+        {
+          "name": "window_metal_rusty_a1",
+          "path": "/assets/buildings/windows/window_metal_rusty_a1_1x1.png",
+          "type": "window",
+          "material": "metal",
+          "style": "rusty",
+          "size": "1x1",
+          "category": "functional"
+        },
+        {
+          "name": "window_wood_ashen_a1",
+          "path": "/assets/buildings/windows/window_wood_ashen_a1_1x1.png",
+          "type": "window",
+          "material": "wood",
+          "style": "ashen",
+          "size": "1x1",
+          "category": "functional"
+        },
+        {
+          "name": "window_wood_dark_a1",
+          "path": "/assets/buildings/windows/window_wood_dark_a1_1x1.png",
+          "type": "window",
+          "material": "wood",
+          "style": "dark",
+          "size": "1x1",
+          "category": "functional"
+        },
+        {
+          "name": "window_wood_light_a1",
+          "path": "/assets/buildings/windows/window_wood_light_a1_1x1.png",
+          "type": "window",
+          "material": "wood",
+          "style": "light",
+          "size": "1x1",
+          "category": "functional"
+        },
+        {
+          "name": "window_stone_earthy_large_a1",
+          "path": "/assets/buildings/windows/window_stone_earthy_large_a1_2x1.png",
+          "type": "window",
+          "material": "stone",
+          "style": "earthy",
+          "size": "2x1",
+          "category": "functional"
+        },
+        {
+          "name": "window_large_metal_gray_a1",
+          "path": "/assets/buildings/windows/window_large_metal_gray_a1_2x1.png",
+          "type": "window",
+          "material": "metal",
+          "style": "gray",
+          "size": "2x1",
+          "category": "functional"
+        },
+        {
+          "name": "arrowslit_stone_earthy_a1",
+          "path": "/assets/buildings/windows/arrowslit_stone_earthy_a1_1x1.png",
+          "type": "window",
+          "material": "stone",
+          "style": "earthy",
+          "size": "1x1",
+          "category": "defensive"
+        }
+      ]
+    },
+    "roofs": {
+      "description": "Roof components and chimneys",
+      "assets": [
+        {
+          "name": "chimney_stone_earthy_a1",
+          "path": "/assets/buildings/roofs/chimney_stone_earthy_a1_1x1.png",
+          "type": "roof",
+          "material": "stone",
+          "style": "earthy",
+          "size": "1x1",
+          "category": "functional"
+        },
+        {
+          "name": "chimney_stone_redrock_a1",
+          "path": "/assets/buildings/roofs/chimney_stone_redrock_a1_1x1.png",
+          "type": "roof",
+          "material": "stone",
+          "style": "redrock",
+          "size": "1x1",
+          "category": "functional"
+        },
+        {
+          "name": "chimney_stone_sandstone_a1",
+          "path": "/assets/buildings/roofs/chimney_stone_sandstone_a1_1x1.png",
+          "type": "roof",
+          "material": "stone",
+          "style": "sandstone",
+          "size": "1x1",
+          "category": "functional"
+        },
+        {
+          "name": "chimney_stone_slate_a1",
+          "path": "/assets/buildings/roofs/chimney_stone_slate_a1_1x1.png",
+          "type": "roof",
+          "material": "stone",
+          "style": "slate",
+          "size": "1x1",
+          "category": "functional"
+        },
+        {
+          "name": "chimney_stone_volcanic_a1",
+          "path": "/assets/buildings/roofs/chimney_stone_volcanic_a1_1x1.png",
+          "type": "roof",
+          "material": "stone",
+          "style": "volcanic",
+          "size": "1x1",
+          "category": "functional"
+        }
+      ]
+    },
+    "supports": {
+      "description": "Structural supports and beams",
+      "assets": [
+        {
+          "name": "support_wood_ashen_a1",
+          "path": "/assets/buildings/supports/support_wood_ashen_a1_2x1.png",
+          "type": "support",
+          "material": "wood",
+          "style": "ashen",
+          "size": "2x1",
+          "category": "structural"
+        },
+        {
+          "name": "pillar_marble_white_a1",
+          "path": "/assets/buildings/supports/pillar_marble_white_a1_1x1.png",
+          "type": "support",
+          "material": "marble",
+          "style": "white",
+          "size": "1x1",
+          "category": "decorative"
+        },
+        {
+          "name": "pillar_marble_black_a1",
+          "path": "/assets/buildings/supports/pillar_marble_black_a1_1x1.png",
+          "type": "support",
+          "material": "marble",
+          "style": "black",
+          "size": "1x1",
+          "category": "decorative"
+        },
+        {
+          "name": "support_metal_gray_a1",
+          "path": "/assets/buildings/supports/support_metal_gray_a1_2x1.png",
+          "type": "support",
+          "material": "metal",
+          "style": "gray",
+          "size": "2x1",
+          "category": "structural"
+        },
+        {
+          "name": "support_metal_rusty_a1",
+          "path": "/assets/buildings/supports/support_metal_rusty_a1_2x1.png",
+          "type": "support",
+          "material": "metal",
+          "style": "rusty",
+          "size": "2x1",
+          "category": "structural"
+        },
+        {
+          "name": "pillar_stone_earthy_dark_a1",
+          "path": "/assets/buildings/supports/pillar_stone_earthy_dark_a1_1x1.png",
+          "type": "support",
+          "material": "stone",
+          "style": "earthy",
+          "size": "1x1",
+          "category": "structural"
+        },
+        {
+          "name": "pillar_wood_light_a1",
+          "path": "/assets/buildings/supports/pillar_wood_light_a1_1x1.png",
+          "type": "support",
+          "material": "wood",
+          "style": "light",
+          "size": "1x1",
+          "category": "structural"
+        }
+      ]
+    },
+    "arches": {
+      "description": "Archways and structural arches",
+      "assets": [
+        {
+          "name": "arch_small_stone_earthy_a1",
+          "path": "/assets/buildings/arches/arch_small_stone_earthy_a1_1x1.png",
+          "type": "arch",
+          "material": "stone",
+          "style": "earthy",
+          "size": "1x1",
+          "category": "structural"
+        },
+        {
+          "name": "arch_small_stone_slate_a1",
+          "path": "/assets/buildings/arches/arch_small_stone_slate_a1_1x1.png",
+          "type": "arch",
+          "material": "stone",
+          "style": "slate",
+          "size": "1x1",
+          "category": "structural"
+        },
+        {
+          "name": "arch_stone_earthy_a3",
+          "path": "/assets/buildings/arches/arch_stone_earthy_a3_1x2.png",
+          "type": "arch",
+          "material": "stone",
+          "style": "earthy",
+          "size": "1x2",
+          "category": "structural"
+        },
+        {
+          "name": "arch_stone_sandstone_a3",
+          "path": "/assets/buildings/arches/arch_stone_sandstone_a3_1x2.png",
+          "type": "arch",
+          "material": "stone",
+          "style": "sandstone",
+          "size": "1x2",
+          "category": "structural"
+        },
+        {
+          "name": "arched_wall_marble_white_small_a1",
+          "path": "/assets/buildings/arches/arched_wall_marble_white_small_a1_2x1.png",
+          "type": "arch",
+          "material": "marble",
+          "style": "white",
+          "size": "2x1",
+          "category": "decorative"
+        },
+        {
+          "name": "arched_wall_stone_earthy_large_a1",
+          "path": "/assets/buildings/arches/arched_wall_stone_earthy_large_a1_4x1.png",
+          "type": "arch",
+          "material": "stone",
+          "style": "earthy",
+          "size": "4x1",
+          "category": "structural"
+        }
+      ]
+    },
+    "fireplaces": {
+      "description": "Fireplaces and heating elements",
+      "assets": [
+        {
+          "name": "fireplace_stone_earthy_rectangle_a1",
+          "path": "/assets/buildings/fireplaces/fireplace_stone_earthy_rectangle_a1_2x2.png",
+          "type": "fireplace",
+          "material": "stone",
+          "style": "earthy",
+          "size": "2x2",
+          "category": "functional"
+        },
+        {
+          "name": "fireplace_stone_redrock_rectangle_a1",
+          "path": "/assets/buildings/fireplaces/fireplace_stone_redrock_rectangle_a1_2x2.png",
+          "type": "fireplace",
+          "material": "stone",
+          "style": "redrock",
+          "size": "2x2",
+          "category": "functional"
+        },
+        {
+          "name": "fireplace_stone_sandstone_chimneyless_a1",
+          "path": "/assets/buildings/fireplaces/fireplace_stone_sandstone_chimneyless_a1_2x2.png",
+          "type": "fireplace",
+          "material": "stone",
+          "style": "sandstone",
+          "size": "2x2",
+          "category": "functional"
+        },
+        {
+          "name": "fireplace_stone_slate_corner_a1",
+          "path": "/assets/buildings/fireplaces/fireplace_stone_slate_corner_a1_1x2.png",
+          "type": "fireplace",
+          "material": "stone",
+          "style": "slate",
+          "size": "1x2",
+          "category": "functional"
+        }
+      ]
+    },
+    "floors": {
+      "description": "Floor tiles and patterns",
+      "assets": [
+        {
+          "name": "floor_cell_stone_earthy_a1",
+          "path": "/assets/buildings/floors/floor_cell_stone_earthy_a1_2x2.png",
+          "type": "floor",
+          "material": "stone",
+          "style": "earthy",
+          "size": "2x2",
+          "category": "structural"
+        },
+        {
+          "name": "floor_cell_stone_redrock_a1",
+          "path": "/assets/buildings/floors/floor_cell_stone_redrock_a1_2x2.png",
+          "type": "floor",
+          "material": "stone",
+          "style": "redrock",
+          "size": "2x2",
+          "category": "structural"
+        },
+        {
+          "name": "floor_cell_stone_sandstone_a1",
+          "path": "/assets/buildings/floors/floor_cell_stone_sandstone_a1_2x2.png",
+          "type": "floor",
+          "material": "stone",
+          "style": "sandstone",
+          "size": "2x2",
+          "category": "structural"
+        },
+        {
+          "name": "floor_cell_stone_slate_a1",
+          "path": "/assets/buildings/floors/floor_cell_stone_slate_a1_2x2.png",
+          "type": "floor",
+          "material": "stone",
+          "style": "slate",
+          "size": "2x2",
+          "category": "structural"
+        },
+        {
+          "name": "floor_cell_metal_gray_a1",
+          "path": "/assets/buildings/floors/floor_cell_metal_gray_a1_1x1.png",
+          "type": "floor",
+          "material": "metal",
+          "style": "gray",
+          "size": "1x1",
+          "category": "structural"
+        }
+      ]
+    }
+  },
+  "building_types": {
+    "blacksmith": {
+      "description": "Blacksmith workshop components",
+      "requirements": ["walls", "roofs", "doors", "supports"],
+      "specialty": ["forge", "anvil", "chimney"],
+      "recommended_materials": ["stone", "metal"],
+      "recommended_styles": ["volcanic", "slate", "rusty"]
+    },
+    "tavern": {
+      "description": "Tavern and inn components",
+      "requirements": ["walls", "roofs", "doors", "windows"],
+      "specialty": ["large_doors", "multiple_windows", "signage"],
+      "recommended_materials": ["wood", "brick"],
+      "recommended_styles": ["ashen", "dark", "earthy"]
+    },
+    "chapel": {
+      "description": "Religious building components",
+      "requirements": ["walls", "roofs", "doors", "arches"],
+      "specialty": ["arched_windows", "stone_construction", "decorative_elements"],
+      "recommended_materials": ["stone", "marble"],
+      "recommended_styles": ["white", "earthy", "sandstone"]
+    },
+    "market_stall": {
+      "description": "Market stall components",
+      "requirements": ["supports", "roofs"],
+      "specialty": ["awnings", "display_areas", "simple_construction"],
+      "recommended_materials": ["wood"],
+      "recommended_styles": ["light", "ashen"]
+    },
+    "watchtower": {
+      "description": "Defensive tower components",
+      "requirements": ["walls", "floors", "doors"],
+      "specialty": ["stone_walls", "narrow_windows", "defensive_features"],
+      "recommended_materials": ["stone", "metal"],
+      "recommended_styles": ["slate", "volcanic", "gray"]
+    },
+    "house_small": {
+      "description": "Small residential building",
+      "requirements": ["walls", "roofs", "doors", "windows"],
+      "specialty": ["wood_construction", "simple_design", "chimney"],
+      "recommended_materials": ["wood", "brick"],
+      "recommended_styles": ["ashen", "light", "earthy"]
+    },
+    "house_large": {
+      "description": "Large residential building",
+      "requirements": ["walls", "roofs", "doors", "windows", "fireplaces"],
+      "specialty": ["multi_story", "multiple_rooms", "decorative_elements"],
+      "recommended_materials": ["stone", "wood", "marble"],
+      "recommended_styles": ["white", "earthy", "sandstone"]
+    },
+    "warehouse": {
+      "description": "Storage building components",
+      "requirements": ["walls", "roofs", "doors"],
+      "specialty": ["large_spaces", "heavy_construction", "loading_doors"],
+      "recommended_materials": ["stone", "metal"],
+      "recommended_styles": ["gray", "slate", "rusty"]
+    }
+  }
+}

@@ -1,4 +1,5 @@
 import { VillageGenerator, VillageOptions as VGenOptions } from './VillageGenerator';
+import { BuildingPlan } from './ProceduralBuildingGenerator';
 import { Polygon } from '@/types/polygon';
 import { Point } from '@/types/point';
 import { Street } from '@/types/street';
@@ -10,6 +11,7 @@ export interface VillageOptions {
   includeMarket?: boolean;
   includeWalls?: boolean;
   includeWells?: boolean;
+  proceduralBuildings?: boolean; // Generate detailed D&D building layouts
 }
 
 export interface Building {
@@ -18,6 +20,7 @@ export interface Building {
   polygon: Polygon;
   entryPoint: Point;
   vocation?: string;
+  proceduralPlan?: BuildingPlan; // New: detailed building layout for D&D maps
 }
 
 export interface Road {
@@ -55,7 +58,8 @@ export async function generateVillageLayout(seed: string, options: VillageOption
     size: options.size === 'tiny' ? 'tiny' : options.size, // Handle tiny size
     setting: mapVillageTypeToSetting(options.type),
     includeWalls: options.includeWalls,
-    seed: seed.charCodeAt(0)
+    seed: seed.charCodeAt(0),
+    proceduralBuildings: options.proceduralBuildings
   };
 
   // Generate village using new system
@@ -69,7 +73,8 @@ export async function generateVillageLayout(seed: string, options: VillageOption
       type: building.type,
       polygon: building.polygon,
       entryPoint: building.entryPoint,
-      vocation: building.vocation
+      vocation: building.vocation,
+      proceduralPlan: building.proceduralPlan
     })),
     roads: villageData.roads.map(road => ({
       id: road.id,

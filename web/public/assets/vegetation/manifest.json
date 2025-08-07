@@ -1,0 +1,54 @@
+{
+  "version": "2.0.0",
+  "description": "Vegetation assets for Medieval Fantasy Town Generator - Forgotten Adventures Pack",
+  "assets": [
+    {
+      "name": "fey_tree_large",
+      "path": "/assets/vegetation/trees/fey_tree_large.png",
+      "type": "tree",
+      "size": "large"
+    },
+    {
+      "name": "fey_tree_medium",
+      "path": "/assets/vegetation/trees/fey_tree_medium.png",
+      "type": "tree",
+      "size": "medium"
+    },
+    {
+      "name": "fir_tree_large",
+      "path": "/assets/vegetation/trees/fir_tree_large.png",
+      "type": "tree",
+      "size": "large"
+    },
+    {
+      "name": "fey_bush_small",
+      "path": "/assets/vegetation/bushes/fey_bush_small.png",
+      "type": "bush",
+      "size": "small"
+    },
+    {
+      "name": "fey_bush_large",
+      "path": "/assets/vegetation/bushes/fey_bush_large.png",
+      "type": "bush",
+      "size": "large"
+    },
+    {
+      "name": "fey_flower_blue",
+      "path": "/assets/vegetation/flowers/fey_flower_blue.png",
+      "type": "flower",
+      "size": "small"
+    },
+    {
+      "name": "fey_mushroom",
+      "path": "/assets/vegetation/grass/fey_mushroom.png",
+      "type": "grass",
+      "size": "small"
+    },
+    {
+      "name": "stone_rock",
+      "path": "/assets/vegetation/rocks/stone_rock.png",
+      "type": "rock",
+      "size": "medium"
+    }
+  ]
+}

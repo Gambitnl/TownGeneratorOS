@@ -4,6 +4,7 @@ import { Model } from '../services/Model';
 import { StateManager } from '../services/StateManager';
 import { generateVillageLayout, VillageLayout } from '../services/villageGenerationService';
 import { VillagePane } from './VillagePane';
+import EnhancedVillagePane from './EnhancedVillagePane';
 import { Header } from './Header';
 import { ControlPanel } from './ControlPanel';
 import { LoadingSpinner } from './LoadingSpinner';
@@ -98,13 +99,18 @@ const errorMessageStyles: React.CSSProperties = {
 };
 
 const zoomControlsStyles: React.CSSProperties = {
-  position: 'absolute',
+  position: 'fixed',
   bottom: '2rem',
   right: '2rem',
   display: 'flex',
   flexDirection: 'column',
   gap: '0.5rem',
-  zIndex: 20,
+  zIndex: 100,
+  background: 'rgba(0, 0, 0, 0.1)',
+  borderRadius: 'var(--radius-lg)',
+  backdropFilter: 'blur(10px)',
+  border: '1px solid var(--border-color)',
+  padding: '0.5rem'
 };
 
 export const TownScene: React.FC = () => {
@@ -119,6 +125,8 @@ export const TownScene: React.FC = () => {
   const [isPanning, setIsPanning] = useState(false);
   const [panStart, setPanStart] = useState({ x: 0, y: 0 });
   const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
+  const [controlPanelVisible, setControlPanelVisible] = useState(true);
+  const [proceduralBuildings, setProceduralBuildings] = useState(false);
 
   const handleZoomIn = () => setZoom(prev => Math.min(prev * 1.2, 3));
   const handleZoomOut = () => setZoom(prev => Math.max(prev / 1.2, 0.5));
@@ -234,7 +242,8 @@ export const TownScene: React.FC = () => {
           type: villageType,
           size: villageSize,
           includeWalls: false,
-          includeFarmland: villageType === 'farming'
+          includeFarmland: villageType === 'farming',
+          proceduralBuildings
         });
         
         setVillageLayout(layout);
@@ -318,8 +327,7 @@ export const TownScene: React.FC = () => {
           ) : generationType === 'village' && villageLayout ? (
             <div 
               style={{
-                ...mapWrapperStyles, 
-                transform: `translate(${panOffset.x}px, ${panOffset.y}px) scale(${zoom})`,
+                ...mapWrapperStyles,
                 cursor: isPanning ? 'grabbing' : 'grab',
               }}
               className="fade-in map-wrapper"
@@ -329,13 +337,34 @@ export const TownScene: React.FC = () => {
               onMouseLeave={handleMouseLeave}
             >
               <div style={mapOverlayStyles}></div>
-              <VillagePane layout={villageLayout} />
+              <div 
+                style={{
+                  transform: `translate(${panOffset.x}px, ${panOffset.y}px) scale(${zoom})`,
+                  transformOrigin: 'center center',
+                  width: '100%',
+                  height: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                {proceduralBuildings ? (
+                  <EnhancedVillagePane 
+                    village={villageLayout} 
+                    scale={zoom} 
+                    showGrid={true}
+                    showRoomLabels={true}
+                    showFurniture={true}
+                  />
+                ) : (
+                  <VillagePane layout={villageLayout} />
+                )}
+              </div>
             </div>
           ) : generationType === 'city' && model ? (
             <div 
               style={{
-                ...mapWrapperStyles, 
-                transform: `translate(${panOffset.x}px, ${panOffset.y}px) scale(${zoom})`,
+                ...mapWrapperStyles,
                 cursor: isPanning ? 'grabbing' : 'grab',
               }}
               className="fade-in map-wrapper"
@@ -345,25 +374,69 @@ export const TownScene: React.FC = () => {
               onMouseLeave={handleMouseLeave}
             >
               <div style={mapOverlayStyles}></div>
-              <CityMap model={model} />
+              <div 
+                style={{
+                  transform: `translate(${panOffset.x}px, ${panOffset.y}px) scale(${zoom})`,
+                  transformOrigin: 'center center',
+                  width: '100%',
+                  height: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                <CityMap model={model} />
+              </div>
             </div>
           ) : null}
         </div>
 
-        <div style={{ 
-          position: 'fixed', 
-          top: '100px', 
-          left: '20px', 
-          zIndex: 100,
-          maxHeight: 'calc(100vh - 120px)',
-          overflow: 'auto'
+        {/* Control Panel Toggle Button */}
+        <div style={{
+          position: 'fixed',
+          top: '80px',
+          left: '20px',
+          zIndex: 101,
         }}>
-          <ControlPanel 
-            onGenerate={handleGenerate}
-            onRandomGenerate={handleRandomGenerate}
-            isLoading={loading}
-          />
+          <Button 
+            onClick={() => setControlPanelVisible(!controlPanelVisible)}
+            variant="secondary"
+            title={controlPanelVisible ? "Hide Controls" : "Show Controls"}
+            style={{
+              background: 'rgba(0, 0, 0, 0.2)',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid var(--border-color)',
+            }}
+          >
+            {controlPanelVisible ? '◀ Hide' : '▶ Show'}
+          </Button>
         </div>
+
+        {/* Control Panel */}
+        {controlPanelVisible && (
+          <div style={{ 
+            position: 'fixed', 
+            top: '80px', 
+            left: '120px', 
+            zIndex: 100,
+            maxHeight: 'calc(100vh - 160px)',
+            overflow: 'auto',
+            background: 'rgba(0, 0, 0, 0.1)',
+            borderRadius: 'var(--radius-lg)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid var(--border-color)',
+            padding: '1rem',
+            transition: 'all 0.3s ease'
+          }}>
+            <ControlPanel 
+              onGenerate={handleGenerate}
+              onRandomGenerate={handleRandomGenerate}
+              isLoading={loading}
+              proceduralBuildings={proceduralBuildings}
+              onProceduralBuildingsChange={setProceduralBuildings}
+            />
+          </div>
+        )}
       </div>
       
       <div style={zoomControlsStyles}>

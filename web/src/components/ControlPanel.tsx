@@ -5,12 +5,16 @@ interface ControlPanelProps {
   onGenerate: (size: string) => void;
   onRandomGenerate: () => void;
   isLoading: boolean;
+  proceduralBuildings?: boolean;
+  onProceduralBuildingsChange?: (enabled: boolean) => void;
 }
 
 export const ControlPanel: React.FC<ControlPanelProps> = ({ 
   onGenerate, 
   onRandomGenerate, 
-  isLoading 
+  isLoading,
+  proceduralBuildings = false,
+  onProceduralBuildingsChange
 }) => {
   const [activeCategory, setActiveCategory] = useState<'settlements' | 'villages' | null>('settlements');
 
@@ -126,6 +130,28 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
         </div>
       </div>
 
+      {/* D&D Options */}
+      {onProceduralBuildingsChange && (
+        <div className="control-section">
+          <h3>🏠 D&D Map Options</h3>
+          <div className="dnd-options">
+            <label className="checkbox-option">
+              <input
+                type="checkbox"
+                checked={proceduralBuildings}
+                onChange={(e) => onProceduralBuildingsChange(e.target.checked)}
+                disabled={isLoading}
+              />
+              <span className="checkbox-label">
+                <strong>Detailed Building Layouts</strong>
+                <br />
+                <small>Generate interior rooms and furnishing for D&D exploration</small>
+              </span>
+            </label>
+          </div>
+        </div>
+      )}
+
       <style>{`
         .control-panel {
           background: rgba(0, 0, 0, 0.8);
@@ -227,6 +253,43 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
         .village-type-button:hover {
           background: rgba(255, 255, 255, 0.1);
           border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .dnd-options {
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+        }
+
+        .checkbox-option {
+          display: flex;
+          align-items: flex-start;
+          gap: 0.75rem;
+          padding: 0.75rem;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 6px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .checkbox-option:hover {
+          background: rgba(255, 255, 255, 0.1);
+          border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .checkbox-option input {
+          margin-top: 0.2rem;
+        }
+
+        .checkbox-label {
+          flex: 1;
+          font-size: 0.875rem;
+          line-height: 1.4;
+        }
+
+        .checkbox-label small {
+          color: rgba(255, 255, 255, 0.7);
         }
 
         /* Hover animations */

@@ -79,16 +79,16 @@ export const Header: React.FC = () => {
     <header style={headerStyles} className="fade-in header">
       <div style={decorationStyles}></div>
       <div style={{ position: 'relative', zIndex: 1 }}>
-        <h1 style={titleStyles} className="header-title">Medieval Town Generator</h1>
+        <h1 style={titleStyles} className="header-title">Medieval Fantasy Town Generator OS</h1>
         <div style={ornamentStyles}>
           <div style={ornamentLineStyles}></div>
           <div style={ornamentCenterStyles}></div>
           <div style={ornamentLineStyles}></div>
         </div>
         <p style={subtitleStyles} className="header-subtitle">
-          Create beautiful medieval settlements with procedural generation
+          Create immersive medieval settlements with 90+ fantasy vocations and interactive buildings
         </p>
-        <p style={versionStyles} className="header-version">v{packageJson.version} - Stable Beta</p>
+        <p style={versionStyles} className="header-version">v{packageJson.version} - Enhanced Edition</p>
       </div>
     </header>
   );
