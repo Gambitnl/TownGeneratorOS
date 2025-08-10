@@ -1,4 +1,5 @@
 import { AssetManager, AssetInfo } from './AssetManager';
+import { IntelligentFurniturePlacement, PlacementResult } from './IntelligentFurniturePlacement';
 
 // Grid system - each tile is 5 feet in D&D terms
 const TILE_SIZE = 5; // 5 feet per tile
@@ -22,20 +23,57 @@ export interface RoomFurniture {
   height: number;
   rotation: number; // 0, 90, 180, 270
   purpose: string; // "seating", "storage", "lighting", "work", "decoration"
+  furnitureType?: string; // "Chair", "Table", "Bed", etc.
 }
 
 export interface Room {
   id: string;
   name: string;
-  type: 'bedroom' | 'kitchen' | 'common' | 'shop' | 'workshop' | 'storage' | 'entrance';
+  type: 'bedroom' | 'kitchen' | 'common' | 'shop' | 'workshop' | 'storage' | 'entrance' | 'library' | 'laboratory' | 'armory' | 'chapel' | 'nursery' | 'study' | 'pantry' | 'cellar' | 'attic' | 'balcony';
   x: number;
   y: number;
   width: number;
   height: number;
+  floor: number; // Floor level: -1 = basement, 0 = ground, 1+ = upper floors
   tiles: RoomTile[];
   furniture: RoomFurniture[];
   doors: { x: number; y: number; direction: 'north' | 'south' | 'east' | 'west' }[];
   windows: { x: number; y: number; direction: 'north' | 'south' | 'east' | 'west' }[];
+  stairs?: { x: number; y: number; direction: 'up' | 'down'; targetFloor: number }[];
+  fixtures?: Array<{
+    id: string;
+    name: string;
+    type: 'hearth' | 'privy' | 'built_in_storage' | 'well' | 'bread_oven' | 'washbasin' | 'garderobe' | 'alcove';
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    wallSide?: 'north' | 'south' | 'east' | 'west';
+    functionality: string[];
+  }>;
+  chimneys?: Array<{ x: number; y: number; material: string }>;
+  decorations?: Array<{
+    id: string;
+    name: string;
+    type: 'wall_hanging' | 'floor_covering' | 'ceiling_feature' | 'lighting' | 'plants' | 'religious' | 'luxury';
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    placement: 'wall' | 'floor' | 'ceiling' | 'corner' | 'center';
+    wallSide?: 'north' | 'south' | 'east' | 'west';
+    lightLevel: number;
+    comfort: number;
+  }>;
+  lighting?: Array<{
+    id: string;
+    type: 'candle' | 'oil_lamp' | 'torch' | 'lantern' | 'chandelier' | 'sconce' | 'fireplace_light';
+    x: number;
+    y: number;
+    lightRadius: number;
+    lightIntensity: number;
+    placement: 'table' | 'wall' | 'ceiling' | 'floor';
+  }>;
 }
 
 export interface ExteriorFeature {
@@ -48,6 +86,20 @@ export interface ExteriorFeature {
   height: number;
 }
 
+export interface Floor {
+  level: number; // -1 = basement, 0 = ground, 1+ = upper floors
+  rooms: Room[];
+  height: number; // Floor height in tiles (usually 3 for 15 feet ceiling)
+  hallways?: Array<{
+    id: string;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    type: 'corridor' | 'entrance_hall' | 'landing' | 'gallery';
+  }>;
+}
+
 export interface BuildingPlan {
   id: string;
   buildingType: 'house_small' | 'house_large' | 'tavern' | 'blacksmith' | 'shop' | 'market_stall';
@@ -58,11 +110,33 @@ export interface BuildingPlan {
   buildingHeight: number;
   buildingX: number; // position on lot
   buildingY: number; // position on lot
-  rooms: Room[];
+  floors: Floor[]; // Multi-story support
+  totalBuildingHeight: number; // Total height including all floors
+  rooms: Room[]; // Kept for backward compatibility
   exteriorFeatures: ExteriorFeature[];
+  exteriorElements?: Array<{
+    id: string;
+    type: 'chimney' | 'entrance' | 'roof_structure' | 'buttress' | 'tower' | 'bay_window' | 'balcony' | 'dormer';
+    name: string;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    floorLevel: number;
+  }>;
+  roofStructures?: Array<{
+    id: string;
+    type: 'gable' | 'hip' | 'shed' | 'gambrel' | 'mansard' | 'tower_cone';
+    material: string;
+    pitch: number;
+  }>;
   wallMaterial: string;
   roofMaterial: string;
   foundationMaterial: string;
+  condition: 'new' | 'good' | 'worn' | 'poor' | 'ruins';
+  age: number; // Years since construction
+  climate: 'temperate' | 'cold' | 'hot' | 'wet' | 'dry';
+  aesthetics?: any; // BuildingAesthetics - using any to avoid circular dependency
 }
 
 export class ProceduralBuildingGenerator {
@@ -651,51 +725,127 @@ export class ProceduralBuildingGenerator {
   ): RoomFurniture[] {
     const furniture: RoomFurniture[] = [];
     
-    // Get appropriate furniture for room type and social class
-    const furnitureSpecs = this.getFurnitureSpecsForRoom(room.type, socialClass);
+    // Convert room type to RoomFunction for the new placement system
+    const roomFunction = this.mapRoomTypeToFunction(room.type);
     
-    // Place furniture avoiding walls and doors
-    const availableSpaces = this.getAvailableFurnitureSpaces(room);
+    // Collect obstacles (doors, windows, fixtures)
+    const obstacles: Array<{x: number, y: number, width: number, height: number}> = [];
     
-    let furnitureId = 0;
-    let currentSeed = seed;
+    // Add doors as obstacles
+    room.doors?.forEach(door => {
+      obstacles.push({ x: door.x, y: door.y, width: 1, height: 1 });
+    });
     
-    for (const spec of furnitureSpecs) {
-      const suitableSpaces = availableSpaces.filter(space => 
-        space.width >= spec.minWidth && space.height >= spec.minHeight
-      );
-      
-      if (suitableSpaces.length > 0) {
-        const spaceIndex = Math.floor(this.seedRandom(currentSeed) * suitableSpaces.length);
-        const space = suitableSpaces[spaceIndex];
-        
-        // Get appropriate asset from AssetManager
-        const asset = this.getFurnitureAsset(spec.category, spec.material || 'any', currentSeed + 1);
-        
-        if (asset) {
-          furniture.push({
-            id: `${room.id}_furniture_${furnitureId++}`,
-            asset,
-            x: space.x + Math.floor((space.width - spec.minWidth) * this.seedRandom(currentSeed + 2)),
-            y: space.y + Math.floor((space.height - spec.minHeight) * this.seedRandom(currentSeed + 3)),
-            width: spec.minWidth,
-            height: spec.minHeight,
-            rotation: 0,
-            purpose: spec.purpose
-          });
-          
-          // Remove this space from available spaces
-          const index = availableSpaces.indexOf(space);
-          if (index > -1) {
-            availableSpaces.splice(index, 1);
-          }
-        }
-        
-        currentSeed += 10;
+    // Add windows as obstacles
+    room.windows?.forEach(window => {
+      obstacles.push({ x: window.x, y: window.y, width: 1, height: 1 });
+    });
+    
+    // Add fixtures as obstacles
+    room.fixtures?.forEach(fixture => {
+      obstacles.push({ x: fixture.x, y: fixture.y, width: fixture.width || 1, height: fixture.height || 1 });
+    });
+
+    // Use intelligent furniture placement system
+    const placementResult = IntelligentFurniturePlacement.placeFurnitureIntelligently(
+      roomFunction,
+      room.x,
+      room.y,
+      room.width,
+      room.height,
+      socialClass,
+      obstacles,
+      seed
+    );
+
+    // Convert table-chair groups to furniture items
+    placementResult.tableChairGroups.forEach(group => {
+      // Add table
+      const tableAsset = this.getFurnitureAsset('table', 'wood', seed);
+      if (tableAsset) {
+        furniture.push({
+          id: group.tableId,
+          asset: tableAsset,
+          x: group.table.x,
+          y: group.table.y,
+          width: group.table.width,
+          height: group.table.height,
+          rotation: 0,
+          purpose: group.table.type === 'dining' ? 'table' : 'work',
+          furnitureType: `${group.table.type.charAt(0).toUpperCase() + group.table.type.slice(1)} Table`
+        });
       }
-    }
+
+      // Add chairs
+      group.chairs.forEach(chair => {
+        const chairAsset = this.getFurnitureAsset('seating', 'wood', seed + parseInt(chair.id.split('_')[1] || '0'));
+        if (chairAsset) {
+          furniture.push({
+            id: chair.id,
+            asset: chairAsset,
+            x: chair.x,
+            y: chair.y,
+            width: 1,
+            height: 1,
+            rotation: chair.facing,
+            purpose: 'seating',
+            furnitureType: 'Chair'
+          });
+        }
+      });
+    });
+
+    // Convert independent furniture to furniture items
+    placementResult.independentFurniture.forEach(item => {
+      const asset = this.getFurnitureAsset(item.type, 'wood', seed + parseInt(item.id.split('_')[1] || '0'));
+      if (asset) {
+        furniture.push({
+          id: item.id,
+          asset,
+          x: item.x,
+          y: item.y,
+          width: item.width,
+          height: item.height,
+          rotation: item.rotation || 0,
+          purpose: item.type,
+          furnitureType: this.getFurnitureTypeName(item.type)
+        });
+      }
+    });
     
     return furniture;
+  }
+
+  private static mapRoomTypeToFunction(roomType: string): any {
+    const mapping: {[key: string]: string} = {
+      'main': 'living',
+      'bedroom': 'bedroom',
+      'kitchen': 'kitchen',
+      'common': 'common',
+      'living': 'living',
+      'dining': 'common',
+      'entrance': 'common',
+      'storage': 'storage',
+      'workshop': 'workshop',
+      'shop': 'shop_floor',
+      'office': 'office'
+    };
+    
+    return mapping[roomType] || 'common';
+  }
+
+  private static getFurnitureTypeName(category: string): string {
+    const names: {[key: string]: string} = {
+      'bed': 'Bed',
+      'table': 'Table', 
+      'seating': 'Chair',
+      'storage': 'Chest',
+      'work': 'Workbench',
+      'cooking': 'Stove',
+      'lighting': 'Candle'
+    };
+    
+    return names[category] || 'Furniture';
   }
 
   private static getFurnitureSpecsForRoom(

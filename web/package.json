@@ -1,6 +1,6 @@
 {
-  "name": "village-generator",
-  "version": "2.0.0",
+  "name": "town-generator-os",
+  "version": "2.1.0",
   "private": true,
   "type": "module",
   "scripts": {

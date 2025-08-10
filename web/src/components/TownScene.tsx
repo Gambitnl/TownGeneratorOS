@@ -5,8 +5,10 @@ import { StateManager } from '../services/StateManager';
 import { generateVillageLayout, VillageLayout } from '../services/villageGenerationService';
 import { VillagePane } from './VillagePane';
 import EnhancedVillagePane from './EnhancedVillagePane';
+import { StandaloneBuildingGenerator, BuildingOptions } from '../services/StandaloneBuildingGenerator';
+import { BuildingPane } from './BuildingPane';
 import { Header } from './Header';
-import { ControlPanel } from './ControlPanel';
+import { TopBarMenu } from './TopBarMenu';
 import { LoadingSpinner } from './LoadingSpinner';
 import { Tooltip } from './Tooltip';
 import { Button } from './Button';
@@ -24,13 +26,12 @@ const mainContentStyles: React.CSSProperties = {
   minHeight: '100vh',
 };
 
-const headerStyles: React.CSSProperties = {
-  width: '100%',
-  padding: '1rem 2rem',
-  background: 'rgba(0, 0, 0, 0.2)',
-  backdropFilter: 'blur(10px)',
-  borderBottom: '1px solid var(--border-color)',
-  zIndex: 10,
+const topBarStyles: React.CSSProperties = {
+  position: 'sticky',
+  top: 0,
+  zIndex: 1000,
+  background: 'rgba(0, 0, 0, 0.95)',
+  backdropFilter: 'blur(15px)',
 };
 
 
@@ -40,22 +41,20 @@ const mapContainerStyles: React.CSSProperties = {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  padding: '1rem',
-  overflow: 'auto',
+  padding: '2rem',
   minHeight: '600px',
 };
 
 const mapWrapperStyles: React.CSSProperties = {
   background: 'var(--card-bg)',
   borderRadius: 'var(--radius-lg)',
-  border: '2px solid var(--border-color)',
+  border: '3px solid var(--border-color)',
   boxShadow: 'var(--shadow-strong)',
-  padding: '0.5rem',
-  width: '95vw',
+  padding: '1rem',
+  width: 'calc(100vw - 4rem)',
   maxWidth: '1400px',
-  height: '80vh',
-  minHeight: '700px',
-  overflow: 'auto',
+  height: 'calc(100vh - 200px)',
+  overflow: 'hidden',
   backdropFilter: 'blur(10px)',
   position: 'relative',
   display: 'flex',
@@ -116,7 +115,8 @@ const zoomControlsStyles: React.CSSProperties = {
 export const TownScene: React.FC = () => {
   const [model, setModel] = useState<Model | null>(null);
   const [villageLayout, setVillageLayout] = useState<VillageLayout | null>(null);
-  const [generationType, setGenerationType] = useState<'city' | 'village' | null>(null);
+  const [buildingPlan, setBuildingPlan] = useState<any | null>(null);
+  const [generationType, setGenerationType] = useState<'city' | 'village' | 'building' | null>(null);
   const [tooltipText, setTooltipText] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -125,7 +125,6 @@ export const TownScene: React.FC = () => {
   const [isPanning, setIsPanning] = useState(false);
   const [panStart, setPanStart] = useState({ x: 0, y: 0 });
   const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
-  const [controlPanelVisible, setControlPanelVisible] = useState(true);
   const [proceduralBuildings, setProceduralBuildings] = useState(false);
 
   const handleZoomIn = () => setZoom(prev => Math.min(prev * 1.2, 3));
@@ -210,6 +209,7 @@ export const TownScene: React.FC = () => {
     setError(null);
     setModel(null);
     setVillageLayout(null);
+    setBuildingPlan(null);
 
     try {
       const seed = Math.floor(Math.random() * 1000000).toString();
@@ -248,6 +248,26 @@ export const TownScene: React.FC = () => {
         
         setVillageLayout(layout);
         console.log(`Generated ${size} (${villageType} ${villageSize}) with ${layout.buildings.length} buildings, seed: ${seed}`);
+      }
+      // Use building generator for individual buildings
+      else if (size.startsWith('building-')) {
+        setLoadingMessage('Crafting your medieval building...');
+        setGenerationType('building');
+        
+        const buildingType = size.replace('building-', '').split('-')[0] as any;
+        const socialClass = size.includes('-poor') ? 'poor' :
+                           size.includes('-wealthy') ? 'wealthy' :
+                           size.includes('-noble') ? 'noble' : 'common';
+        
+        const options: BuildingOptions = {
+          buildingType: buildingType || 'house_small',
+          socialClass,
+          seed: parseInt(seed)
+        };
+        
+        const plan = StandaloneBuildingGenerator.generateBuilding(options);
+        setBuildingPlan(plan);
+        console.log(`Generated ${buildingType} building for ${socialClass} class, seed: ${seed}`);
       } 
       // Use city generator for larger settlements  
       else {
@@ -308,7 +328,16 @@ export const TownScene: React.FC = () => {
   return (
     <div style={containerStyles}>
       <div style={mainContentStyles}>
-        <Header style={headerStyles} />
+        <div style={topBarStyles}>
+          <Header />
+          <TopBarMenu 
+            onGenerate={handleGenerate}
+            onRandomGenerate={handleRandomGenerate}
+            isLoading={loading}
+            proceduralBuildings={proceduralBuildings}
+            onProceduralBuildingsChange={setProceduralBuildings}
+          />
+        </div>
         
         <div style={mapContainerStyles} className="map-container">
           {loading ? (
@@ -326,15 +355,8 @@ export const TownScene: React.FC = () => {
             </div>
           ) : generationType === 'village' && villageLayout ? (
             <div 
-              style={{
-                ...mapWrapperStyles,
-                cursor: isPanning ? 'grabbing' : 'grab',
-              }}
+              style={mapWrapperStyles}
               className="fade-in map-wrapper"
-              onMouseDown={handleMouseDown}
-              onMouseMove={handleMouseMove}
-              onMouseUp={handleMouseUp}
-              onMouseLeave={handleMouseLeave}
             >
               <div style={mapOverlayStyles}></div>
               <div 
@@ -345,8 +367,13 @@ export const TownScene: React.FC = () => {
                   height: '100%',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center'
+                  justifyContent: 'center',
+                  cursor: isPanning ? 'grabbing' : 'grab'
                 }}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseLeave}
               >
                 {proceduralBuildings ? (
                   <EnhancedVillagePane 
@@ -361,17 +388,10 @@ export const TownScene: React.FC = () => {
                 )}
               </div>
             </div>
-          ) : generationType === 'city' && model ? (
+          ) : generationType === 'building' && buildingPlan ? (
             <div 
-              style={{
-                ...mapWrapperStyles,
-                cursor: isPanning ? 'grabbing' : 'grab',
-              }}
+              style={mapWrapperStyles}
               className="fade-in map-wrapper"
-              onMouseDown={handleMouseDown}
-              onMouseMove={handleMouseMove}
-              onMouseUp={handleMouseUp}
-              onMouseLeave={handleMouseLeave}
             >
               <div style={mapOverlayStyles}></div>
               <div 
@@ -382,8 +402,44 @@ export const TownScene: React.FC = () => {
                   height: '100%',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center'
+                  justifyContent: 'center',
+                  cursor: isPanning ? 'grabbing' : 'grab'
                 }}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseLeave}
+              >
+                <BuildingPane 
+                  building={buildingPlan} 
+                  scale={zoom}
+                  showGrid={true}
+                  showRoomLabels={true}
+                  showFurniture={true}
+                />
+              </div>
+            </div>
+          ) : generationType === 'city' && model ? (
+            <div 
+              style={mapWrapperStyles}
+              className="fade-in map-wrapper"
+            >
+              <div style={mapOverlayStyles}></div>
+              <div 
+                style={{
+                  transform: `translate(${panOffset.x}px, ${panOffset.y}px) scale(${zoom})`,
+                  transformOrigin: 'center center',
+                  width: '100%',
+                  height: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: isPanning ? 'grabbing' : 'grab'
+                }}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseLeave}
               >
                 <CityMap model={model} />
               </div>
@@ -391,57 +447,11 @@ export const TownScene: React.FC = () => {
           ) : null}
         </div>
 
-        {/* Control Panel Toggle Button */}
-        <div style={{
-          position: 'fixed',
-          top: '80px',
-          left: '20px',
-          zIndex: 101,
-        }}>
-          <Button 
-            onClick={() => setControlPanelVisible(!controlPanelVisible)}
-            variant="secondary"
-            title={controlPanelVisible ? "Hide Controls" : "Show Controls"}
-            style={{
-              background: 'rgba(0, 0, 0, 0.2)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid var(--border-color)',
-            }}
-          >
-            {controlPanelVisible ? '◀ Hide' : '▶ Show'}
-          </Button>
-        </div>
-
-        {/* Control Panel */}
-        {controlPanelVisible && (
-          <div style={{ 
-            position: 'fixed', 
-            top: '80px', 
-            left: '120px', 
-            zIndex: 100,
-            maxHeight: 'calc(100vh - 160px)',
-            overflow: 'auto',
-            background: 'rgba(0, 0, 0, 0.1)',
-            borderRadius: 'var(--radius-lg)',
-            backdropFilter: 'blur(10px)',
-            border: '1px solid var(--border-color)',
-            padding: '1rem',
-            transition: 'all 0.3s ease'
-          }}>
-            <ControlPanel 
-              onGenerate={handleGenerate}
-              onRandomGenerate={handleRandomGenerate}
-              isLoading={loading}
-              proceduralBuildings={proceduralBuildings}
-              onProceduralBuildingsChange={setProceduralBuildings}
-            />
-          </div>
-        )}
       </div>
       
       <div style={zoomControlsStyles}>
-        <Button onClick={handleZoomIn} variant="secondary" title="Zoom In">➕</Button>
-        <Button onClick={handleZoomOut} variant="secondary" title="Zoom Out">➖</Button>
+        <Button onClick={handleZoomIn} variant="secondary" title="Zoom In">🔍+</Button>
+        <Button onClick={handleZoomOut} variant="secondary" title="Zoom Out">🔍-</Button>
       </div>
     </div>
   );

@@ -116,6 +116,67 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
         </div>
       </div>
 
+      {/* Building Types */}
+      <div className="control-section">
+        <h3>🏠 Individual Buildings</h3>
+        <div className="building-types">
+          <Button 
+            variant="outline" 
+            className="building-type-button"
+            onClick={() => onGenerate('building-house_small')}
+            disabled={isLoading}
+            title="Generate a small house with detailed interior (D&D ready)"
+          >
+            🏘️ Small House
+          </Button>
+          <Button 
+            variant="outline" 
+            className="building-type-button"
+            onClick={() => onGenerate('building-house_large')}
+            disabled={isLoading}
+            title="Generate a large house with multiple rooms"
+          >
+            🏛️ Large House
+          </Button>
+          <Button 
+            variant="outline" 
+            className="building-type-button"
+            onClick={() => onGenerate('building-tavern')}
+            disabled={isLoading}
+            title="Generate a tavern with main hall and accommodations"
+          >
+            🍺 Tavern
+          </Button>
+          <Button 
+            variant="outline" 
+            className="building-type-button"
+            onClick={() => onGenerate('building-blacksmith')}
+            disabled={isLoading}
+            title="Generate a blacksmith workshop with forge"
+          >
+            🔨 Blacksmith
+          </Button>
+          <Button 
+            variant="outline" 
+            className="building-type-button"
+            onClick={() => onGenerate('building-shop')}
+            disabled={isLoading}
+            title="Generate a general goods shop"
+          >
+            🏪 Shop
+          </Button>
+          <Button 
+            variant="outline" 
+            className="building-type-button"
+            onClick={() => onGenerate('building-market_stall')}
+            disabled={isLoading}
+            title="Generate a small market stall"
+          >
+            🛒 Market Stall
+          </Button>
+        </div>
+      </div>
+
       {/* Quick Actions */}
       <div className="control-section">
         <div className="quick-actions">
@@ -151,6 +212,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           </div>
         </div>
       )}
+
 
       <style>{`
         .control-panel {
@@ -240,6 +302,12 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           gap: 0.5rem;
         }
 
+        .building-types {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 0.5rem;
+        }
+
         .village-type-button {
           padding: 0.75rem;
           text-align: center;
@@ -253,6 +321,22 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
         .village-type-button:hover {
           background: rgba(255, 255, 255, 0.1);
           border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .building-type-button {
+          padding: 0.75rem;
+          text-align: center;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 6px;
+          font-size: 0.875rem;
+          transition: all 0.2s ease;
+        }
+
+        .building-type-button:hover {
+          background: rgba(255, 255, 255, 0.1);
+          border-color: rgba(255, 255, 255, 0.2);
+          transform: translateY(-1px);
         }
 
         .dnd-options {
