@@ -341,11 +341,13 @@ export class IntelligentFurniturePlacement {
       side: 'north' | 'south' | 'east' | 'west', priority: number
     }> = [];
 
-    // North side of table
+    // North side of table (chairs directly adjacent)
     for (let i = 0; i < table.width; i++) {
       const chairX = tableGridX + i;
-      const chairY = tableGridY - 1;
-      if (chairY >= 0 && this.canPlaceFurniture(occupancyGrid, chairX, chairY, 1, 1)) {
+      const chairY = tableGridY - 1; // Directly adjacent north
+      if (chairY >= 0 && chairY < occupancyGrid.length && 
+          chairX >= 0 && chairX < occupancyGrid[0].length &&
+          this.canPlaceFurniture(occupancyGrid, chairX, chairY, 1, 1)) {
         potentialChairSpots.push({
           x: bounds.x + chairX,
           y: bounds.y + chairY,
@@ -356,11 +358,13 @@ export class IntelligentFurniturePlacement {
       }
     }
 
-    // South side of table
+    // South side of table (chairs directly adjacent)
     for (let i = 0; i < table.width; i++) {
       const chairX = tableGridX + i;
-      const chairY = tableGridY + table.height;
-      if (chairY < bounds.height && this.canPlaceFurniture(occupancyGrid, chairX, chairY, 1, 1)) {
+      const chairY = tableGridY + table.height; // Directly adjacent south
+      if (chairY >= 0 && chairY < occupancyGrid.length && 
+          chairX >= 0 && chairX < occupancyGrid[0].length &&
+          this.canPlaceFurniture(occupancyGrid, chairX, chairY, 1, 1)) {
         potentialChairSpots.push({
           x: bounds.x + chairX,
           y: bounds.y + chairY,
@@ -371,11 +375,13 @@ export class IntelligentFurniturePlacement {
       }
     }
 
-    // East side of table
+    // East side of table (chairs directly adjacent)
     for (let i = 0; i < table.height; i++) {
-      const chairX = tableGridX + table.width;
+      const chairX = tableGridX + table.width; // Directly adjacent east
       const chairY = tableGridY + i;
-      if (chairX < bounds.width && this.canPlaceFurniture(occupancyGrid, chairX, chairY, 1, 1)) {
+      if (chairY >= 0 && chairY < occupancyGrid.length && 
+          chairX >= 0 && chairX < occupancyGrid[0].length &&
+          this.canPlaceFurniture(occupancyGrid, chairX, chairY, 1, 1)) {
         potentialChairSpots.push({
           x: bounds.x + chairX,
           y: bounds.y + chairY,

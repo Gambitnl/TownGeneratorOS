@@ -4,6 +4,7 @@ import { FloorNavigation } from './FloorNavigation';
 import { MedievalFixturesSystem } from '../services/MedievalFixturesSystem';
 import { ExteriorArchitecturalSystem } from '../services/ExteriorArchitecturalSystem';
 import { InteriorDecorationSystem } from '../services/InteriorDecorationSystem';
+import { EnhancedBuildingPane } from './EnhancedBuildingPane';
 
 interface BuildingPaneProps {
   building: BuildingPlan;
@@ -11,6 +12,7 @@ interface BuildingPaneProps {
   showGrid?: boolean;
   showRoomLabels?: boolean;
   showFurniture?: boolean;
+  useEnhancedRenderer?: boolean;
 }
 
 export const BuildingPane: React.FC<BuildingPaneProps> = ({
@@ -18,8 +20,23 @@ export const BuildingPane: React.FC<BuildingPaneProps> = ({
   scale = 1,
   showGrid = true,
   showRoomLabels = true,
-  showFurniture = true
+  showFurniture = true,
+  useEnhancedRenderer = false
 }) => {
+  // If enhanced renderer is requested, use the new EnhancedBuildingPane
+  if (useEnhancedRenderer) {
+    return (
+      <EnhancedBuildingPane
+        building={building}
+        scale={scale}
+        showGrid={showGrid}
+        showRoomLabels={showRoomLabels}
+        showAssets={true}
+        showCondition={true}
+        showLighting={true}
+      />
+    );
+  }
   const TILE_SIZE = 20; // pixels per 5-foot tile
   const scaledTileSize = TILE_SIZE * scale;
   const [currentFloor, setCurrentFloor] = useState(0); // Current floor being viewed
@@ -208,6 +225,120 @@ export const BuildingPane: React.FC<BuildingPaneProps> = ({
     return building.rooms.filter(room => room.floor === currentFloor);
   };
 
+  // Helper function to check if a tile position is a wall
+  const isWallTile = (x: number, y: number): boolean => {
+    const currentRooms = getCurrentFloorRooms();
+    
+    // Check room tiles
+    for (const room of currentRooms) {
+      const tile = room.tiles.find(t => t.x === x && t.y === y);
+      if (tile && tile.type === 'wall') {
+        return true;
+      }
+    }
+    
+    // Check hallway walls if any
+    if (building.floors && building.floors.length > 0) {
+      const floor = building.floors.find(f => f.level === currentFloor);
+      if (floor?.hallways) {
+        for (const hallway of floor.hallways) {
+          const isHallwayEdge = (x >= hallway.x && x < hallway.x + hallway.width &&
+                                y >= hallway.y && y < hallway.y + hallway.height) &&
+                               (x === hallway.x || x === hallway.x + hallway.width - 1 ||
+                                y === hallway.y || y === hallway.y + hallway.height - 1);
+          if (isHallwayEdge) {
+            return true;
+          }
+        }
+      }
+    }
+    
+    return false;
+  };
+
+  // Helper function to check if a position is inside a room (not a wall)
+  const isInsideRoom = (x: number, y: number): boolean => {
+    const currentRooms = getCurrentFloorRooms();
+    
+    for (const room of currentRooms) {
+      // Check if position is within room bounds
+      if (x >= room.x && x < room.x + room.width &&
+          y >= room.y && y < room.y + room.height) {
+        // Check if it's a floor tile (not a wall)
+        const tile = room.tiles.find(t => t.x === x && t.y === y);
+        if (tile && tile.type === 'floor') {
+          return true;
+        }
+      }
+    }
+    
+    return false;
+  };
+
+  // Light occlusion calculation using simple raycasting
+  const calculateLightOcclusion = (sourceX: number, sourceY: number, radius: number): Array<{x: number, y: number, intensity: number}> => {
+    const lightTiles: Array<{x: number, y: number, intensity: number}> = [];
+    const maxDistance = radius;
+    
+    // Cast rays in a circular pattern
+    for (let y = sourceY - radius; y <= sourceY + radius; y++) {
+      for (let x = sourceX - radius; x <= sourceX + radius; x++) {
+        const distance = Math.sqrt((x - sourceX) ** 2 + (y - sourceY) ** 2);
+        
+        // Skip tiles outside the radius
+        if (distance > maxDistance) continue;
+        
+        // Skip the source tile itself
+        if (x === sourceX && y === sourceY) continue;
+        
+        // Only light tiles that are inside rooms
+        if (!isInsideRoom(x, y)) continue;
+        
+        // Check if light can reach this tile (simple line-of-sight)
+        if (hasLineOfSight(sourceX, sourceY, x, y)) {
+          const intensity = Math.max(0, 1 - (distance / maxDistance));
+          lightTiles.push({ x, y, intensity });
+        }
+      }
+    }
+    
+    return lightTiles;
+  };
+
+  // Simple line-of-sight check using Bresenham's line algorithm
+  const hasLineOfSight = (x0: number, y0: number, x1: number, y1: number): boolean => {
+    const dx = Math.abs(x1 - x0);
+    const dy = Math.abs(y1 - y0);
+    const sx = x0 < x1 ? 1 : -1;
+    const sy = y0 < y1 ? 1 : -1;
+    let err = dx - dy;
+    
+    let x = x0;
+    let y = y0;
+    
+    while (true) {
+      // If we hit a wall before reaching the target, line of sight is blocked
+      if (isWallTile(x, y)) {
+        return false;
+      }
+      
+      // If we reached the target, line of sight is clear
+      if (x === x1 && y === y1) {
+        return true;
+      }
+      
+      const e2 = 2 * err;
+      if (e2 > -dy) {
+        err -= dy;
+        x += sx;
+      }
+      if (e2 < dx) {
+        err += dx;
+        y += sy;
+      }
+    }
+  };
+
   const renderHallwayTiles = () => {
     if (!building.floors || building.floors.length === 0) return [];
     
@@ -373,25 +504,49 @@ export const BuildingPane: React.FC<BuildingPaneProps> = ({
           </div>
         );
 
-        // Render light radius for lighting decorations
+        // Render light radius for lighting decorations with wall occlusion
         if (decoration.lightLevel > 20) {
           const lightRadius = Math.floor(decoration.lightLevel / 20) + 1;
+          const lightTiles = calculateLightOcclusion(decoration.x, decoration.y, lightRadius);
+          
+          // Render individual lit tiles instead of a simple circle
+          lightTiles.forEach((tile, index) => {
+            decorations.push(
+              <div
+                key={`${decoration.id}_light_tile_${index}`}
+                style={{
+                  position: 'absolute',
+                  left: tile.x * scaledTileSize,
+                  top: tile.y * scaledTileSize,
+                  width: scaledTileSize,
+                  height: scaledTileSize,
+                  backgroundColor: `rgba(255, 215, 0, ${Math.max(0.05, tile.intensity * 0.15)})`,
+                  border: '1px solid rgba(255, 215, 0, 0.1)',
+                  pointerEvents: 'none',
+                  zIndex: 2,
+                  boxSizing: 'border-box'
+                }}
+              />
+            );
+          });
+          
+          // Also render the source indicator
           decorations.push(
             <div
-              key={`${decoration.id}_light`}
+              key={`${decoration.id}_light_source`}
               style={{
                 position: 'absolute',
-                left: (decoration.x - lightRadius + 0.5) * scaledTileSize,
-                top: (decoration.y - lightRadius + 0.5) * scaledTileSize,
-                width: (lightRadius * 2) * scaledTileSize,
-                height: (lightRadius * 2) * scaledTileSize,
-                backgroundColor: 'rgba(255, 215, 0, 0.1)',
-                border: '1px dashed rgba(255, 215, 0, 0.3)',
+                left: decoration.x * scaledTileSize + scaledTileSize * 0.1,
+                top: decoration.y * scaledTileSize + scaledTileSize * 0.1,
+                width: scaledTileSize * 0.8,
+                height: scaledTileSize * 0.8,
+                backgroundColor: 'rgba(255, 215, 0, 0.3)',
+                border: '2px solid rgba(255, 215, 0, 0.6)',
                 borderRadius: '50%',
                 pointerEvents: 'none',
-                zIndex: 2
+                zIndex: 3
               }}
-              title={`Light radius: ${lightRadius} tiles`}
+              title={`Light source: ${lightRadius} tiles radius`}
             />
           );
         }

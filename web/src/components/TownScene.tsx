@@ -126,6 +126,7 @@ export const TownScene: React.FC = () => {
   const [panStart, setPanStart] = useState({ x: 0, y: 0 });
   const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
   const [proceduralBuildings, setProceduralBuildings] = useState(false);
+  const [useEnhancedAssets, setUseEnhancedAssets] = useState(false);
 
   const handleZoomIn = () => setZoom(prev => Math.min(prev * 1.2, 3));
   const handleZoomOut = () => setZoom(prev => Math.max(prev / 1.2, 0.5));
@@ -336,6 +337,8 @@ export const TownScene: React.FC = () => {
             isLoading={loading}
             proceduralBuildings={proceduralBuildings}
             onProceduralBuildingsChange={setProceduralBuildings}
+            useEnhancedAssets={useEnhancedAssets}
+            onEnhancedAssetsChange={setUseEnhancedAssets}
           />
         </div>
         
@@ -416,6 +419,7 @@ export const TownScene: React.FC = () => {
                   showGrid={true}
                   showRoomLabels={true}
                   showFurniture={true}
+                  useEnhancedRenderer={useEnhancedAssets}
                 />
               </div>
             </div>

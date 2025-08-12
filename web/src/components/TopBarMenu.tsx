@@ -7,6 +7,8 @@ interface TopBarMenuProps {
   isLoading: boolean;
   proceduralBuildings?: boolean;
   onProceduralBuildingsChange?: (enabled: boolean) => void;
+  useEnhancedAssets?: boolean;
+  onEnhancedAssetsChange?: (enabled: boolean) => void;
 }
 
 const menuItems = [
@@ -68,7 +70,9 @@ export const TopBarMenu: React.FC<TopBarMenuProps> = ({
   onRandomGenerate,
   isLoading,
   proceduralBuildings = false,
-  onProceduralBuildingsChange
+  onProceduralBuildingsChange,
+  useEnhancedAssets = false,
+  onEnhancedAssetsChange
 }) => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [showGlossary, setShowGlossary] = useState<boolean>(false);
@@ -138,6 +142,17 @@ export const TopBarMenu: React.FC<TopBarMenuProps> = ({
               />
               <span className="toggle-label">Detailed Interiors</span>
             </label>
+            {onEnhancedAssetsChange && (
+              <label className="procedural-toggle">
+                <input
+                  type="checkbox"
+                  checked={useEnhancedAssets}
+                  onChange={(e) => onEnhancedAssetsChange(e.target.checked)}
+                  disabled={isLoading}
+                />
+                <span className="toggle-label">Enhanced Assets</span>
+              </label>
+            )}
           </>
         )}
       </div>
