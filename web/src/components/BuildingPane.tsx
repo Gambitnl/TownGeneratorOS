@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import { BuildingPlan } from '../services/StandaloneBuildingGenerator';
+import { SimpleBuilding } from '../services/SimpleBuildingGenerator';
 import { FloorNavigation } from './FloorNavigation';
 import { MedievalFixturesSystem } from '../services/MedievalFixturesSystem';
 import { ExteriorArchitecturalSystem } from '../services/ExteriorArchitecturalSystem';
 import { InteriorDecorationSystem } from '../services/InteriorDecorationSystem';
 import { EnhancedBuildingPane } from './EnhancedBuildingPane';
+import { SimpleBuildingPane } from './SimpleBuildingPane';
 
 interface BuildingPaneProps {
-  building: BuildingPlan;
+  building: BuildingPlan | SimpleBuilding;
   scale?: number;
   showGrid?: boolean;
   showRoomLabels?: boolean;
   showFurniture?: boolean;
   useEnhancedRenderer?: boolean;
+  useSimpleRenderer?: boolean;
 }
 
 export const BuildingPane: React.FC<BuildingPaneProps> = ({
@@ -21,13 +24,26 @@ export const BuildingPane: React.FC<BuildingPaneProps> = ({
   showGrid = true,
   showRoomLabels = true,
   showFurniture = true,
-  useEnhancedRenderer = false
+  useEnhancedRenderer = false,
+  useSimpleRenderer = false
 }) => {
+  // Check for simple building type first
+  if (useSimpleRenderer && 'rooms' in building && !('floors' in building)) {
+    return (
+      <SimpleBuildingPane
+        building={building as SimpleBuilding}
+        scale={scale}
+        showGrid={showGrid}
+        showLighting={true}
+      />
+    );
+  }
+
   // If enhanced renderer is requested, use the new EnhancedBuildingPane
   if (useEnhancedRenderer) {
     return (
       <EnhancedBuildingPane
-        building={building}
+        building={building as BuildingPlan}
         scale={scale}
         showGrid={showGrid}
         showRoomLabels={showRoomLabels}
@@ -37,16 +53,19 @@ export const BuildingPane: React.FC<BuildingPaneProps> = ({
       />
     );
   }
+  // Cast to BuildingPlan for legacy renderer
+  const buildingPlan = building as BuildingPlan;
+  
   const TILE_SIZE = 20; // pixels per 5-foot tile
   const scaledTileSize = TILE_SIZE * scale;
   const [currentFloor, setCurrentFloor] = useState(0); // Current floor being viewed
 
   // Calculate total dimensions
-  const totalWidth = building.lotWidth * scaledTileSize;
-  const totalHeight = building.lotHeight * scaledTileSize;
+  const totalWidth = buildingPlan.lotWidth * scaledTileSize;
+  const totalHeight = buildingPlan.lotHeight * scaledTileSize;
 
   const renderStaircaseAccess = (x: number, y: number, direction: 'up' | 'down', targetFloor: number, key: string) => {
-    const palette = building.aesthetics?.colorPalette;
+    const palette = buildingPlan.aesthetics?.colorPalette;
     const symbol = direction === 'up' ? '🔺' : '🔻'; // Triangle symbols are clearer
     const color = direction === 'up' ? '#4CAF50' : '#FF6B35'; // green for up, orange for down
     const borderColor = direction === 'up' ? '#2E7D32' : '#CC5528';
@@ -75,7 +94,7 @@ export const BuildingPane: React.FC<BuildingPaneProps> = ({
           zIndex: 10
         }}
         onClick={() => {
-          if (targetFloor >= -1 && targetFloor <= Math.max(...(building.floors?.map(f => f.level) || [0]))) {
+          if (targetFloor >= -1 && targetFloor <= Math.max(...(buildingPlan.floors?.map(f => f.level) || [0]))) {
             setCurrentFloor(targetFloor);
           }
         }}
@@ -91,7 +110,7 @@ export const BuildingPane: React.FC<BuildingPaneProps> = ({
     let border = '1px solid #654321';
 
     // Use aesthetic color palette if available
-    const palette = building.aesthetics?.colorPalette;
+    const palette = buildingPlan.aesthetics?.colorPalette;
 
     switch (type) {
       case 'floor':
@@ -157,7 +176,7 @@ export const BuildingPane: React.FC<BuildingPaneProps> = ({
     const gridLines = [];
     
     // Vertical lines
-    for (let x = 0; x <= building.lotWidth; x++) {
+    for (let x = 0; x <= buildingPlan.lotWidth; x++) {
       gridLines.push(
         <div
           key={`vline-${x}`}
@@ -175,7 +194,7 @@ export const BuildingPane: React.FC<BuildingPaneProps> = ({
     }
 
     // Horizontal lines
-    for (let y = 0; y <= building.lotHeight; y++) {
+    for (let y = 0; y <= buildingPlan.lotHeight; y++) {
       gridLines.push(
         <div
           key={`hline-${y}`}
@@ -199,13 +218,13 @@ export const BuildingPane: React.FC<BuildingPaneProps> = ({
     const tiles = [];
     
     // Fill lot with exterior/garden tiles
-    for (let y = 0; y < building.lotHeight; y++) {
-      for (let x = 0; x < building.lotWidth; x++) {
+    for (let y = 0; y < buildingPlan.lotHeight; y++) {
+      for (let x = 0; x < buildingPlan.lotWidth; x++) {
         // Skip building area
-        const isBuilding = x >= building.buildingX && 
-                          x < building.buildingX + building.buildingWidth &&
-                          y >= building.buildingY && 
-                          y < building.buildingY + building.buildingHeight;
+        const isBuilding = x >= buildingPlan.buildingX && 
+                          x < buildingPlan.buildingX + buildingPlan.buildingWidth &&
+                          y >= buildingPlan.buildingY && 
+                          y < buildingPlan.buildingY + buildingPlan.buildingHeight;
         
         if (!isBuilding) {
           tiles.push(renderTile(x, y, 'exterior', undefined, 'ext'));
@@ -217,12 +236,12 @@ export const BuildingPane: React.FC<BuildingPaneProps> = ({
   };
 
   const getCurrentFloorRooms = () => {
-    if (building.floors && building.floors.length > 0) {
-      const floor = building.floors.find(f => f.level === currentFloor);
+    if (buildingPlan.floors && buildingPlan.floors.length > 0) {
+      const floor = buildingPlan.floors.find(f => f.level === currentFloor);
       return floor ? floor.rooms : [];
     }
     // Fallback to old rooms array for compatibility
-    return building.rooms.filter(room => room.floor === currentFloor);
+    return buildingPlan.rooms.filter(room => room.floor === currentFloor);
   };
 
   // Helper function to check if a tile position is a wall
@@ -238,8 +257,8 @@ export const BuildingPane: React.FC<BuildingPaneProps> = ({
     }
     
     // Check hallway walls if any
-    if (building.floors && building.floors.length > 0) {
-      const floor = building.floors.find(f => f.level === currentFloor);
+    if (buildingPlan.floors && buildingPlan.floors.length > 0) {
+      const floor = buildingPlan.floors.find(f => f.level === currentFloor);
       if (floor?.hallways) {
         for (const hallway of floor.hallways) {
           const isHallwayEdge = (x >= hallway.x && x < hallway.x + hallway.width &&
@@ -340,9 +359,9 @@ export const BuildingPane: React.FC<BuildingPaneProps> = ({
   };
 
   const renderHallwayTiles = () => {
-    if (!building.floors || building.floors.length === 0) return [];
+    if (!buildingPlan.floors || buildingPlan.floors.length === 0) return [];
     
-    const floor = building.floors.find(f => f.level === currentFloor);
+    const floor = buildingPlan.floors.find(f => f.level === currentFloor);
     if (!floor?.hallways) return [];
 
     const tiles = [];
@@ -611,7 +630,7 @@ export const BuildingPane: React.FC<BuildingPaneProps> = ({
   };
 
   const getFurnitureStyle = (purpose: string, furnitureType?: string) => {
-    const palette = building.aesthetics?.colorPalette;
+    const palette = buildingPlan.aesthetics?.colorPalette;
     
     switch (purpose) {
       case 'bed':
@@ -738,8 +757,8 @@ export const BuildingPane: React.FC<BuildingPaneProps> = ({
   const renderExteriorElements = () => {
     const elements = [];
     
-    if (building.exteriorElements) {
-      building.exteriorElements.forEach(element => {
+    if (buildingPlan.exteriorElements) {
+      buildingPlan.exteriorElements.forEach(element => {
         const elementStyle = ExteriorArchitecturalSystem.getExteriorElementVisualStyle(element);
         
         elements.push(
@@ -777,7 +796,7 @@ export const BuildingPane: React.FC<BuildingPaneProps> = ({
   const renderExteriorFeatures = () => {
     const features = [];
     
-    building.exteriorFeatures.forEach(feature => {
+    buildingPlan.exteriorFeatures.forEach(feature => {
       let featureColor = '#228B22'; // green for garden
       let symbol = '🌿';
       
@@ -915,8 +934,8 @@ export const BuildingPane: React.FC<BuildingPaneProps> = ({
           position: 'relative',
           width: totalWidth,
           height: totalHeight,
-          border: `3px solid ${building.aesthetics?.colorPalette?.foundation || '#333'}`,
-          backgroundColor: building.aesthetics?.colorPalette?.roof || '#F5F5DC',
+          border: `3px solid ${buildingPlan.aesthetics?.colorPalette?.foundation || '#333'}`,
+          backgroundColor: buildingPlan.aesthetics?.colorPalette?.roof || '#F5F5DC',
           borderRadius: '8px',
           overflow: 'hidden'
         }}
@@ -933,10 +952,10 @@ export const BuildingPane: React.FC<BuildingPaneProps> = ({
             zIndex: 20
           }}
         >
-          {building.buildingType.replace('_', ' ')} ({building.socialClass} class)
-          {building.aesthetics?.architecturalStyle && (
+          {buildingPlan.buildingType.replace('_', ' ')} ({buildingPlan.socialClass} class)
+          {buildingPlan.aesthetics?.architecturalStyle && (
             <div style={{ fontSize: '12px', fontWeight: 'normal', color: '#666' }}>
-              Style: {building.aesthetics.architecturalStyle.name}
+              Style: {buildingPlan.aesthetics.architecturalStyle.name}
             </div>
           )}
         </div>
@@ -968,11 +987,11 @@ export const BuildingPane: React.FC<BuildingPaneProps> = ({
       </div>
       
       {/* Floor Navigation - only show if building has multiple floors */}
-      {(building.floors && building.floors.length > 1) && (
+      {(buildingPlan.floors && buildingPlan.floors.length > 1) && (
         <FloorNavigation
           currentFloor={currentFloor}
-          totalFloors={building.floors.length}
-          hasBasement={building.floors.some(f => f.level < 0)}
+          totalFloors={buildingPlan.floors.length}
+          hasBasement={buildingPlan.floors.some(f => f.level < 0)}
           onFloorChange={setCurrentFloor}
         />
       )}

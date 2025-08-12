@@ -7,6 +7,7 @@ import { VillagePane } from './VillagePane';
 import EnhancedVillagePane from './EnhancedVillagePane';
 import { StandaloneBuildingGenerator, BuildingOptions } from '../services/StandaloneBuildingGenerator';
 import { BuildingPane } from './BuildingPane';
+import { TestSimpleBuilding } from './TestSimpleBuilding';
 import { Header } from './Header';
 import { TopBarMenu } from './TopBarMenu';
 import { LoadingSpinner } from './LoadingSpinner';
@@ -116,7 +117,7 @@ export const TownScene: React.FC = () => {
   const [model, setModel] = useState<Model | null>(null);
   const [villageLayout, setVillageLayout] = useState<VillageLayout | null>(null);
   const [buildingPlan, setBuildingPlan] = useState<any | null>(null);
-  const [generationType, setGenerationType] = useState<'city' | 'village' | 'building' | null>(null);
+  const [generationType, setGenerationType] = useState<'city' | 'village' | 'building' | 'simple_building' | null>(null);
   const [tooltipText, setTooltipText] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -125,8 +126,8 @@ export const TownScene: React.FC = () => {
   const [isPanning, setIsPanning] = useState(false);
   const [panStart, setPanStart] = useState({ x: 0, y: 0 });
   const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
-  const [proceduralBuildings, setProceduralBuildings] = useState(false);
-  const [useEnhancedAssets, setUseEnhancedAssets] = useState(false);
+  const [proceduralBuildings, setProceduralBuildings] = useState(true);
+  const [useEnhancedAssets, setUseEnhancedAssets] = useState(true);
 
   const handleZoomIn = () => setZoom(prev => Math.min(prev * 1.2, 3));
   const handleZoomOut = () => setZoom(prev => Math.max(prev / 1.2, 0.5));
@@ -422,6 +423,14 @@ export const TownScene: React.FC = () => {
                   useEnhancedRenderer={useEnhancedAssets}
                 />
               </div>
+            </div>
+          ) : generationType === 'simple_building' ? (
+            <div 
+              style={mapWrapperStyles}
+              className="fade-in map-wrapper"
+            >
+              <div style={mapOverlayStyles}></div>
+              <TestSimpleBuilding />
             </div>
           ) : generationType === 'city' && model ? (
             <div 

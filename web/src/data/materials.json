@@ -1,0 +1,140 @@
+{
+  "materialsByClass": {
+    "poor": {
+      "walls": {
+        "primary": "mud_brick",
+        "alternatives": ["wattle_and_daub", "rough_stone"],
+        "color": "#8B4513"
+      },
+      "roof": {
+        "primary": "thatch",
+        "alternatives": ["rough_wood"],
+        "color": "#DAA520"
+      },
+      "floors": {
+        "primary": "packed_earth",
+        "alternatives": ["rough_planks"],
+        "color": "#654321"
+      },
+      "doors": {
+        "primary": "rough_wood",
+        "color": "#8B4513"
+      },
+      "windows": {
+        "primary": "wood_shutters",
+        "color": "#654321"
+      }
+    },
+    "common": {
+      "walls": {
+        "primary": "fieldstone",
+        "alternatives": ["limestone", "timber_frame"],
+        "color": "#696969"
+      },
+      "roof": {
+        "primary": "wood_shingles",
+        "alternatives": ["clay_tiles"],
+        "color": "#8B4513"
+      },
+      "floors": {
+        "primary": "wood_planks",
+        "alternatives": ["stone_flags"],
+        "color": "#DEB887"
+      },
+      "doors": {
+        "primary": "oak_planks",
+        "color": "#8B4513"
+      },
+      "windows": {
+        "primary": "glass_panes",
+        "color": "#87CEEB"
+      }
+    },
+    "wealthy": {
+      "walls": {
+        "primary": "cut_stone",
+        "alternatives": ["fine_timber", "plastered_stone"],
+        "color": "#A9A9A9"
+      },
+      "roof": {
+        "primary": "slate",
+        "alternatives": ["ceramic_tiles"],
+        "color": "#2F4F4F"
+      },
+      "floors": {
+        "primary": "oak_planks",
+        "alternatives": ["marble_tiles", "fine_stone"],
+        "color": "#DEB887"
+      },
+      "doors": {
+        "primary": "reinforced_oak",
+        "color": "#8B4513"
+      },
+      "windows": {
+        "primary": "leaded_glass",
+        "color": "#87CEEB"
+      }
+    },
+    "noble": {
+      "walls": {
+        "primary": "marble",
+        "alternatives": ["granite", "fine_ashlar"],
+        "color": "#F5F5DC"
+      },
+      "roof": {
+        "primary": "slate",
+        "alternatives": ["copper", "gold_trim"],
+        "color": "#2F4F4F"
+      },
+      "floors": {
+        "primary": "marble_tiles",
+        "alternatives": ["inlaid_wood", "mosaic"],
+        "color": "#F5F5DC"
+      },
+      "doors": {
+        "primary": "carved_mahogany",
+        "color": "#8B0000"
+      },
+      "windows": {
+        "primary": "stained_glass",
+        "color": "#FFD700"
+      }
+    }
+  },
+  "weatheringEffects": {
+    "new": {
+      "colorMultiplier": 1.0,
+      "texture": "clean"
+    },
+    "weathered": {
+      "colorMultiplier": 0.9,
+      "texture": "worn"
+    },
+    "old": {
+      "colorMultiplier": 0.8,
+      "texture": "aged"
+    },
+    "deteriorated": {
+      "colorMultiplier": 0.7,
+      "texture": "cracked"
+    }
+  },
+  "climate_modifiers": {
+    "wet": {
+      "moss_growth": 0.3,
+      "water_staining": 0.4
+    },
+    "dry": {
+      "sun_bleaching": 0.2,
+      "dust_accumulation": 0.3
+    },
+    "cold": {
+      "frost_damage": 0.1,
+      "ice_staining": 0.2
+    },
+    "hot": {
+      "heat_warping": 0.1,
+      "color_fading": 0.3
+    }
+  }
+}

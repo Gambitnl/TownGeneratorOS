@@ -55,49 +55,6 @@ export const EnhancedBuildingPane: React.FC<EnhancedBuildingPaneProps> = ({
     initializeSystems();
   }, []);
 
-  // Generate enhanced floor and furniture data
-  useEffect(() => {
-    if (!systemsInitialized) return;
-
-    const generateEnhancedData = async () => {
-      setIsLoading(true);
-      const newFloorData = new Map<number, GeneratedFloorData>();
-
-      const floors = building.floors && building.floors.length > 0 
-        ? building.floors 
-        : [{ level: 0, rooms: building.rooms.filter(room => room.floor === 0) }];
-
-      for (const floor of floors) {
-        const floorTiles = new Map<string, RenderedTile>();
-        const floorFurniture = new Map<string, PlacedFurniture>();
-        const floorLighting = new Map<string, number>();
-
-        // Process each room on this floor
-        for (const room of floor.rooms) {
-          await this.generateRoomContent(room, floorTiles, floorFurniture, floorLighting);
-        }
-
-        // Process hallways if any
-        if ('hallways' in floor && floor.hallways) {
-          for (const hallway of floor.hallways) {
-            await this.generateHallwayContent(hallway, floorTiles, floorLighting);
-          }
-        }
-
-        newFloorData.set(floor.level, {
-          tiles: floorTiles,
-          furniture: floorFurniture,
-          lighting: floorLighting
-        });
-      }
-
-      setFloorData(newFloorData);
-      setIsLoading(false);
-    };
-
-    generateEnhancedData();
-  }, [building, systemsInitialized]);
-
   const generateRoomContent = async (
     room: any,
     tiles: Map<string, RenderedTile>,
@@ -124,7 +81,7 @@ export const EnhancedBuildingPane: React.FC<EnhancedBuildingPaneProps> = ({
 
     // Generate furniture layout
     const roomArea = (room.width - 2) * (room.height - 2);
-    const roomBudget = this.calculateRoomBudget(roomFunction, building.socialClass, roomArea);
+    const roomBudget = calculateRoomBudget(roomFunction, building.socialClass, roomArea);
     
     const placedFurniture = EnhancedFurnitureSystem.selectOptimalFurniture(
       roomFunction,
@@ -144,9 +101,9 @@ export const EnhancedBuildingPane: React.FC<EnhancedBuildingPaneProps> = ({
         // Create floor variation based on room conditions
         const variation = floorAsset ? EnhancedFloorTileSystem.createFloorVariation(
           floorAsset,
-          this.getBuildingAge(building), // 0-100
-          this.getTrafficLevel(roomFunction), // 0-100
-          this.getMaintenanceLevel(building.socialClass), // 0-100
+          getBuildingAge(building), // 0-100
+          getTrafficLevel(roomFunction), // 0-100
+          getMaintenanceLevel(building.socialClass), // 0-100
           tile.x * 100 + tile.y // seed
         ) : null;
 
@@ -161,7 +118,7 @@ export const EnhancedBuildingPane: React.FC<EnhancedBuildingPaneProps> = ({
         );
 
         tiles.set(tileKey, renderedTile);
-        lighting.set(tileKey, this.calculateBaseLighting(roomFunction));
+        lighting.set(tileKey, calculateBaseLighting(roomFunction));
       }
     }
 
@@ -172,7 +129,7 @@ export const EnhancedBuildingPane: React.FC<EnhancedBuildingPaneProps> = ({
 
       // Update lighting if furniture provides light
       if (furnitureItem.asset.lightLevel && furnitureItem.asset.lightLevel > 0) {
-        this.propagateLight(furnitureItem, lighting, tiles);
+        propagateLight(furnitureItem, lighting, tiles);
       }
 
       // Associate furniture with its floor tiles
@@ -217,9 +174,9 @@ export const EnhancedBuildingPane: React.FC<EnhancedBuildingPaneProps> = ({
         if (!isWall) {
           const variation = hallwayAsset ? EnhancedFloorTileSystem.createFloorVariation(
             hallwayAsset,
-            this.getBuildingAge(building),
+            getBuildingAge(building),
             80, // hallways see high traffic
-            this.getMaintenanceLevel(building.socialClass),
+            getMaintenanceLevel(building.socialClass),
             x * 100 + y
           ) : null;
 
@@ -258,7 +215,7 @@ export const EnhancedBuildingPane: React.FC<EnhancedBuildingPaneProps> = ({
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Render background (exterior tiles)
-    this.renderExteriorTiles(ctx, renderContext);
+    renderExteriorTiles(ctx, renderContext);
 
     // Render all tiles for current floor
     for (const [tileKey, tile] of currentData.tiles) {
@@ -272,10 +229,53 @@ export const EnhancedBuildingPane: React.FC<EnhancedBuildingPaneProps> = ({
 
     // Render grid if enabled
     if (showGrid) {
-      this.renderGrid(ctx, renderContext);
+      renderGrid(ctx, renderContext);
     }
 
   }, [currentFloor, floorData, scale, showAssets, showCondition, showLighting, showGrid, systemsInitialized, isLoading]);
+
+  // Generate enhanced floor and furniture data
+  useEffect(() => {
+    if (!systemsInitialized) return;
+
+    const generateEnhancedData = async () => {
+      setIsLoading(true);
+      const newFloorData = new Map<number, GeneratedFloorData>();
+
+      const floors = building.floors && building.floors.length > 0 
+        ? building.floors 
+        : [{ level: 0, rooms: building.rooms.filter(room => room.floor === 0) }];
+
+      for (const floor of floors) {
+        const floorTiles = new Map<string, RenderedTile>();
+        const floorFurniture = new Map<string, PlacedFurniture>();
+        const floorLighting = new Map<string, number>();
+
+        // Process each room on this floor
+        for (const room of floor.rooms) {
+          await generateRoomContent(room, floorTiles, floorFurniture, floorLighting);
+        }
+
+        // Process hallways if any
+        if ('hallways' in floor && floor.hallways) {
+          for (const hallway of floor.hallways) {
+            await generateHallwayContent(hallway, floorTiles, floorLighting);
+          }
+        }
+
+        newFloorData.set(floor.level, {
+          tiles: floorTiles,
+          furniture: floorFurniture,
+          lighting: floorLighting
+        });
+      }
+
+      setFloorData(newFloorData);
+      setIsLoading(false);
+    };
+
+    generateEnhancedData();
+  }, [building, systemsInitialized]);
 
   // Re-render when dependencies change
   useEffect(() => {
@@ -319,7 +319,7 @@ export const EnhancedBuildingPane: React.FC<EnhancedBuildingPaneProps> = ({
   };
 
   // Utility methods
-  private getBuildingAge(building: BuildingPlan): number {
+  const getBuildingAge = (building: BuildingPlan): number => {
     // Could be derived from building metadata or randomly generated
     return Math.max(0, Math.min(100, 
       (building.socialClass === 'poor' ? 60 : 
@@ -329,7 +329,7 @@ export const EnhancedBuildingPane: React.FC<EnhancedBuildingPaneProps> = ({
     ));
   }
 
-  private getTrafficLevel(roomFunction: RoomFunction): number {
+  const getTrafficLevel = (roomFunction: RoomFunction): number => {
     switch (roomFunction) {
       case 'kitchen':
       case 'living':
@@ -351,7 +351,7 @@ export const EnhancedBuildingPane: React.FC<EnhancedBuildingPaneProps> = ({
     }
   }
 
-  private getMaintenanceLevel(socialClass: string): number {
+  const getMaintenanceLevel = (socialClass: string): number => {
     switch (socialClass) {
       case 'poor': return 30; // poor maintenance
       case 'common': return 60; // fair maintenance
@@ -361,7 +361,7 @@ export const EnhancedBuildingPane: React.FC<EnhancedBuildingPaneProps> = ({
     }
   }
 
-  private calculateRoomBudget(roomFunction: RoomFunction, socialClass: string, roomArea: number): number {
+  const calculateRoomBudget = (roomFunction: RoomFunction, socialClass: string, roomArea: number): number => {
     const baseBudget = roomArea * 20; // 20 gold per square tile base
     
     const socialMultiplier = socialClass === 'poor' ? 0.5 :
@@ -378,7 +378,7 @@ export const EnhancedBuildingPane: React.FC<EnhancedBuildingPaneProps> = ({
     return Math.round(baseBudget * socialMultiplier * roomMultiplier);
   }
 
-  private calculateBaseLighting(roomFunction: RoomFunction): number {
+  const calculateBaseLighting = (roomFunction: RoomFunction): number => {
     switch (roomFunction) {
       case 'kitchen': return 95; // needs good light for cooking
       case 'office':
@@ -393,11 +393,11 @@ export const EnhancedBuildingPane: React.FC<EnhancedBuildingPaneProps> = ({
     }
   }
 
-  private propagateLight(
+  const propagateLight = (
     lightSource: PlacedFurniture,
     lighting: Map<string, number>,
     tiles: Map<string, RenderedTile>
-  ) {
+  ) => {
     if (!lightSource.asset.lightLevel) return;
 
     const lightRadius = Math.floor(lightSource.asset.lightLevel / 20) + 1;

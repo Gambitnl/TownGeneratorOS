@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TileGlossary } from './TileGlossary';
+import { GlossarySidebar } from './GlossarySidebar';
 
 interface TopBarMenuProps {
   onGenerate: (size: string) => void;
@@ -23,6 +23,14 @@ const menuItems = [
       { id: 'building-blacksmith', label: 'Blacksmith', description: 'Workshop with forge' },
       { id: 'building-shop', label: 'Shop', description: 'General goods store' },
       { id: 'building-market_stall', label: 'Market Stall', description: 'Small vendor booth' }
+    ]
+  },
+  {
+    id: 'test',
+    label: 'Test',
+    icon: '🧪',
+    options: [
+      { id: 'simple_building', label: 'Simple Buildings', description: 'Test the new simplified building generator' }
     ]
   },
   {
@@ -125,36 +133,12 @@ export const TopBarMenu: React.FC<TopBarMenuProps> = ({
             setShowGlossary(!showGlossary);
             if (activeMenu) setActiveMenu(null); // Close any open dropdown menus
           }}
-          title="Toggle tile & asset glossary"
+          title="Toggle building glossary"
         >
           📋 Glossary
         </button>
 
-        {onProceduralBuildingsChange && (
-          <>
-            <div className="menu-separator"></div>
-            <label className="procedural-toggle">
-              <input
-                type="checkbox"
-                checked={proceduralBuildings}
-                onChange={(e) => onProceduralBuildingsChange(e.target.checked)}
-                disabled={isLoading}
-              />
-              <span className="toggle-label">Detailed Interiors</span>
-            </label>
-            {onEnhancedAssetsChange && (
-              <label className="procedural-toggle">
-                <input
-                  type="checkbox"
-                  checked={useEnhancedAssets}
-                  onChange={(e) => onEnhancedAssetsChange(e.target.checked)}
-                  disabled={isLoading}
-                />
-                <span className="toggle-label">Enhanced Assets</span>
-              </label>
-            )}
-          </>
-        )}
+        {/* Enhanced features are now enabled by default */}
       </div>
 
       {activeMenu && (
@@ -175,26 +159,14 @@ export const TopBarMenu: React.FC<TopBarMenuProps> = ({
         </div>
       )}
 
-      {showGlossary && (
-        <div className="glossary-modal">
-          <div className="glossary-backdrop" onClick={() => setShowGlossary(false)} />
-          <div className="glossary-content">
-            <div className="glossary-header">
-              <h3>📋 Tile & Asset Glossary</h3>
-              <button 
-                className="close-button"
-                onClick={() => setShowGlossary(false)}
-                title="Close glossary"
-              >
-                ✕
-              </button>
-            </div>
-            <div className="glossary-body">
-              <TileGlossary />
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Use the new sidebar glossary instead of modal */}
+      <GlossarySidebar
+        show={showGlossary}
+        onItemHover={(item) => {
+          // Could add highlighting logic here if needed
+          console.log('Hovered glossary item:', item?.name);
+        }}
+      />
 
       <style>{`
         .top-bar-menu {
@@ -377,100 +349,7 @@ export const TopBarMenu: React.FC<TopBarMenuProps> = ({
           line-height: 1.3;
         }
 
-        /* Glossary Modal Styles */
-        .glossary-modal {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          z-index: 2000;
-          display: flex;
-          align-items: flex-start;
-          justify-content: center;
-          padding: 1rem;
-          padding-top: 80px; /* Account for header height */
-          overflow-y: auto;
-        }
-
-        .glossary-backdrop {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0, 0, 0, 0.7);
-          backdrop-filter: blur(5px);
-          cursor: pointer;
-        }
-
-        .glossary-content {
-          position: relative;
-          background: rgba(44, 62, 80, 0.95);
-          backdrop-filter: blur(20px);
-          border-radius: 16px;
-          border: 2px solid rgba(149, 165, 166, 0.3);
-          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-          max-width: calc(100vw - 2rem); /* Account for padding */
-          max-height: calc(100vh - 160px); /* More room for header and padding */
-          width: min(1200px, calc(100vw - 2rem));
-          min-height: 400px;
-          display: flex;
-          flex-direction: column;
-          overflow: hidden;
-          margin-bottom: 20px; /* Extra space at bottom */
-        }
-
-        .glossary-header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 1.5rem 2rem;
-          border-bottom: 2px solid rgba(149, 165, 166, 0.2);
-          background: rgba(52, 73, 94, 0.8);
-        }
-
-        .glossary-header h3 {
-          margin: 0;
-          color: #ecf0f1;
-          font-size: 1.5rem;
-          font-weight: 600;
-        }
-
-        .close-button {
-          background: rgba(231, 76, 60, 0.2);
-          border: 2px solid rgba(231, 76, 60, 0.4);
-          color: #e74c3c;
-          border-radius: 50%;
-          width: 40px;
-          height: 40px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          font-size: 1.2rem;
-          font-weight: bold;
-          transition: all 0.2s ease;
-        }
-
-        .close-button:hover {
-          background: rgba(231, 76, 60, 0.3);
-          border-color: rgba(231, 76, 60, 0.6);
-          transform: scale(1.05);
-        }
-
-        .glossary-body {
-          flex: 1;
-          overflow-y: auto;
-          padding: 0;
-        }
-
-        /* Override TileGlossary styles when in modal */
-        .glossary-body .tile-glossary {
-          background: transparent;
-          box-shadow: none;
-          border-radius: 0;
-        }
+        /* Glossary button uses the new GlossarySidebar component - no modal styles needed */
       `}</style>
     </div>
   );

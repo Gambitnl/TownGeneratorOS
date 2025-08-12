@@ -1,0 +1,114 @@
+{
+  "furnitureByRoom": {
+    "bedroom": {
+      "essential": [
+        { "type": "bed", "name": "bed", "width": 2, "height": 3, "priority": 1 }
+      ],
+      "common": [
+        { "type": "chest", "name": "storage chest", "width": 2, "height": 1, "priority": 2 },
+        { "type": "chair", "name": "chair", "width": 1, "height": 1, "priority": 3 }
+      ],
+      "luxury": [
+        { "type": "wardrobe", "name": "wardrobe", "width": 3, "height": 1, "priority": 4 },
+        { "type": "mirror", "name": "mirror", "width": 1, "height": 1, "priority": 5 }
+      ]
+    },
+    "common": {
+      "essential": [
+        { "type": "table", "name": "dining table", "width": 3, "height": 2, "priority": 1 }
+      ],
+      "common": [
+        { "type": "chair", "name": "chair", "width": 1, "height": 1, "priority": 2 },
+        { "type": "chair", "name": "chair", "width": 1, "height": 1, "priority": 3 },
+        { "type": "fireplace", "name": "fireplace", "width": 2, "height": 1, "priority": 4 }
+      ],
+      "luxury": [
+        { "type": "bookshelf", "name": "bookshelf", "width": 2, "height": 1, "priority": 5 },
+        { "type": "carpet", "name": "carpet", "width": 4, "height": 3, "priority": 6 }
+      ]
+    },
+    "kitchen": {
+      "essential": [
+        { "type": "stove", "name": "cooking stove", "width": 2, "height": 1, "priority": 1 },
+        { "type": "table", "name": "prep table", "width": 3, "height": 1, "priority": 2 }
+      ],
+      "common": [
+        { "type": "cabinet", "name": "cabinet", "width": 2, "height": 1, "priority": 3 },
+        { "type": "barrel", "name": "water barrel", "width": 1, "height": 1, "priority": 4 }
+      ],
+      "luxury": [
+        { "type": "pantry", "name": "pantry shelves", "width": 2, "height": 1, "priority": 5 }
+      ]
+    },
+    "workshop": {
+      "essential": [
+        { "type": "workbench", "name": "workbench", "width": 4, "height": 2, "priority": 1 }
+      ],
+      "common": [
+        { "type": "anvil", "name": "anvil", "width": 1, "height": 1, "priority": 2 },
+        { "type": "forge", "name": "forge", "width": 3, "height": 2, "priority": 3 },
+        { "type": "tool_rack", "name": "tool rack", "width": 2, "height": 1, "priority": 4 }
+      ],
+      "luxury": [
+        { "type": "grindstone", "name": "grindstone", "width": 1, "height": 1, "priority": 5 }
+      ]
+    },
+    "shop": {
+      "essential": [
+        { "type": "counter", "name": "shop counter", "width": 4, "height": 1, "priority": 1 }
+      ],
+      "common": [
+        { "type": "shelf", "name": "display shelf", "width": 2, "height": 1, "priority": 2 },
+        { "type": "shelf", "name": "display shelf", "width": 2, "height": 1, "priority": 3 }
+      ],
+      "luxury": [
+        { "type": "display_case", "name": "display case", "width": 3, "height": 2, "priority": 4 }
+      ]
+    },
+    "storage": {
+      "essential": [
+        { "type": "shelf", "name": "storage shelf", "width": 2, "height": 1, "priority": 1 }
+      ],
+      "common": [
+        { "type": "barrel", "name": "barrel", "width": 1, "height": 1, "priority": 2 },
+        { "type": "crate", "name": "crate", "width": 1, "height": 1, "priority": 3 },
+        { "type": "sack", "name": "grain sack", "width": 1, "height": 1, "priority": 4 }
+      ],
+      "luxury": [
+        { "type": "strongbox", "name": "strongbox", "width": 2, "height": 1, "priority": 5 }
+      ]
+    },
+    "entrance": {
+      "common": [
+        { "type": "coat_rack", "name": "coat rack", "width": 1, "height": 1, "priority": 1 }
+      ],
+      "luxury": [
+        { "type": "bench", "name": "entry bench", "width": 2, "height": 1, "priority": 2 }
+      ]
+    }
+  },
+  "socialClassFurniture": {
+    "poor": ["essential"],
+    "common": ["essential", "common"],
+    "wealthy": ["essential", "common", "luxury"],
+    "noble": ["essential", "common", "luxury"]
+  },
+  "furnitureQualities": {
+    "poor": {
+      "prefix": "crude",
+      "materials": ["rough wood", "iron"]
+    },
+    "common": {
+      "prefix": "",
+      "materials": ["wood", "iron"]
+    },
+    "wealthy": {
+      "prefix": "fine",
+      "materials": ["oak", "brass"]
+    },
+    "noble": {
+      "prefix": "exquisite",
+      "materials": ["mahogany", "silver"]
+    }
+  }
+}
