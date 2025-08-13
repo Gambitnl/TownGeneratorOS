@@ -1,0 +1,17 @@
+yarn run v1.22.22
+$ vite --debug
+failed to load config from /app/web/vite.config.ts
+error when starting dev server:
+Error: Cannot find module @rollup/rollup-linux-x64-gnu. npm has a bug related to optional dependencies (https://github.com/npm/cli/issues/4828). Please try `npm i` again after removing both package-lock.json and node_modules directory.
+    at requireWithFriendlyError (/app/node_modules/rollup/dist/native.js:64:9)
+    at Object.<anonymous> (/app/node_modules/rollup/dist/native.js:73:76)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at cjsLoader (node:internal/modules/esm/translators:266:5)
+    at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:200:7)
+error Command failed with exit code 1.
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.

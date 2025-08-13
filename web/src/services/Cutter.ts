@@ -1,7 +1,7 @@
 import { Polygon } from '@/types/polygon';
 import { Point } from '@/types/point';
 import { GeomUtils } from '@/types/geomUtils';
-import { MathUtils } from '@/types/MathUtils';
+import { MathUtils } from '@/types/mathUtils';
 
 export class Cutter {
     public static bisect(poly: Polygon, vertex: Point, ratio = 0.5, angle = 0.0, gap = 0.0): Polygon[] {
@@ -67,7 +67,7 @@ export class Cutter {
         const slices: { p1: Point, p2: Point, len: number }[] = [];
         poly.forEdge((v1: Point, v2: Point) => {
             const v = v2.subtract(v1);
-            const n = v.rotate90().norm(thickness);
+            const n = v.rotate90().normalize(thickness);
             slices.push({ p1: v1.add(n), p2: v2.add(n), len: v.length() });
         });
 
