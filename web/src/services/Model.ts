@@ -261,7 +261,7 @@ export class Model {
                 this.streets.push(street);
 
                 if (this.border && this.border.gates.some((g: Point) => g.x === gate.x && g.y === gate.y)) {
-                    const dir = gate.norm(1000);
+                    const dir = gate.normalize(1000);
                     let start: Point | null = null;
                     let minDist = Infinity;
                     for (const p of this.topology.node2pt.values()) {

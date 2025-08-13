@@ -1,6 +1,6 @@
 import { Point } from './point';
 import { GeomUtils } from './geomUtils';
-import { MathUtils } from './MathUtils';
+import { MathUtils } from './mathUtils';
 
 export class Polygon {
     public vertices: Point[];
@@ -190,26 +190,26 @@ export class Polygon {
         const v1 = p2.subtract(p1);
         const v2 = p3.subtract(p2);
 
-        let cos = v0.dot(v1) / v0.norm().x / v1.norm().x; // Simplified norm usage
+        let cos = v0.dot(v1) / v0.normalize().x / v1.normalize().x; // Simplified norm usage
         let z = v0.x * v1.y - v0.y * v1.x;
         let t = d / Math.sqrt(1 - cos * cos);
         if (z > 0) {
-            t = Math.min(t, v0.norm().x * 0.99);
+            t = Math.min(t, v0.normalize().x * 0.99);
         } else {
-            t = Math.min(t, v1.norm().x * 0.5);
+            t = Math.min(t, v1.normalize().x * 0.5);
         }
         t *= MathUtils.sign(z);
-        this.vertices[i1] = p1.subtract(v0.norm(t));
+        this.vertices[i1] = p1.subtract(v0.normalize(t));
 
-        cos = v1.dot(v2) / v1.norm().x / v2.norm().x;
+        cos = v1.dot(v2) / v1.normalize().x / v2.normalize().x;
         z = v1.x * v2.y - v1.y * v2.x;
         t = d / Math.sqrt(1 - cos * cos);
         if (z > 0) {
-            t = Math.min(t, v2.norm().x * 0.99);
+            t = Math.min(t, v2.normalize().x * 0.99);
         } else {
-            t = Math.min(t, v1.norm().x * 0.5);
+            t = Math.min(t, v1.normalize().x * 0.5);
         }
-        this.vertices[i2] = p2.add(v2.norm(t));
+        this.vertices[i2] = p2.add(v2.normalize(t));
     }
 
     public insetAll(d: number[]): Polygon {
@@ -236,7 +236,7 @@ export class Polygon {
                 q.vertices.push(v1);
             } else {
                 const v = v1.subtract(v0);
-                const n = v.rotate90().norm(dd);
+                const n = v.rotate90().normalize(dd);
                 q.vertices.push(v0.add(n));
                 q.vertices.push(v1.add(n));
             }
@@ -341,7 +341,7 @@ export class Polygon {
             const dd = d[i++];
             if (dd > 0) {
                 const v = v1.subtract(v0);
-                const n = v.rotate90().norm(dd);
+                const n = v.rotate90().normalize(dd);
                 q = q.cut(v0.add(n), v1.add(n), 0)[0];
             }
         });
@@ -358,7 +358,7 @@ export class Polygon {
         const v2 = this.vertices[i2];
 
         const v = v2.subtract(v1);
-        const n = v.rotate90().norm(d);
+        const n = v.rotate90().normalize(d);
 
         return this.cut(v1.add(n), v2.add(n), 0)[0];
     }
@@ -572,7 +572,7 @@ export class Polygon {
     }
 
     public splice(start: number, deleteCount?: number, ...items: Point[]): Point[] {
-        return this.vertices.splice(start, deleteCount, ...items);
+        return this.vertices.splice(start, deleteCount === undefined ? this.vertices.length - start : deleteCount, ...items);
     }
 
     public last(): Point | undefined {
@@ -581,5 +581,18 @@ export class Polygon {
 
     public get length(): number {
         return this.vertices.length;
+    }
+
+    public max(f: (v: Point) => number): Point {
+        let bestV: Point | null = null;
+        let bestVal = -Infinity;
+        for (const v of this.vertices) {
+            const val = f(v);
+            if (val > bestVal) {
+                bestVal = val;
+                bestV = v;
+            }
+        }
+        return bestV!;
     }
 }

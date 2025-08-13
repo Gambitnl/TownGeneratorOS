@@ -1,5 +1,5 @@
-import { Patch } from './Patch';
-import { Tooltip } from './Tooltip';
+import { Patch } from '../types/patch';
+import { Tooltip } from '../components/Tooltip';
 
 // A placeholder for a display object, which will likely be a PIXI.Graphics or similar.
 // The methods will need to be adapted to the target rendering library.

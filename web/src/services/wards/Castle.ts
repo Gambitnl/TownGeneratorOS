@@ -1,7 +1,7 @@
-import { Point } from '../../geom/Point';
-import { Patch } from '../../building/Patch';
-import { Model } from '../../building/Model';
-import { CurtainWall } from '../../building/CurtainWall';
+import { Point } from '../../types/point';
+import { Patch } from '../../types/patch';
+import { Model } from '../Model';
+import { CurtainWall } from '../CurtainWall';
 import { Ward } from './Ward';
 
 // Assuming ArrayExtender is handled as a utility function or direct methods
