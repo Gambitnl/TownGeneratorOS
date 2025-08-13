@@ -7,7 +7,7 @@ import { CurtainWall } from './CurtainWall';
 import { Street } from '@/types/street';
 import { Polygon } from '@/types/polygon';
 import { Point } from '@/types/point';
-import { Ward } from './Ward';
+import { Ward, AdministrationWard, Cathedral, CommonWard, CraftsmenWard, Farm, GateWard, Market, MerchantWard, MilitaryWard, Park, PatriciateWard, Slum } from './Ward';
 import { Castle } from './wards/Castle';
 
 interface CityMapProps {
@@ -45,7 +45,32 @@ export const CityMap: React.FC<CityMapProps> = ({ model }) => {
           case Castle:
             drawBuilding(ctx, brush, ward.geometry, palette.light, palette.dark, Brush.NORMAL_STROKE * 2);
             break;
-          // Add other ward types here
+          case CommonWard:
+          case CraftsmenWard:
+          case MerchantWard:
+          case Slum:
+          case PatriciateWard:
+          case GateWard:
+            drawBuilding(ctx, brush, ward.geometry, 0xcfa, palette.dark, Brush.NORMAL_STROKE);
+            break;
+          case Farm:
+            drawBuilding(ctx, brush, ward.geometry, 0xdeb887, palette.dark, Brush.NORMAL_STROKE);
+            break;
+          case Market:
+            drawBuilding(ctx, brush, ward.geometry, 0xf5a, palette.dark, Brush.NORMAL_STROKE);
+            break;
+          case Cathedral:
+            drawBuilding(ctx, brush, ward.geometry, 0xf0f, palette.dark, Brush.NORMAL_STROKE);
+            break;
+          case AdministrationWard:
+            drawBuilding(ctx, brush, ward.geometry, 0x0ff, palette.dark, Brush.NORMAL_STROKE);
+            break;
+          case MilitaryWard:
+            drawBuilding(ctx, brush, ward.geometry, 0xf00, palette.dark, Brush.NORMAL_STROKE);
+            break;
+          case Park:
+            drawBuilding(ctx, brush, ward.geometry, 0x0f0, palette.dark, Brush.NORMAL_STROKE);
+            break;
         }
       }
     }
@@ -54,8 +79,8 @@ export const CityMap: React.FC<CityMapProps> = ({ model }) => {
       drawWall(ctx, brush, model.wall, false, palette);
     }
 
-    if (model.citadel) {
-      drawWall(ctx, brush, (model.citadel.ward as Castle).wall, true, palette);
+    if (model.citadel && model.citadel.ward instanceof Castle) {
+      drawWall(ctx, brush, model.citadel.ward.wall, true, palette);
     }
   }, [model]);
 

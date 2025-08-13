@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@kobandavis/wfc": "^1.1.0",
+    "@rollup/rollup-linux-x64-gnu": "^4.46.2",
     "d3-delaunay": "^6.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

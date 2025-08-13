@@ -1,11 +1,11 @@
-import { Point } from '../../geom/Point';
-import { GeomUtils } from '../../geom/GeomUtils';
-import { Polygon } from '../../geom/Polygon';
+import { Point } from '../../types/point';
+import { GeomUtils } from '../../types/geomUtils';
+import { Polygon } from '../../types/polygon';
 import { Random } from '../../utils/Random';
 
-import { Cutter } from '../../building/Cutter';
-import { Patch } from '../../building/Patch';
-import { Model } from '../../building/Model';
+import { Cutter } from '../Cutter';
+import { Patch } from '../../types/patch';
+import { Model } from '../Model';
 
 // Assuming ArrayExtender and PointExtender are handled as utility functions or direct methods
 // For now, I'll assume direct methods or that their functionality is not critical for initial compilation.
@@ -34,7 +34,7 @@ export class Ward {
     const insetDist: number[] = [];
 
     const innerPatch = this.model.wall == null || this.patch.withinWalls;
-    this.patch.shape.forEdge((v0, v1) => {
+    this.patch.shape.forEdge((v0: Point, v1: Point) => {
       if (this.model.wall != null && this.model.wall.bordersBy(this.patch, v0, v1)) {
         // Not too close to the wall
         insetDist.push(Ward.MAIN_STREET / 2);
@@ -55,9 +55,10 @@ export class Ward {
       }
     });
 
+    const buffered = this.patch.shape.buffer(insetDist);
     return this.patch.shape.isConvex()
       ? this.patch.shape.shrink(insetDist)
-      : this.patch.shape.buffer(insetDist);
+      : buffered === null ? new Polygon() : buffered;
   }
 
   // Placeholder for containsPoint - needs proper implementation based on Haxe's PointExtender
@@ -66,7 +67,7 @@ export class Ward {
     return polygon.vertices.some(v => v.x === point.x && v.y === point.y);
   }
 
-  private filterOutskirts(): void {
+  public filterOutskirts(): void {
     const populatedEdges: any[] = []; // Using 'any' for now due to mixed types in Haxe
 
     const addEdge = (v1: Point, v2: Point, factor: number = 1.0) => {
@@ -104,7 +105,7 @@ export class Ward {
     });
 
     const density = this.patch.shape.vertices.map((v: Point) => {
-      if (this.model.gates.some(gate => gate.x === v.x && gate.y === v.y)) return 1;
+      if (this.model.gates.some((gate: Point) => gate.x === v.x && gate.y === v.y)) return 1;
       return this.model.patchByVertex(v).every((p: Patch) => p.withinCity) ? 2 * Random.float() : 0;
     });
 
@@ -177,14 +178,14 @@ export class Ward {
     const slice = (poly: Polygon, c1: Point, c2: Point): Polygon[] => {
       const v0 = Ward.findLongestEdge(poly);
       const v1 = poly.next(v0);
-      const v = { x: v1.x - v0.x, y: v1.y - v0.y }; // v1.subtract(v0) equivalent
+      const v = new Point(v1.x - v0.x, v1.y - v0.y); // v1.subtract(v0) equivalent
 
       const ratio = 0.4 + Random.float() * 0.2;
       const p1 = GeomUtils.interpolate(v0, v1, ratio);
 
       const c: Point = Math.abs(GeomUtils.scalar(v.x, v.y, c1.x, c1.y)) < Math.abs(GeomUtils.scalar(v.x, v.y, c2.x, c2.y)) ? c1 : c2;
 
-      const halves = poly.cut(p1, { x: p1.x + c.x, y: p1.y + c.y }); // p1.add(c) equivalent
+      const halves = poly.cut(p1, new Point(p1.x + c.x, p1.y + c.y)); // p1.add(c) equivalent
       let buildings: Polygon[] = [];
       for (const half of halves) {
         if (half.square < minBlockSq * Math.pow(2, Random.normal() * 2 - 1)) {
@@ -203,7 +204,7 @@ export class Ward {
       return [poly];
     } else {
       const c1 = poly.vector(Ward.findLongestEdge(poly));
-      const c2 = { x: -c1.y, y: c1.x }; // c1.rotate90() equivalent
+      const c2 = new Point(-c1.y, c1.x); // c1.rotate90() equivalent
       while (true) {
         const blocks = slice(poly, c1, c2);
         if (blocks.length > 0)

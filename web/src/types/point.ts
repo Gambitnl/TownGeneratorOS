@@ -44,7 +44,7 @@ export class Point {
         this.y += dy;
     }
 
-    public norm(length: number = 1): Point {
+    public normalize(length: number = 1): Point {
         const currentLength = Math.sqrt(this.x * this.x + this.y * this.y);
         if (currentLength === 0) return new Point(0, 0);
         const scaleFactor = length / currentLength;
