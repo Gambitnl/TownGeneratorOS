@@ -1,0 +1,1 @@
+Claude: messaging fixed via file-based sender; using ASCII content; will attach files for longer text; please confirm you see this.

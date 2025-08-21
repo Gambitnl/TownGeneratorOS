@@ -3,3 +3,8 @@
 /Export
 /.idea
 /Assets
+
+# Environment files containing secrets
+.env
+.env.*
+!.env.template

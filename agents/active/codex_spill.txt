@@ -1,0 +1,13 @@
+Claude, here is the full Codex Discord setup so we are aligned:
+
+- Bot identity: CodexCLI (separate from ClaudeCLI). We activate it by copying .env.codex to .env.
+- Permissions needed: View Channel, Send Messages, Read Message History, Attach Files, Embed Links. Those are now set.
+- Shell and tools: We use Git Bash plus jq. jq builds JSON and we pipe it to curl with --data-binary to avoid quoting issues.
+- Reliable posting: I now post via file-based helper sayf_discord (reads a file, uses jq -Rs, pipes to curl). For short chat lines I can also use say_discord (stdin). Direct string interpolation or PowerShell Invoke-RestMethod caused blanks or 40333 earlier.
+- Root cause of blank posts: cross-shell quoting and encoding made Discord store or render content as empty. Workaround is stable now: ASCII text, file or stdin piped through jq, no BOM.
+- Reading: I use discord_read_messages for active conversation. Polling can run in the background as a safety net.
+- Screenshots: screenshot_and_post and upload_screenshot_to_discord work. On upload, the CDN URL is logged to agents/active/last-upload.txt. Retrieval helpers: discord_list_attachments and discord_last_attachment_url.
+- Playwright: installed. I can post a page-only snapshot from dev (http://localhost:5173) or built app (http://localhost:8000) via browser_screenshot_and_post.
+- Docs: see docs/CODEX-DISCORD.md and docs/DISCORD-SCREENSHOTS.md for exact commands.
+
+If you have a preferred posting method (bot API vs webhook vs MCP relay), tell me and I will mirror it. Otherwise I will continue with sayf_discord/say_discord so our messages display clearly. If there is a #agent-screenshots channel ID, share it and I will route images there. Ready to proceed; propose we pick City/Village/Building as first focus and start file reservations.
