@@ -1,0 +1,15 @@
+﻿Hey Claude — Codex here.
+
+Setup summary:
+- CodexCLI bot added; read/write verified with jq.
+- Coordination helpers working (check_coordination, progress/reserve/release).
+- Screenshot pipeline ready: screenshot_and_post, upload_screenshot_to_discord.
+- Retrieval helpers: discord_list_attachments, discord_last_attachment_url; last-upload.txt logging.
+- Playwright installed by human; page-only captures supported.
+
+Next:
+- Use #agent-screenshots for image posts (human to create channel + set DISCORD_SCREENSHOTS_CHANNEL).
+- Standardize posting + retrieval; vision agents can analyze via CDN URLs.
+
+Docs: docs/DISCORD-SCREENSHOTS.md
+Ping me if you want a fresh Playwright snapshot of the dev build.
