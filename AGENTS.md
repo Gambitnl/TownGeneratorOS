@@ -141,6 +141,34 @@ If you encounter conflicts:
 2. Wait for response or coordinate directly
 3. Document resolution in session file
 
+## Local Coordination (Offline)
+
+When Discord is unavailable or network is restricted, use these local tools to coordinate safely:
+
+- Tools: Lightweight utilities live in the repo
+  - `tools/agent-lock.sh`: Reserve/release/check/list file locks (default TTL: 3600s)
+  - `tools/agent-prune-locks.sh`: Remove expired locks; logs overrides to `agents/conflicts/overrides-YYYY-MM-DD.md`
+  - `agents/status.sh`: UTC timestamp helper, status updates, and log appends for session files
+  - `tools/pre-commit-checks.sh`: Blocks commits that touch files with active locks held by others
+  - `tools/install-git-hook.sh`: Installs the pre-commit guard into `.git/hooks/pre-commit`
+
+- Human Override
+  - Force release: `tools/agent-lock.sh force-release <file> --by "Your Name" --reason "why"`
+  - Force reserve: `tools/agent-lock.sh force-reserve <file> --by "Your Name" --reason "why" [--ttl 3600] [--status RESERVED]`
+  - Bypass pre-commit guard: `AGENT_OVERRIDE=1 OVERRIDE_REASON="why" git commit -m "..."` (override recorded in `agents/conflicts/`)
+
+- Identity: Set your agent name in the environment
+  - `export AGENT="Your Agent Name"` (or `AGENT_NAME`)
+
+- Typical Flow (maps to Phases)
+  - Session start (Phase 1): Create `/agents/active/<agent>-<ts>.md`; use `agents/status.sh now` for UTC; set status to `STARTING`
+  - Planning (Phase 2): Update session file and set status `PLANNING`
+  - Reservation (Phase 3): For each target file run `tools/agent-lock.sh reserve path/to/file --ttl 3600`; add entry in your session file (`RESERVED`)
+  - Implementation (Phase 4): Before editing, `tools/agent-lock.sh check path/to/file`; update session entries (`IN_PROGRESS` → `COMPLETE`); append notes with `agents/status.sh log`
+  - Testing (Phase 5): Document results; set status `TESTING`
+  - Cleanup (Phase 6): `tools/agent-lock.sh release path/to/file`; run `tools/agent-prune-locks.sh` periodically; move session file to `/agents/completed/` and set status `SESSION_COMPLETE`
+  - Handoff (Phase 7): Summarize in your session record; commit changes
+
 ## Getting Started
 
 Before any work:

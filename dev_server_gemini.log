@@ -1,0 +1,990 @@
+
+> village-generator@0.1.0 dev
+> vite --debug
+
+2025-08-28T22:15:44.327Z vite:config config file loaded in 332.00ms
+2025-08-28T22:15:44.332Z vite:env loading env files: [
+  'C:/Users/gambi/Documents/Git/TownGeneratorOS/web/.env',
+  'C:/Users/gambi/Documents/Git/TownGeneratorOS/web/.env.local',
+  'C:/Users/gambi/Documents/Git/TownGeneratorOS/web/.env.development',
+  'C:/Users/gambi/Documents/Git/TownGeneratorOS/web/.env.development.local'
+]
+2025-08-28T22:15:44.332Z vite:env env files loaded in 0.91ms
+2025-08-28T22:15:44.333Z vite:env using resolved env: {}
+2025-08-28T22:15:44.348Z vite:config using resolved config: {
+  plugins: [
+    'vite:optimized-deps',
+    'vite:watch-package-data',
+    'vite:pre-alias',
+    'alias',
+    'vite:react-babel',
+    'vite:react-refresh',
+    'vite:modulepreload-polyfill',
+    'vite:resolve',
+    'vite:html-inline-proxy',
+    'vite:css',
+    'vite:esbuild',
+    'vite:json',
+    'vite:wasm-helper',
+    'vite:worker',
+    'vite:asset',
+    'vite:wasm-fallback',
+    'vite:define',
+    'vite:css-post',
+    'vite:worker-import-meta-url',
+    'vite:asset-import-meta-url',
+    'vite:dynamic-import-vars',
+    'vite:import-glob',
+    'vite:client-inject',
+    'vite:css-analysis',
+    'vite:import-analysis'
+  ],
+  root: 'C:/Users/gambi/Documents/Git/TownGeneratorOS/web',
+  build: {
+    target: [ 'chrome107', 'edge107', 'firefox104', 'safari16' ],
+    polyfillModulePreload: true,
+    modulePreload: { polyfill: true },
+    outDir: 'dist',
+    assetsDir: 'assets',
+    assetsInlineLimit: 4096,
+    sourcemap: false,
+    terserOptions: {},
+    rollupOptions: { onwarn: [Function: onwarn] },
+    commonjsOptions: { include: [ /node_modules/ ], extensions: [ '.js', '.cjs' ] },
+    dynamicImportVarsOptions: { warnOnError: true, exclude: [ /node_modules/ ] },
+    write: true,
+    emptyOutDir: null,
+    copyPublicDir: true,
+    manifest: false,
+    lib: false,
+    ssrManifest: false,
+    ssrEmitAssets: false,
+    reportCompressedSize: true,
+    chunkSizeWarningLimit: 500,
+    watch: null,
+    cssCodeSplit: true,
+    minify: 'esbuild',
+    ssr: false,
+    emitAssets: false,
+    createEnvironment: [Function: createEnvironment],
+    cssTarget: [ 'chrome107', 'edge107', 'firefox104', 'safari16' ],
+    cssMinify: true
+  },
+  server: {
+    port: 3000,
+    strictPort: false,
+    host: true,
+    allowedHosts: [],
+    https: undefined,
+    open: false,
+    proxy: undefined,
+    cors: {
+      origin: /^https?:\/\/(?:(?:[^:]+\.)?localhost|127\.0\.0\.1|\[::1\])(?::\d+)?$/
+    },
+    headers: {},
+    warmup: { clientFiles: [], ssrFiles: [] },
+    middlewareMode: false,
+    fs: {
+      strict: true,
+      deny: [ '.env', '.env.*', '*.{crt,pem}', '**/.git/**' ],
+      allow: [
+        'C:/Users/gambi/Documents/Git/TownGeneratorOS/web',
+        'C:/Users/gambi/Documents/Git/TownGeneratorOS/node_modules/vite/dist/client'
+      ]
+    },
+    preTransformRequests: true,
+    perEnvironmentStartEndDuringDev: false,
+    sourcemapIgnoreList: [Function: isInNodeModules]
+  },
+  test: { globals: true, environment: 'jsdom' },
+  resolve: {
+    externalConditions: [ 'node' ],
+    extensions: [
+      '.mjs',  '.js',
+      '.mts',  '.ts',
+      '.jsx',  '.tsx',
+      '.json'
+    ],
+    dedupe: [ 'react', 'react-dom' ],
+    noExternal: [],
+    external: [],
+    preserveSymlinks: false,
+    alias: [
+      {
+        find: '@',
+        replacement: 'C:\\Users\\gambi\\Documents\\Git\\TownGeneratorOS\\web\\src'
+      },
+      {
+        find: /^\/?@vite\/env/,
+        replacement: '/@fs/C:/Users/gambi/Documents/Git/TownGeneratorOS/node_modules/vite/dist/client/env.mjs'
+      },
+      {
+        find: /^\/?@vite\/client/,
+        replacement: '/@fs/C:/Users/gambi/Documents/Git/TownGeneratorOS/node_modules/vite/dist/client/client.mjs'
+      }
+    ],
+    mainFields: [ 'browser', 'module', 'jsnext:main', 'jsnext' ],
+    conditions: [ 'module', 'browser', 'development|production' ],
+    builtins: []
+  },
+  esbuild: { jsxDev: true, jsx: 'automatic', jsxImportSource: undefined },
+  optimizeDeps: {
+    include: [
+      'react',
+      'react-dom',
+      'react/jsx-dev-runtime',
+      'react/jsx-runtime'
+    ],
+    exclude: [],
+    needsInterop: [],
+    extensions: [],
+    disabled: undefined,
+    holdUntilCrawlEnd: true,
+    force: false,
+    noDiscovery: false,
+    esbuildOptions: { preserveSymlinks: false, jsx: 'automatic' }
+  },
+  environments: {
+    client: {
+      define: undefined,
+      resolve: {
+        externalConditions: [ 'node' ],
+        extensions: [
+          '.mjs',  '.js',
+          '.mts',  '.ts',
+          '.jsx',  '.tsx',
+          '.json'
+        ],
+        dedupe: [ 'react', 'react-dom' ],
+        noExternal: [],
+        external: [],
+        preserveSymlinks: false,
+        alias: [
+          {
+            find: '@',
+            replacement: 'C:\\Users\\gambi\\Documents\\Git\\TownGeneratorOS\\web\\src'
+          },
+          {
+            find: /^\/?@vite\/env/,
+            replacement: '/@fs/C:/Users/gambi/Documents/Git/TownGeneratorOS/node_modules/vite/dist/client/env.mjs'
+          },
+          {
+            find: /^\/?@vite\/client/,
+            replacement: '/@fs/C:/Users/gambi/Documents/Git/TownGeneratorOS/node_modules/vite/dist/client/client.mjs'
+          }
+        ],
+        mainFields: [ 'browser', 'module', 'jsnext:main', 'jsnext' ],
+        conditions: [ 'module', 'browser', 'development|production' ],
+        builtins: []
+      },
+      keepProcessEnv: false,
+      consumer: 'client',
+      optimizeDeps: {
+        include: [
+          'react',
+          'react-dom',
+          'react/jsx-dev-runtime',
+          'react/jsx-runtime'
+        ],
+        exclude: [],
+        needsInterop: [],
+        extensions: [],
+        disabled: undefined,
+        holdUntilCrawlEnd: true,
+        force: false,
+        noDiscovery: false,
+        esbuildOptions: { preserveSymlinks: false, jsx: 'automatic' }
+      },
+      dev: {
+        warmup: [],
+        sourcemap: { js: true },
+        sourcemapIgnoreList: [Function: isInNodeModules],
+        preTransformRequests: true,
+        createEnvironment: [Function: defaultCreateClientDevEnvironment],
+        recoverable: true,
+        moduleRunnerTransform: false
+      },
+      build: {
+        target: [ 'chrome107', 'edge107', 'firefox104', 'safari16' ],
+        polyfillModulePreload: true,
+        modulePreload: { polyfill: true },
+        outDir: 'dist',
+        assetsDir: 'assets',
+        assetsInlineLimit: 4096,
+        sourcemap: false,
+        terserOptions: {},
+        rollupOptions: { onwarn: [Function: onwarn] },
+        commonjsOptions: { include: [ /node_modules/ ], extensions: [ '.js', '.cjs' ] },
+        dynamicImportVarsOptions: { warnOnError: true, exclude: [ /node_modules/ ] },
+        write: true,
+        emptyOutDir: null,
+        copyPublicDir: true,
+        manifest: false,
+        lib: false,
+        ssrManifest: false,
+        ssrEmitAssets: false,
+        reportCompressedSize: true,
+        chunkSizeWarningLimit: 500,
+        watch: null,
+        cssCodeSplit: true,
+        minify: 'esbuild',
+        ssr: false,
+        emitAssets: true,
+        createEnvironment: [Function: createEnvironment],
+        cssTarget: [ 'chrome107', 'edge107', 'firefox104', 'safari16' ],
+        cssMinify: true
+      },
+      plugins: [
+        {
+          name: 'vite:optimized-deps',
+          applyToEnvironment: [Function: applyToEnvironment],
+          resolveId: [Function: resolveId],
+          load: [AsyncFunction: load]
+        },
+        {
+          name: 'vite:watch-package-data',
+          buildStart: [Function: buildStart],
+          buildEnd: [Function: buildEnd],
+          watchChange: [Function: watchChange]
+        },
+        {
+          name: 'vite:pre-alias',
+          applyToEnvironment: [Function: applyToEnvironment],
+          resolveId: [AsyncFunction: resolveId]
+        },
+        {
+          name: 'alias',
+          buildStart: [AsyncFunction: buildStart],
+          resolveId: [Function: resolveId]
+        },
+        {
+          name: 'vite:react-babel',
+          enforce: 'pre',
+          config: [Function: config],
+          configResolved: [Function: configResolved],
+          options: [Function: options],
+          transform: {
+            filter: {
+              id: {
+                include: /\.[tj]sx?(?:\?.*)?$/,
+                exclude: [ /\/node_modules\// ]
+              }
+            },
+            handler: [AsyncFunction: handler]
+          }
+        },
+        {
+          name: 'vite:react-refresh',
+          enforce: 'pre',
+          config: [Function: config],
+          resolveId: {
+            filter: { id: /^\/@react\-refresh$/ },
+            handler: [Function: handler]
+          },
+          load: {
+            filter: { id: /^\/@react\-refresh$/ },
+            handler: [Function: handler]
+          },
+          transformIndexHtml: [Function: transformIndexHtml]
+        },
+        {
+          name: 'vite:modulepreload-polyfill',
+          resolveId: { handler: [Function: handler] },
+          load: { handler: [Function: handler] }
+        },
+        {
+          name: 'vite:resolve',
+          resolveId: [AsyncFunction: resolveId],
+          load: { handler: [Function: handler] }
+        },
+        {
+          name: 'vite:html-inline-proxy',
+          resolveId: { handler: [Function: handler] },
+          load: { handler: [Function: handler] }
+        },
+        {
+          name: 'vite:css',
+          buildStart: [Function: buildStart],
+          buildEnd: [Function: buildEnd],
+          load: { handler: [AsyncFunction: handler] },
+          transform: { handler: [AsyncFunction: handler] }
+        },
+        {
+          name: 'vite:esbuild',
+          configureServer: [Function: configureServer],
+          transform: [AsyncFunction: transform]
+        },
+        {
+          name: 'vite:json',
+          transform: { handler: [Function: handler] }
+        },
+        {
+          name: 'vite:wasm-helper',
+          resolveId: { handler: [Function: handler] },
+          load: { handler: [AsyncFunction: handler] }
+        },
+        {
+          name: 'vite:worker',
+          buildStart: [Function: buildStart],
+          load: { handler: [AsyncFunction: handler] },
+          shouldTransformCachedModule: [Function: shouldTransformCachedModule],
+          transform: { handler: [AsyncFunction: handler] },
+          renderChunk: [Function: renderChunk],
+          generateBundle: [Function: generateBundle]
+        },
+        {
+          name: 'vite:asset',
+          perEnvironmentStartEndDuringDev: true,
+          buildStart: [Function: buildStart],
+          resolveId: { handler: [Function: handler] },
+          load: { handler: [AsyncFunction: handler] },
+          renderChunk: [Function: renderChunk],
+          generateBundle: [Function: generateBundle]
+        },
+        {
+          name: 'vite:wasm-fallback',
+          load: { handler: [Function: handler] }
+        },
+        {
+          name: 'vite:define',
+          transform: { handler: [AsyncFunction: handler] }
+        },
+        {
+          name: 'vite:css-post',
+          renderStart: [Function: renderStart],
+          transform: { handler: [AsyncFunction: handler] },
+          renderChunk: [AsyncFunction: renderChunk],
+          augmentChunkHash: [Function: augmentChunkHash],
+          generateBundle: [AsyncFunction: generateBundle]
+        },
+        {
+          name: 'vite:worker-import-meta-url',
+          applyToEnvironment: [Function: applyToEnvironment],
+          shouldTransformCachedModule: [Function: shouldTransformCachedModule],
+          transform: { handler: [AsyncFunction: handler] }
+        },
+        {
+          name: 'vite:asset-import-meta-url',
+          applyToEnvironment: [Function: applyToEnvironment],
+          transform: { handler: [AsyncFunction: handler] }
+        },
+        {
+          name: 'vite:dynamic-import-vars',
+          resolveId: { handler: [Function: handler] },
+          load: { handler: [Function: handler] },
+          transform: { handler: [AsyncFunction: handler] }
+        },
+        {
+          name: 'vite:import-glob',
+          buildStart: [Function: buildStart],
+          transform: { handler: [AsyncFunction: handler] },
+          hotUpdate: [Function: hotUpdate]
+        },
+        {
+          name: 'vite:client-inject',
+          buildStart: [AsyncFunction: buildStart],
+          transform: [AsyncFunction: transform]
+        },
+        {
+          name: 'vite:css-analysis',
+          transform: { handler: [AsyncFunction: handler] }
+        },
+        {
+          name: 'vite:import-analysis',
+          transform: [AsyncFunction: transform]
+        }
+      ]
+    },
+    ssr: {
+      define: undefined,
+      resolve: {
+        externalConditions: [ 'node' ],
+        extensions: [
+          '.mjs',  '.js',
+          '.mts',  '.ts',
+          '.jsx',  '.tsx',
+          '.json'
+        ],
+        dedupe: [ 'react', 'react-dom' ],
+        noExternal: [],
+        external: [],
+        preserveSymlinks: false,
+        alias: [
+          {
+            find: '@',
+            replacement: 'C:\\Users\\gambi\\Documents\\Git\\TownGeneratorOS\\web\\src'
+          },
+          {
+            find: /^\/?@vite\/env/,
+            replacement: '/@fs/C:/Users/gambi/Documents/Git/TownGeneratorOS/node_modules/vite/dist/client/env.mjs'
+          },
+          {
+            find: /^\/?@vite\/client/,
+            replacement: '/@fs/C:/Users/gambi/Documents/Git/TownGeneratorOS/node_modules/vite/dist/client/client.mjs'
+          }
+        ],
+        mainFields: [ 'module', 'jsnext:main', 'jsnext' ],
+        conditions: [ 'module', 'node', 'development|production' ],
+        builtins: [
+          '_http_agent',         '_http_client',        '_http_common',
+          '_http_incoming',      '_http_outgoing',      '_http_server',
+          '_stream_duplex',      '_stream_passthrough', '_stream_readable',
+          '_stream_transform',   '_stream_wrap',        '_stream_writable',
+          '_tls_common',         '_tls_wrap',           'assert',
+          'assert/strict',       'async_hooks',         'buffer',
+          'child_process',       'cluster',             'console',
+          'constants',           'crypto',              'dgram',
+          'diagnostics_channel', 'dns',                 'dns/promises',
+          'domain',              'events',              'fs',
+          'fs/promises',         'http',                'http2',
+          'https',               'inspector',           'inspector/promises',
+          'module',              'net',                 'os',
+          'path',                'path/posix',          'path/win32',
+          'perf_hooks',          'process',             'punycode',
+          'querystring',         'readline',            'readline/promises',
+          'repl',                'stream',              'stream/consumers',
+          'stream/promises',     'stream/web',          'string_decoder',
+          'sys',                 'timers',              'timers/promises',
+          'tls',                 'trace_events',        'tty',
+          'url',                 'util',                'util/types',
+          'v8',                  'vm',                  'wasi',
+          'worker_threads',      'zlib',                /^node:/,
+          /^npm:/,               /^bun:/
+        ]
+      },
+      keepProcessEnv: true,
+      consumer: 'server',
+      optimizeDeps: {
+        include: [],
+        exclude: [],
+        needsInterop: [],
+        extensions: [],
+        disabled: undefined,
+        holdUntilCrawlEnd: true,
+        force: false,
+        noDiscovery: true,
+        esbuildOptions: { preserveSymlinks: false }
+      },
+      dev: {
+        warmup: [],
+        sourcemap: { js: true },
+        sourcemapIgnoreList: [Function: isInNodeModules],
+        preTransformRequests: false,
+        createEnvironment: [Function: defaultCreateDevEnvironment],
+        recoverable: false,
+        moduleRunnerTransform: true
+      },
+      build: {
+        target: [ 'chrome107', 'edge107', 'firefox104', 'safari16' ],
+        polyfillModulePreload: true,
+        modulePreload: { polyfill: true },
+        outDir: 'dist',
+        assetsDir: 'assets',
+        assetsInlineLimit: 4096,
+        sourcemap: false,
+        terserOptions: {},
+        rollupOptions: { onwarn: [Function: onwarn] },
+        commonjsOptions: { include: [ /node_modules/ ], extensions: [ '.js', '.cjs' ] },
+        dynamicImportVarsOptions: { warnOnError: true, exclude: [ /node_modules/ ] },
+        write: true,
+        emptyOutDir: null,
+        copyPublicDir: true,
+        manifest: false,
+        lib: false,
+        ssrManifest: false,
+        ssrEmitAssets: false,
+        reportCompressedSize: true,
+        chunkSizeWarningLimit: 500,
+        watch: null,
+        cssCodeSplit: true,
+        minify: false,
+        ssr: true,
+        emitAssets: false,
+        createEnvironment: [Function: createEnvironment],
+        cssTarget: [ 'chrome107', 'edge107', 'firefox104', 'safari16' ],
+        cssMinify: 'esbuild'
+      },
+      plugins: [
+        {
+          name: 'vite:watch-package-data',
+          buildStart: [Function: buildStart],
+          buildEnd: [Function: buildEnd],
+          watchChange: [Function: watchChange]
+        },
+        {
+          name: 'alias',
+          buildStart: [AsyncFunction: buildStart],
+          resolveId: [Function: resolveId]
+        },
+        {
+          name: 'vite:react-babel',
+          enforce: 'pre',
+          config: [Function: config],
+          configResolved: [Function: configResolved],
+          options: [Function: options],
+          transform: {
+            filter: {
+              id: {
+                include: /\.[tj]sx?(?:\?.*)?$/,
+                exclude: [ /\/node_modules\// ]
+              }
+            },
+            handler: [AsyncFunction: handler]
+          }
+        },
+        {
+          name: 'vite:react-refresh',
+          enforce: 'pre',
+          config: [Function: config],
+          resolveId: {
+            filter: { id: /^\/@react\-refresh$/ },
+            handler: [Function: handler]
+          },
+          load: {
+            filter: { id: /^\/@react\-refresh$/ },
+            handler: [Function: handler]
+          },
+          transformIndexHtml: [Function: transformIndexHtml]
+        },
+        {
+          name: 'vite:modulepreload-polyfill',
+          resolveId: { handler: [Function: handler] },
+          load: { handler: [Function: handler] }
+        },
+        {
+          name: 'vite:resolve',
+          resolveId: [AsyncFunction: resolveId],
+          load: { handler: [Function: handler] }
+        },
+        {
+          name: 'vite:html-inline-proxy',
+          resolveId: { handler: [Function: handler] },
+          load: { handler: [Function: handler] }
+        },
+        {
+          name: 'vite:css',
+          buildStart: [Function: buildStart],
+          buildEnd: [Function: buildEnd],
+          load: { handler: [AsyncFunction: handler] },
+          transform: { handler: [AsyncFunction: handler] }
+        },
+        {
+          name: 'vite:esbuild',
+          configureServer: [Function: configureServer],
+          transform: [AsyncFunction: transform]
+        },
+        {
+          name: 'vite:json',
+          transform: { handler: [Function: handler] }
+        },
+        {
+          name: 'vite:wasm-helper',
+          resolveId: { handler: [Function: handler] },
+          load: { handler: [AsyncFunction: handler] }
+        },
+        {
+          name: 'vite:worker',
+          buildStart: [Function: buildStart],
+          load: { handler: [AsyncFunction: handler] },
+          shouldTransformCachedModule: [Function: shouldTransformCachedModule],
+          transform: { handler: [AsyncFunction: handler] },
+          renderChunk: [Function: renderChunk],
+          generateBundle: [Function: generateBundle]
+        },
+        {
+          name: 'vite:asset',
+          perEnvironmentStartEndDuringDev: true,
+          buildStart: [Function: buildStart],
+          resolveId: { handler: [Function: handler] },
+          load: { handler: [AsyncFunction: handler] },
+          renderChunk: [Function: renderChunk],
+          generateBundle: [Function: generateBundle]
+        },
+        {
+          name: 'vite:wasm-fallback',
+          load: { handler: [Function: handler] }
+        },
+        {
+          name: 'vite:define',
+          transform: { handler: [AsyncFunction: handler] }
+        },
+        {
+          name: 'vite:css-post',
+          renderStart: [Function: renderStart],
+          transform: { handler: [AsyncFunction: handler] },
+          renderChunk: [AsyncFunction: renderChunk],
+          augmentChunkHash: [Function: augmentChunkHash],
+          generateBundle: [AsyncFunction: generateBundle]
+        },
+        {
+          name: 'vite:dynamic-import-vars',
+          resolveId: { handler: [Function: handler] },
+          load: { handler: [Function: handler] },
+          transform: { handler: [AsyncFunction: handler] }
+        },
+        {
+          name: 'vite:import-glob',
+          buildStart: [Function: buildStart],
+          transform: { handler: [AsyncFunction: handler] },
+          hotUpdate: [Function: hotUpdate]
+        },
+        {
+          name: 'vite:client-inject',
+          buildStart: [AsyncFunction: buildStart],
+          transform: [AsyncFunction: transform]
+        },
+        {
+          name: 'vite:css-analysis',
+          transform: { handler: [AsyncFunction: handler] }
+        },
+        {
+          name: 'vite:import-analysis',
+          transform: [AsyncFunction: transform]
+        }
+      ]
+    }
+  },
+  configFile: 'C:/Users/gambi/Documents/Git/TownGeneratorOS/web/vite.config.ts',
+  configFileDependencies: [ 'C:/Users/gambi/Documents/Git/TownGeneratorOS/web/vite.config.ts' ],
+  inlineConfig: {
+    root: undefined,
+    base: undefined,
+    mode: undefined,
+    configFile: undefined,
+    configLoader: undefined,
+    logLevel: undefined,
+    clearScreen: undefined,
+    server: { host: undefined },
+    forceOptimizeDeps: undefined
+  },
+  base: '/',
+  decodedBase: '/',
+  rawBase: '/',
+  publicDir: 'C:/Users/gambi/Documents/Git/TownGeneratorOS/web/public',
+  cacheDir: 'C:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/.vite',
+  command: 'serve',
+  mode: 'development',
+  isWorker: false,
+  mainConfig: null,
+  bundleChain: [],
+  isProduction: false,
+  css: {
+    transformer: 'postcss',
+    preprocessorMaxWorkers: true,
+    devSourcemap: false
+  },
+  json: { namedExports: true, stringify: 'auto' },
+  builder: undefined,
+  preview: {
+    port: 4173,
+    strictPort: false,
+    host: true,
+    allowedHosts: [],
+    https: undefined,
+    open: false,
+    proxy: undefined,
+    cors: {
+      origin: /^https?:\/\/(?:(?:[^:]+\.)?localhost|127\.0\.0\.1|\[::1\])(?::\d+)?$/
+    },
+    headers: {}
+  },
+  envDir: 'C:/Users/gambi/Documents/Git/TownGeneratorOS/web',
+  env: { BASE_URL: '/', MODE: 'development', DEV: true, PROD: false },
+  assetsInclude: [Function: assetsInclude],
+  logger: {
+    hasWarned: false,
+    info: [Function: info],
+    warn: [Function: warn],
+    warnOnce: [Function: warnOnce],
+    error: [Function: error],
+    clearScreen: [Function: clearScreen],
+    hasErrorLogged: [Function: hasErrorLogged]
+  },
+  packageCache: Map(1) {
+    'fnpd_C:/Users/gambi/Documents/Git/TownGeneratorOS/web' => {
+      dir: 'C:/Users/gambi/Documents/Git/TownGeneratorOS/web',
+      data: {
+        name: 'village-generator',
+        version: '0.1.0',
+        private: true,
+        type: 'module',
+        scripts: {
+          start: `tsc --watch && copy index.html dist\\index.html && (echo SET "s|./dist/index.js|./index.js|" & SET "file=dist\\index.html" & powershell -Command "(Get-Content $env:file) -replace $env:s, '' | Set-Content $env:file")`,
+          build: `tsc && copy index.html dist\\index.html && (echo SET "s|./dist/index.js|./index.js|" & SET "file=dist\\index.html" & powershell -Command "(Get-Content $env:file) -replace $env:s, '' | Set-Content $env:file")`,
+          dev: 'vite --debug',
+          serve: 'http-server dist -p 8000',
+          test: 'vitest'
+        },
+        dependencies: {
+          '@kobandavis/wfc': '^1.1.0',
+          'd3-delaunay': '^6.0.4',
+          react: '^18.2.0',
+          'react-dom': '^18.2.0'
+        },
+        devDependencies: {
+          '@vitejs/plugin-react': '^4.7.0',
+          vite: '^7.0.6',
+          '@testing-library/react': '^16.3.0',
+          '@types/d3-delaunay': '^6.0.4',
+          '@types/react': '^19.1.9',
+          '@types/react-dom': '^19.1.7',
+          'http-server': '^14.1.1',
+          jsdom: '^26.1.0',
+          typescript: '^5.4.0',
+          vitest: '^3.2.4'
+        }
+      },
+      hasSideEffects: [Function: hasSideEffects],
+      setResolvedCache: [Function: setResolvedCache],
+      getResolvedCache: [Function: getResolvedCache]
+    },
+    set: [Function (anonymous)]
+  },
+  worker: { format: 'iife', plugins: '() => plugins', rollupOptions: {} },
+  appType: 'spa',
+  experimental: {
+    importGlobRestoreExtension: false,
+    renderBuiltUrl: undefined,
+    hmrPartialAccept: false
+  },
+  future: undefined,
+  ssr: {
+    target: 'node',
+    optimizeDeps: {
+      esbuildOptions: { preserveSymlinks: false },
+      include: [],
+      exclude: [],
+      needsInterop: [],
+      extensions: [],
+      holdUntilCrawlEnd: true,
+      force: false,
+      noDiscovery: true
+    },
+    external: [],
+    noExternal: [],
+    resolve: {
+      conditions: [ 'module', 'node', 'development|production' ],
+      externalConditions: [ 'node' ]
+    }
+  },
+  dev: {
+    warmup: [],
+    sourcemap: { js: true },
+    sourcemapIgnoreList: [Function: isInNodeModules],
+    preTransformRequests: false,
+    createEnvironment: [Function: defaultCreateDevEnvironment],
+    recoverable: false,
+    moduleRunnerTransform: false
+  },
+  webSocketToken: 'lT5YGIhnMijD',
+  getSortedPlugins: [Function: getSortedPlugins],
+  getSortedPluginHooks: [Function: getSortedPluginHooks],
+  createResolver: [Function: createResolver],
+  fsDenyGlob: [Function: arrayMatcher],
+  safeModulePaths: Set(0) {},
+  [Symbol(vite:resolved-config)]: true
+}
+2025-08-28T22:15:44.371Z vite:deps (client) Hash is consistent. Skipping. Use --force to override.
+
+  [32m[1mVITE[22m v7.0.6[39m  [2mready in [0m[1m613[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m3000[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.178.115:[1m3000[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://172.25.192.1:[1m3000[22m/[39m
+2025-08-28T22:16:22.555Z vite:html-fallback Rewriting GET / to /index.html
+2025-08-28T22:16:22.589Z vite:time [33m41.34ms[39m [2m/index.html[22m
+2025-08-28T22:16:22.591Z vite:resolve [32m5.44ms[39m [36m/src/index.tsx[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/index.tsx[22m
+2025-08-28T22:16:22.597Z vite:load [32m4.80ms[39m [fs] [2m/src/index.tsx[22m
+2025-08-28T22:16:23.130Z vite:resolve [32m3.77ms[39m [36m./components/TownScene[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/components/TownScene.tsx[22m
+2025-08-28T22:16:23.130Z vite:resolve [32m3.89ms[39m [36m./services/StateManager[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/StateManager.ts[22m
+2025-08-28T22:16:23.130Z vite:resolve [32m3.92ms[39m [36m./services/Model[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/Model.ts[22m
+2025-08-28T22:16:23.131Z vite:resolve [32m4.80ms[39m [36mreact/jsx-dev-runtime[39m -> [2mnull[22m
+2025-08-28T22:16:23.131Z vite:resolve [32m4.65ms[39m [36mreact[39m -> [2mnull[22m
+2025-08-28T22:16:23.131Z vite:resolve [32m4.66ms[39m [36mreact-dom/client[39m -> [2mnull[22m
+2025-08-28T22:16:23.136Z vite:load [32m1.72ms[39m [plugin] [2m/@react-refresh[22m
+[2m12:16:23 AM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "react/jsx-dev-runtime" from "src/index.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/index.tsx[39m:13:9
+[33m  1  |  import { jsxDEV } from "react/jsx-dev-runtime";
+     |                          ^
+  2  |  import * as RefreshRuntime from "/@react-refresh";
+  3  |  const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;[39m
+2025-08-28T22:16:23.159Z vite:import-analysis [32m0.77ms[39m [2m[0 imports rewritten] [2m/@react-refresh[22m[2m[22m
+2025-08-28T22:16:23.159Z vite:transform [33m22.39ms[39m [2m/@react-refresh[22m
+2025-08-28T22:16:23.161Z vite:load [33m25.21ms[39m [fs] [2m/src/services/StateManager.ts[22m
+2025-08-28T22:16:23.162Z vite:load [33m25.65ms[39m [fs] [2m/src/services/Model.ts[22m
+2025-08-28T22:16:23.162Z vite:load [33m25.94ms[39m [fs] [2m/src/components/TownScene.tsx[22m
+2025-08-28T22:16:23.187Z vite:resolve [32m0.61ms[39m [36m../utils/Random[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/utils/Random.ts[22m
+2025-08-28T22:16:23.187Z vite:import-analysis [32m1.42ms[39m [2m[1 imports rewritten] [2msrc/services/StateManager.ts[22m[2m[22m
+2025-08-28T22:16:23.188Z vite:transform [33m25.95ms[39m [2m/src/services/StateManager.ts[22m
+2025-08-28T22:16:23.196Z vite:resolve [32m6.29ms[39m [36m../services/CityMap[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/CityMap.tsx[22m
+2025-08-28T22:16:23.196Z vite:resolve [32m6.37ms[39m [36m../services/Model[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/Model.ts[22m
+2025-08-28T22:16:23.196Z vite:resolve [32m6.38ms[39m [36m./Tooltip[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/components/Tooltip.tsx[22m
+2025-08-28T22:16:23.196Z vite:resolve [32m6.42ms[39m [36m./CitySizeButton[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/components/CitySizeButton.tsx[22m
+2025-08-28T22:16:23.196Z vite:resolve [32m6.09ms[39m [36m./Ward[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/Ward.ts[22m
+2025-08-28T22:16:23.196Z vite:resolve [32m6.09ms[39m [36m./CurtainWall[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/CurtainWall.ts[22m
+2025-08-28T22:16:23.196Z vite:resolve [32m6.09ms[39m [36m./voronoi[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/voronoi.ts[22m
+2025-08-28T22:16:23.196Z vite:resolve [32m6.07ms[39m [36m./Topology[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/Topology.ts[22m
+2025-08-28T22:16:23.196Z vite:cache [memory] [2m/@react-refresh[22m
+2025-08-28T22:16:23.197Z vite:resolve [32m5.95ms[39m [36mC:\Users\gambi\Documents\Git\TownGeneratorOS\web\src/types/patch[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/patch.ts[22m
+2025-08-28T22:16:23.197Z vite:resolve [32m5.96ms[39m [36mC:\Users\gambi\Documents\Git\TownGeneratorOS\web\src/types/polygon[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/polygon.ts[22m
+2025-08-28T22:16:23.197Z vite:resolve [32m5.96ms[39m [36mC:\Users\gambi\Documents\Git\TownGeneratorOS\web\src/types/street[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/street.ts[22m
+2025-08-28T22:16:23.197Z vite:resolve [32m5.97ms[39m [36mC:\Users\gambi\Documents\Git\TownGeneratorOS\web\src/utils/Random[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/utils/Random.ts[22m
+2025-08-28T22:16:23.197Z vite:resolve [32m5.98ms[39m [36mC:\Users\gambi\Documents\Git\TownGeneratorOS\web\src/types/point[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/point.ts[22m
+2025-08-28T22:16:23.197Z vite:resolve [32m5.99ms[39m [36mC:\Users\gambi\Documents\Git\TownGeneratorOS\web\src/types/segment[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/segment.ts[22m
+2025-08-28T22:16:23.199Z vite:resolve [32m8.88ms[39m [36m@/types/patch[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/patch.ts[22m
+2025-08-28T22:16:23.200Z vite:resolve [32m8.94ms[39m [36m@/types/polygon[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/polygon.ts[22m
+2025-08-28T22:16:23.200Z vite:resolve [32m9.02ms[39m [36m@/types/street[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/street.ts[22m
+2025-08-28T22:16:23.200Z vite:resolve [32m9.03ms[39m [36m@/utils/Random[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/utils/Random.ts[22m
+2025-08-28T22:16:23.200Z vite:resolve [32m9.04ms[39m [36m@/types/point[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/point.ts[22m
+2025-08-28T22:16:23.200Z vite:resolve [32m9.06ms[39m [36m@/types/segment[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/segment.ts[22m
+[2m12:16:23 AM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "react/jsx-dev-runtime" from "src/components/TownScene.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/components/TownScene.tsx[39m:28:6
+[33m  1  |  import { jsxDEV } from "react/jsx-dev-runtime";
+     |                          ^
+  2  |  import * as RefreshRuntime from "/@react-refresh";
+  3  |  const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;[39m
+2025-08-28T22:16:23.201Z vite:import-analysis [33m11.41ms[39m [2m[10 imports rewritten] [2msrc/services/Model.ts[22m[2m[22m
+2025-08-28T22:16:23.201Z vite:transform [33m39.33ms[39m [2m/src/services/Model.ts[22m
+2025-08-28T22:16:23.207Z vite:load [32m6.35ms[39m [fs] [2m/src/components/Tooltip.tsx[22m
+2025-08-28T22:16:23.217Z vite:load [33m16.38ms[39m [fs] [2m/src/services/CurtainWall.ts[22m
+2025-08-28T22:16:23.218Z vite:load [33m30.23ms[39m [fs] [2m/src/utils/Random.ts[22m
+2025-08-28T22:16:23.218Z vite:load [33m17.46ms[39m [fs] [2m/src/services/CityMap.tsx[22m
+2025-08-28T22:16:23.250Z vite:load [33m49.13ms[39m [fs] [2m/src/services/voronoi.ts[22m
+2025-08-28T22:16:23.250Z vite:load [33m49.97ms[39m [fs] [2m/src/services/Ward.ts[22m
+2025-08-28T22:16:23.251Z vite:load [31m50.65ms[39m [fs] [2m/src/services/Topology.ts[22m
+2025-08-28T22:16:23.252Z vite:load [31m50.56ms[39m [fs] [2m/src/types/polygon.ts[22m
+2025-08-28T22:16:23.252Z vite:load [31m51.58ms[39m [fs] [2m/src/components/CitySizeButton.tsx[22m
+2025-08-28T22:16:23.257Z vite:load [31m56.04ms[39m [fs] [2m/src/types/segment.ts[22m
+2025-08-28T22:16:23.257Z vite:load [31m56.27ms[39m [fs] [2m/src/types/patch.ts[22m
+2025-08-28T22:16:23.257Z vite:load [31m56.33ms[39m [fs] [2m/src/types/street.ts[22m
+2025-08-28T22:16:23.266Z vite:load [31m64.90ms[39m [fs] [2m/src/types/point.ts[22m
+2025-08-28T22:16:23.272Z vite:cache [memory] [2m/@react-refresh[22m
+[2m12:16:23 AM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "react/jsx-dev-runtime" from "src/components/Tooltip.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/components/Tooltip.tsx[39m:38:4
+[33m  1  |  import { jsxDEV } from "react/jsx-dev-runtime";
+     |                          ^
+  2  |  import * as RefreshRuntime from "/@react-refresh";
+  3  |  const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;[39m
+2025-08-28T22:16:23.281Z vite:import-analysis [32m0.04ms[39m [2m[no imports] [2msrc/types/segment.ts[22m[2m[22m
+2025-08-28T22:16:23.281Z vite:import-analysis [32m0.44ms[39m [2m[no imports] [2msrc/utils/Random.ts[22m[2m[22m
+2025-08-28T22:16:23.282Z vite:import-analysis [32m0.67ms[39m [2m[no imports] [2msrc/types/point.ts[22m[2m[22m
+2025-08-28T22:16:23.282Z vite:transform [33m24.78ms[39m [2m/src/types/segment.ts[22m
+2025-08-28T22:16:23.282Z vite:transform [31m64.38ms[39m [2m/src/utils/Random.ts[22m
+2025-08-28T22:16:23.282Z vite:transform [33m15.91ms[39m [2m/src/types/point.ts[22m
+2025-08-28T22:16:23.288Z vite:resolve [32m7.07ms[39m [36m./polygon[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/polygon.ts[22m
+2025-08-28T22:16:23.288Z vite:resolve [32m6.66ms[39m [36m./Button[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/components/Button.tsx[22m
+2025-08-28T22:16:23.288Z vite:resolve [32m6.55ms[39m [36m./Brush[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/Brush.ts[22m
+2025-08-28T22:16:23.288Z vite:resolve [32m6.56ms[39m [36m./wards/Castle[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/wards/Castle.ts[22m
+2025-08-28T22:16:23.288Z vite:resolve [32m6.50ms[39m [36m./Model[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/Model.ts[22m
+2025-08-28T22:16:23.288Z vite:cache [memory] [2m/@react-refresh[22m
+2025-08-28T22:16:23.288Z vite:resolve [32m6.51ms[39m [36mC:\Users\gambi\Documents\Git\TownGeneratorOS\web\src/types/graph[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/graph.ts[22m
+2025-08-28T22:16:23.288Z vite:resolve [32m6.52ms[39m [36mC:\Users\gambi\Documents\Git\TownGeneratorOS\web\src/types/palette[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/palette.ts[22m
+2025-08-28T22:16:23.289Z vite:resolve [32m7.26ms[39m [36md3-delaunay[39m -> [2mnull[22m
+2025-08-28T22:16:23.289Z vite:cache [memory] [2m/src/services/Model.ts[22m
+2025-08-28T22:16:23.290Z vite:resolve [32m7.67ms[39m [36m@/types/graph[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/graph.ts[22m
+2025-08-28T22:16:23.292Z vite:resolve [33m10.18ms[39m [36m@/types/palette[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/palette.ts[22m
+2025-08-28T22:16:23.293Z vite:import-analysis [33m12.38ms[39m [2m[1 imports rewritten] [2msrc/types/patch.ts[22m[2m[22m
+2025-08-28T22:16:23.293Z vite:import-analysis [33m12.49ms[39m [2m[1 imports rewritten] [2msrc/types/street.ts[22m[2m[22m
+2025-08-28T22:16:23.294Z vite:transform [33m36.25ms[39m [2m/src/types/patch.ts[22m
+2025-08-28T22:16:23.294Z vite:transform [33m36.25ms[39m [2m/src/types/street.ts[22m
+[2m12:16:23 AM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "d3-delaunay" from "src/services/voronoi.ts". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/voronoi.ts[39m:1:25
+[33m  1  |  import { Delaunay } from "d3-delaunay";
+     |                            ^
+  2  |  import { Polygon } from "@/types/polygon";
+  3  |  import { Point } from "@/types/point";[39m
+2025-08-28T22:16:23.295Z vite:cache [memory] [2m/src/types/point.ts[22m
+[2m12:16:23 AM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "react/jsx-dev-runtime" from "src/components/CitySizeButton.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/components/CitySizeButton.tsx[39m:22:9
+[33m  1  |  import { jsxDEV } from "react/jsx-dev-runtime";
+     |                          ^
+  2  |  import * as RefreshRuntime from "/@react-refresh";
+  3  |  const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;[39m
+[2m12:16:23 AM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "react/jsx-dev-runtime" from "src/services/CityMap.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/CityMap.tsx[39m:165:9
+[33m  1  |  import { jsxDEV } from "react/jsx-dev-runtime";
+     |                          ^
+  2  |  import * as RefreshRuntime from "/@react-refresh";
+  3  |  const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;[39m
+2025-08-28T22:16:23.295Z vite:import-analysis [33m14.58ms[39m [2m[3 imports rewritten] [2msrc/services/CurtainWall.ts[22m[2m[22m
+2025-08-28T22:16:23.296Z vite:import-analysis [33m14.73ms[39m [2m[3 imports rewritten] [2msrc/services/Topology.ts[22m[2m[22m
+2025-08-28T22:16:23.296Z vite:transform [31m78.92ms[39m [2m/src/services/CurtainWall.ts[22m
+2025-08-28T22:16:23.296Z vite:transform [33m44.73ms[39m [2m/src/services/Topology.ts[22m
+2025-08-28T22:16:23.299Z vite:resolve [32m1.97ms[39m [36mC:\Users\gambi\Documents\Git\TownGeneratorOS\web\src/services/Cutter[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/Cutter.ts[22m
+2025-08-28T22:16:23.299Z vite:resolve [32m2.08ms[39m [36mC:\Users\gambi\Documents\Git\TownGeneratorOS\web\src/types/geomUtils[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/geomUtils.ts[22m
+2025-08-28T22:16:23.299Z vite:resolve [32m2.08ms[39m [36mC:\Users\gambi\Documents\Git\TownGeneratorOS\web\src/services/CurtainWall[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/CurtainWall.ts[22m
+2025-08-28T22:16:23.299Z vite:resolve [32m2.17ms[39m [36m@/services/Cutter[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/Cutter.ts[22m
+2025-08-28T22:16:23.299Z vite:resolve [32m2.18ms[39m [36m@/types/geomUtils[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/geomUtils.ts[22m
+2025-08-28T22:16:23.300Z vite:resolve [32m2.20ms[39m [36m@/services/CurtainWall[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/CurtainWall.ts[22m
+2025-08-28T22:16:23.300Z vite:cache [memory] [2m/src/types/point.ts[22m
+2025-08-28T22:16:23.300Z vite:cache [memory] [2m/src/utils/Random.ts[22m
+2025-08-28T22:16:23.300Z vite:cache [memory] [2m/src/services/CurtainWall.ts[22m
+2025-08-28T22:16:23.300Z vite:import-analysis [32m3.32ms[39m [2m[6 imports rewritten] [2msrc/services/Ward.ts[22m[2m[22m
+2025-08-28T22:16:23.300Z vite:transform [33m49.89ms[39m [2m/src/services/Ward.ts[22m
+2025-08-28T22:16:23.302Z vite:resolve [32m0.87ms[39m [36m./point[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/point.ts[22m
+2025-08-28T22:16:23.302Z vite:resolve [32m0.93ms[39m [36m./geomUtils[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/geomUtils.ts[22m
+2025-08-28T22:16:23.302Z vite:resolve [32m0.96ms[39m [36m./mathUtils[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/mathUtils.ts[22m
+2025-08-28T22:16:23.302Z vite:cache [memory] [2m/src/types/point.ts[22m
+2025-08-28T22:16:23.302Z vite:import-analysis [32m1.35ms[39m [2m[3 imports rewritten] [2msrc/types/polygon.ts[22m[2m[22m
+2025-08-28T22:16:23.302Z vite:transform [31m50.83ms[39m [2m/src/types/polygon.ts[22m
+2025-08-28T22:16:23.306Z vite:load [33m12.56ms[39m [fs] [2m/src/components/Button.tsx[22m
+2025-08-28T22:16:23.310Z vite:load [33m16.52ms[39m [fs] [2m/src/services/Brush.ts[22m
+2025-08-28T22:16:23.310Z vite:load [33m16.99ms[39m [fs] [2m/src/services/wards/Castle.ts[22m
+2025-08-28T22:16:23.311Z vite:load [33m15.15ms[39m [fs] [2m/src/types/graph.ts[22m
+2025-08-28T22:16:23.311Z vite:load [33m15.63ms[39m [fs] [2m/src/types/palette.ts[22m
+2025-08-28T22:16:23.312Z vite:load [32m9.14ms[39m [fs] [2m/src/types/mathUtils.ts[22m
+2025-08-28T22:16:23.315Z vite:load [33m14.38ms[39m [fs] [2m/src/services/Cutter.ts[22m
+2025-08-28T22:16:23.316Z vite:load [33m15.39ms[39m [fs] [2m/src/types/geomUtils.ts[22m
+2025-08-28T22:16:23.319Z vite:cache [memory] [2m/@react-refresh[22m
+[2m12:16:23 AM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "react/jsx-dev-runtime" from "src/components/Button.tsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/components/Button.tsx[39m:27:4
+[33m  1  |  import { jsxDEV } from "react/jsx-dev-runtime";
+     |                          ^
+  2  |  import * as RefreshRuntime from "/@react-refresh";
+  3  |  const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;[39m
+2025-08-28T22:16:23.323Z vite:import-analysis [32m0.03ms[39m [2m[no imports] [2msrc/types/mathUtils.ts[22m[2m[22m
+2025-08-28T22:16:23.324Z vite:import-analysis [32m0.20ms[39m [2m[no imports] [2msrc/services/Brush.ts[22m[2m[22m
+2025-08-28T22:16:23.324Z vite:import-analysis [32m0.28ms[39m [2m[no imports] [2msrc/types/palette.ts[22m[2m[22m
+2025-08-28T22:16:23.324Z vite:transform [33m12.15ms[39m [2m/src/types/mathUtils.ts[22m
+2025-08-28T22:16:23.324Z vite:transform [33m13.82ms[39m [2m/src/services/Brush.ts[22m
+2025-08-28T22:16:23.324Z vite:transform [33m12.74ms[39m [2m/src/types/palette.ts[22m
+2025-08-28T22:16:23.326Z vite:resolve [32m2.31ms[39m [36m../CurtainWall[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/CurtainWall.ts[22m
+2025-08-28T22:16:23.326Z vite:resolve [32m2.35ms[39m [36m./Ward[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/wards/Ward.ts[22m
+2025-08-28T22:16:23.326Z vite:resolve [32m2.25ms[39m [36m./node[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/node.ts[22m
+2025-08-28T22:16:23.326Z vite:cache [memory] [2m/src/types/point.ts[22m
+2025-08-28T22:16:23.326Z vite:cache [memory] [2m/src/services/CurtainWall.ts[22m
+2025-08-28T22:16:23.326Z vite:import-analysis [32m3.08ms[39m [2m[1 imports rewritten] [2msrc/types/geomUtils.ts[22m[2m[22m
+2025-08-28T22:16:23.327Z vite:import-analysis [32m3.16ms[39m [2m[2 imports rewritten] [2msrc/services/wards/Castle.ts[22m[2m[22m
+2025-08-28T22:16:23.327Z vite:import-analysis [32m3.19ms[39m [2m[2 imports rewritten] [2msrc/types/graph.ts[22m[2m[22m
+2025-08-28T22:16:23.327Z vite:transform [33m10.87ms[39m [2m/src/types/geomUtils.ts[22m
+2025-08-28T22:16:23.327Z vite:transform [33m16.18ms[39m [2m/src/services/wards/Castle.ts[22m
+2025-08-28T22:16:23.327Z vite:transform [33m16.12ms[39m [2m/src/types/graph.ts[22m
+2025-08-28T22:16:23.327Z vite:cache [memory] [2m/src/types/polygon.ts[22m
+2025-08-28T22:16:23.327Z vite:cache [memory] [2m/src/types/point.ts[22m
+2025-08-28T22:16:23.327Z vite:import-analysis [32m3.47ms[39m [2m[3 imports rewritten] [2msrc/services/Cutter.ts[22m[2m[22m
+2025-08-28T22:16:23.327Z vite:transform [33m12.16ms[39m [2m/src/services/Cutter.ts[22m
+2025-08-28T22:16:23.329Z vite:load [32m2.87ms[39m [fs] [2m/src/types/node.ts[22m
+2025-08-28T22:16:23.330Z vite:load [32m3.65ms[39m [fs] [2m/src/services/wards/Ward.ts[22m
+2025-08-28T22:16:23.332Z vite:import-analysis [32m0.02ms[39m [2m[no imports] [2msrc/types/node.ts[22m[2m[22m
+2025-08-28T22:16:23.332Z vite:transform [32m2.68ms[39m [2m/src/types/node.ts[22m
+2025-08-28T22:16:23.334Z vite:resolve [32m1.33ms[39m [36m../../types/point[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/point.ts[22m
+2025-08-28T22:16:23.334Z vite:resolve [32m1.37ms[39m [36m../../types/geomUtils[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/geomUtils.ts[22m
+2025-08-28T22:16:23.334Z vite:resolve [32m1.39ms[39m [36m../../types/polygon[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/polygon.ts[22m
+2025-08-28T22:16:23.334Z vite:resolve [32m1.41ms[39m [36m../../utils/Random[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/utils/Random.ts[22m
+2025-08-28T22:16:23.334Z vite:resolve [32m1.42ms[39m [36m../Cutter[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/Cutter.ts[22m
+2025-08-28T22:16:23.334Z vite:cache [memory] [2m/src/types/point.ts[22m
+2025-08-28T22:16:23.335Z vite:cache [memory] [2m/src/types/geomUtils.ts[22m
+2025-08-28T22:16:23.335Z vite:cache [memory] [2m/src/types/polygon.ts[22m
+2025-08-28T22:16:23.335Z vite:cache [memory] [2m/src/utils/Random.ts[22m
+2025-08-28T22:16:23.335Z vite:cache [memory] [2m/src/services/Cutter.ts[22m
+2025-08-28T22:16:23.335Z vite:import-analysis [32m1.76ms[39m [2m[5 imports rewritten] [2msrc/services/wards/Ward.ts[22m[2m[22m
+2025-08-28T22:16:23.335Z vite:transform [32m4.38ms[39m [2m/src/services/wards/Ward.ts[22m
+
+C:\Users\gambi\Documents\Git\TownGeneratorOS>

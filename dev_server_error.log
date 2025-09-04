@@ -1,0 +1,1701 @@
+2025-08-28T08:12:35.290Z vite:config config file loaded in 62.37ms
+2025-08-28T08:12:35.294Z vite:env loading env files: [
+  'C:/Users/gambi/Documents/Git/TownGeneratorOS/web/.env',
+  'C:/Users/gambi/Documents/Git/TownGeneratorOS/web/.env.local',
+  'C:/Users/gambi/Documents/Git/TownGeneratorOS/web/.env.development',
+  'C:/Users/gambi/Documents/Git/TownGeneratorOS/web/.env.development.local'
+]
+2025-08-28T08:12:35.295Z vite:env env files loaded in 1.05ms
+2025-08-28T08:12:35.296Z vite:env using resolved env: {}
+2025-08-28T08:12:35.309Z vite:config using resolved config: {
+  plugins: [
+    'vite:optimized-deps',
+    'vite:watch-package-data',
+    'vite:pre-alias',
+    'alias',
+    'vite:react-babel',
+    'vite:react-refresh',
+    'vite:modulepreload-polyfill',
+    'vite:resolve',
+    'vite:html-inline-proxy',
+    'vite:css',
+    'vite:esbuild',
+    'vite:json',
+    'vite:wasm-helper',
+    'vite:worker',
+    'vite:asset',
+    'vite:wasm-fallback',
+    'vite:define',
+    'vite:css-post',
+    'vite:worker-import-meta-url',
+    'vite:asset-import-meta-url',
+    'vite:dynamic-import-vars',
+    'vite:import-glob',
+    'vite:client-inject',
+    'vite:css-analysis',
+    'vite:import-analysis'
+  ],
+  root: 'C:/Users/gambi/Documents/Git/TownGeneratorOS/web',
+  build: {
+    target: [ 'chrome107', 'edge107', 'firefox104', 'safari16' ],
+    polyfillModulePreload: true,
+    modulePreload: { polyfill: true },
+    outDir: 'dist',
+    assetsDir: 'assets',
+    assetsInlineLimit: 4096,
+    sourcemap: false,
+    terserOptions: {},
+    rollupOptions: { onwarn: [Function: onwarn] },
+    commonjsOptions: { include: [ /node_modules/ ], extensions: [ '.js', '.cjs' ] },
+    dynamicImportVarsOptions: { warnOnError: true, exclude: [ /node_modules/ ] },
+    write: true,
+    emptyOutDir: null,
+    copyPublicDir: true,
+    manifest: false,
+    lib: false,
+    ssrManifest: false,
+    ssrEmitAssets: false,
+    reportCompressedSize: true,
+    chunkSizeWarningLimit: 500,
+    watch: null,
+    cssCodeSplit: true,
+    minify: 'esbuild',
+    ssr: false,
+    emitAssets: false,
+    createEnvironment: [Function: createEnvironment],
+    cssTarget: [ 'chrome107', 'edge107', 'firefox104', 'safari16' ],
+    cssMinify: true
+  },
+  server: {
+    port: 3000,
+    strictPort: false,
+    host: true,
+    allowedHosts: [],
+    https: undefined,
+    open: false,
+    proxy: undefined,
+    cors: {
+      origin: /^https?:\/\/(?:(?:[^:]+\.)?localhost|127\.0\.0\.1|\[::1\])(?::\d+)?$/
+    },
+    headers: {},
+    warmup: { clientFiles: [], ssrFiles: [] },
+    middlewareMode: false,
+    fs: {
+      strict: true,
+      deny: [ '.env', '.env.*', '*.{crt,pem}', '**/.git/**' ],
+      allow: [ 'C:/Users/gambi/Documents/Git/TownGeneratorOS/web' ]
+    },
+    preTransformRequests: true,
+    perEnvironmentStartEndDuringDev: false,
+    sourcemapIgnoreList: [Function: isInNodeModules]
+  },
+  test: { globals: true, environment: 'jsdom' },
+  resolve: {
+    externalConditions: [ 'node', 'module-sync' ],
+    extensions: [
+      '.mjs',  '.js',
+      '.mts',  '.ts',
+      '.jsx',  '.tsx',
+      '.json'
+    ],
+    dedupe: [ 'react', 'react-dom' ],
+    noExternal: [],
+    external: [],
+    preserveSymlinks: false,
+    alias: [
+      {
+        find: '@',
+        replacement: 'C:\\Users\\gambi\\Documents\\Git\\TownGeneratorOS\\web\\src'
+      },
+      {
+        find: /^\/?@vite\/env/,
+        replacement: '/@fs/C:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/vite/dist/client/env.mjs'
+      },
+      {
+        find: /^\/?@vite\/client/,
+        replacement: '/@fs/C:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/vite/dist/client/client.mjs'
+      }
+    ],
+    mainFields: [ 'browser', 'module', 'jsnext:main', 'jsnext' ],
+    conditions: [ 'module', 'browser', 'development|production' ],
+    builtins: []
+  },
+  esbuild: { jsxDev: true, jsx: 'automatic', jsxImportSource: undefined },
+  optimizeDeps: {
+    include: [
+      'react',
+      'react-dom',
+      'react/jsx-dev-runtime',
+      'react/jsx-runtime'
+    ],
+    exclude: [],
+    needsInterop: [],
+    extensions: [],
+    disabled: undefined,
+    holdUntilCrawlEnd: true,
+    force: false,
+    noDiscovery: false,
+    esbuildOptions: { preserveSymlinks: false, jsx: 'automatic' }
+  },
+  environments: {
+    client: {
+      define: undefined,
+      resolve: {
+        externalConditions: [ 'node', 'module-sync' ],
+        extensions: [
+          '.mjs',  '.js',
+          '.mts',  '.ts',
+          '.jsx',  '.tsx',
+          '.json'
+        ],
+        dedupe: [ 'react', 'react-dom' ],
+        noExternal: [],
+        external: [],
+        preserveSymlinks: false,
+        alias: [
+          {
+            find: '@',
+            replacement: 'C:\\Users\\gambi\\Documents\\Git\\TownGeneratorOS\\web\\src'
+          },
+          {
+            find: /^\/?@vite\/env/,
+            replacement: '/@fs/C:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/vite/dist/client/env.mjs'
+          },
+          {
+            find: /^\/?@vite\/client/,
+            replacement: '/@fs/C:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/vite/dist/client/client.mjs'
+          }
+        ],
+        mainFields: [ 'browser', 'module', 'jsnext:main', 'jsnext' ],
+        conditions: [ 'module', 'browser', 'development|production' ],
+        builtins: []
+      },
+      keepProcessEnv: false,
+      consumer: 'client',
+      optimizeDeps: {
+        include: [
+          'react',
+          'react-dom',
+          'react/jsx-dev-runtime',
+          'react/jsx-runtime'
+        ],
+        exclude: [],
+        needsInterop: [],
+        extensions: [],
+        disabled: undefined,
+        holdUntilCrawlEnd: true,
+        force: false,
+        noDiscovery: false,
+        esbuildOptions: { preserveSymlinks: false, jsx: 'automatic' }
+      },
+      dev: {
+        warmup: [],
+        sourcemap: { js: true },
+        sourcemapIgnoreList: [Function: isInNodeModules],
+        preTransformRequests: true,
+        createEnvironment: [Function: defaultCreateClientDevEnvironment],
+        recoverable: true,
+        moduleRunnerTransform: false
+      },
+      build: {
+        target: [ 'chrome107', 'edge107', 'firefox104', 'safari16' ],
+        polyfillModulePreload: true,
+        modulePreload: { polyfill: true },
+        outDir: 'dist',
+        assetsDir: 'assets',
+        assetsInlineLimit: 4096,
+        sourcemap: false,
+        terserOptions: {},
+        rollupOptions: { onwarn: [Function: onwarn] },
+        commonjsOptions: { include: [ /node_modules/ ], extensions: [ '.js', '.cjs' ] },
+        dynamicImportVarsOptions: { warnOnError: true, exclude: [ /node_modules/ ] },
+        write: true,
+        emptyOutDir: null,
+        copyPublicDir: true,
+        manifest: false,
+        lib: false,
+        ssrManifest: false,
+        ssrEmitAssets: false,
+        reportCompressedSize: true,
+        chunkSizeWarningLimit: 500,
+        watch: null,
+        cssCodeSplit: true,
+        minify: 'esbuild',
+        ssr: false,
+        emitAssets: true,
+        createEnvironment: [Function: createEnvironment],
+        cssTarget: [ 'chrome107', 'edge107', 'firefox104', 'safari16' ],
+        cssMinify: true
+      },
+      plugins: [
+        {
+          name: 'vite:optimized-deps',
+          applyToEnvironment: [Function: applyToEnvironment],
+          resolveId: [Function: resolveId],
+          load: [AsyncFunction: load]
+        },
+        {
+          name: 'vite:watch-package-data',
+          buildStart: [Function: buildStart],
+          buildEnd: [Function: buildEnd],
+          watchChange: [Function: watchChange]
+        },
+        {
+          name: 'vite:pre-alias',
+          applyToEnvironment: [Function: applyToEnvironment],
+          resolveId: [AsyncFunction: resolveId]
+        },
+        {
+          name: 'alias',
+          buildStart: [AsyncFunction: buildStart],
+          resolveId: [Function: resolveId]
+        },
+        {
+          name: 'vite:react-babel',
+          enforce: 'pre',
+          config: [Function: config],
+          configResolved: [Function: configResolved],
+          options: [Function: options],
+          transform: {
+            filter: {
+              id: {
+                include: /\.[tj]sx?(?:\?.*)?$/,
+                exclude: [ /\/node_modules\// ]
+              }
+            },
+            handler: [AsyncFunction: handler]
+          }
+        },
+        {
+          name: 'vite:react-refresh',
+          enforce: 'pre',
+          config: [Function: config],
+          resolveId: {
+            filter: { id: /^\/@react\-refresh$/ },
+            handler: [Function: handler]
+          },
+          load: {
+            filter: { id: /^\/@react\-refresh$/ },
+            handler: [Function: handler]
+          },
+          transformIndexHtml: [Function: transformIndexHtml]
+        },
+        {
+          name: 'vite:modulepreload-polyfill',
+          resolveId: {
+            filter: { id: /^vite\/modulepreload\-polyfill$/ },
+            handler: [Function: handler]
+          },
+          load: {
+            filter: { id: /^ vite\/modulepreload\-polyfill\.js$/ },
+            handler: [Function: handler]
+          }
+        },
+        {
+          name: 'vite:resolve',
+          resolveId: {
+            filter: { id: { exclude: /^(?:\0|\/?virtual:)/ } },
+            handler: [AsyncFunction: handler]
+          },
+          load: {
+            filter: {
+              id: [
+                /^__vite\-browser\-external/,
+                /^__vite\-optional\-peer\-dep/
+              ]
+            },
+            handler: [Function: handler]
+          }
+        },
+        {
+          name: 'vite:html-inline-proxy',
+          resolveId: {
+            filter: { id: /[?&]html-proxy\b/ },
+            handler: [Function: handler]
+          },
+          load: {
+            filter: { id: /[?&]html-proxy\b/ },
+            handler: [Function: handler]
+          }
+        },
+        {
+          name: 'vite:css',
+          buildStart: [Function: buildStart],
+          buildEnd: [Function: buildEnd],
+          load: {
+            filter: {
+              id: /\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)(?:$|\?)/
+            },
+            handler: [AsyncFunction: handler]
+          },
+          transform: {
+            filter: {
+              id: {
+                include: /\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)(?:$|\?)/,
+                exclude: [
+                  /[?&]commonjs-proxy/,
+                  /[?&](?:worker|sharedworker|raw|url)\b/
+                ]
+              }
+            },
+            handler: [AsyncFunction: handler]
+          }
+        },
+        {
+          name: 'vite:esbuild',
+          configureServer: [Function: configureServer],
+          transform: [AsyncFunction: transform]
+        },
+        {
+          name: 'vite:json',
+          transform: {
+            filter: {
+              id: {
+                include: /\.json(?:$|\?)(?!commonjs-(?:proxy|external))/,
+                exclude: /[?&](?:worker|sharedworker|raw|url)\b/
+              }
+            },
+            handler: [Function: handler]
+          }
+        },
+        {
+          name: 'vite:wasm-helper',
+          resolveId: {
+            filter: { id: /^ vite\/wasm\-helper\.js$/ },
+            handler: [Function: handler]
+          },
+          load: {
+            filter: {
+              id: [
+                /^ vite\/wasm\-helper\.js$/,
+                /(?<![?#].*)\.wasm\?init/
+              ]
+            },
+            handler: [AsyncFunction: handler]
+          }
+        },
+        {
+          name: 'vite:worker',
+          buildStart: [Function: buildStart],
+          load: {
+            filter: { id: /(?:\?|&)(worker|sharedworker)(?:&|$)/ },
+            handler: [AsyncFunction: handler]
+          },
+          shouldTransformCachedModule: [Function: shouldTransformCachedModule],
+          transform: {
+            filter: { id: /(?:\?|&)worker_file&type=(\w+)(?:&|$)/ },
+            handler: [AsyncFunction: handler]
+          },
+          renderChunk: [Function: renderChunk],
+          generateBundle: [Function: generateBundle]
+        },
+        {
+          name: 'vite:asset',
+          perEnvironmentStartEndDuringDev: true,
+          buildStart: [Function: buildStart],
+          resolveId: { handler: [Function: handler] },
+          load: {
+            filter: { id: { exclude: /^\0/ } },
+            handler: [AsyncFunction: handler]
+          },
+          renderChunk: [Function: renderChunk],
+          generateBundle: [Function: generateBundle]
+        },
+        {
+          name: 'vite:wasm-fallback',
+          load: { filter: { id: /\.wasm$/ }, handler: [Function: handler] }
+        },
+        {
+          name: 'vite:define',
+          transform: { handler: [AsyncFunction: handler] }
+        },
+        {
+          name: 'vite:css-post',
+          renderStart: [Function: renderStart],
+          transform: {
+            filter: {
+              id: {
+                include: /\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)(?:$|\?)/,
+                exclude: [
+                  /[?&]commonjs-proxy/,
+                  /[?&](?:worker|sharedworker|raw|url)\b/
+                ]
+              }
+            },
+            handler: [AsyncFunction: handler]
+          },
+          renderChunk: [AsyncFunction: renderChunk],
+          augmentChunkHash: [Function: augmentChunkHash],
+          generateBundle: [AsyncFunction: generateBundle]
+        },
+        {
+          name: 'vite:worker-import-meta-url',
+          applyToEnvironment: [Function: applyToEnvironment],
+          shouldTransformCachedModule: [Function: shouldTransformCachedModule],
+          transform: {
+            filter: {
+              code: /new\s+(?:Worker|SharedWorker)\s*\(\s*new\s+URL.+?import\.meta\.url/s
+            },
+            handler: [AsyncFunction: handler]
+          }
+        },
+        {
+          name: 'vite:asset-import-meta-url',
+          applyToEnvironment: [Function: applyToEnvironment],
+          transform: {
+            filter: {
+              id: {
+                exclude: [
+                  /^ vite\/preload\-helper\.js$/,
+                  /^C:\\Users\\gambi\\Documents\\Git\\TownGeneratorOS\\web\\node_modules\\vite\\dist\\client\\client\.mjs$/
+                ]
+              },
+              code: /new\s+URL.+import\.meta\.url/s
+            },
+            handler: [AsyncFunction: handler]
+          }
+        },
+        {
+          name: 'vite:dynamic-import-vars',
+          resolveId: {
+            filter: { id: /^ vite\/dynamic\-import\-helper\.js$/ },
+            handler: [Function: handler]
+          },
+          load: {
+            filter: { id: /^ vite\/dynamic\-import\-helper\.js$/ },
+            handler: [Function: handler]
+          },
+          transform: {
+            filter: {
+              id: {
+                exclude: /^C:\\Users\\gambi\\Documents\\Git\\TownGeneratorOS\\web\\node_modules\\vite\\dist\\client\\client\.mjs$/
+              },
+              code: /\bimport\s*[(/]/
+            },
+            handler: [AsyncFunction: handler]
+          }
+        },
+        {
+          name: 'vite:import-glob',
+          buildStart: [Function: buildStart],
+          transform: {
+            filter: { code: 'import.meta.glob' },
+            handler: [AsyncFunction: handler]
+          },
+          hotUpdate: [Function: hotUpdate]
+        },
+        {
+          name: 'vite:client-inject',
+          buildStart: [AsyncFunction: buildStart],
+          transform: [AsyncFunction: transform]
+        },
+        {
+          name: 'vite:css-analysis',
+          transform: {
+            filter: {
+              id: {
+                include: /\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)(?:$|\?)/,
+                exclude: [
+                  /[?&]commonjs-proxy/,
+                  /[?&](?:worker|sharedworker|raw|url)\b/
+                ]
+              }
+            },
+            handler: [AsyncFunction: handler]
+          }
+        },
+        {
+          name: 'vite:import-analysis',
+          transform: [AsyncFunction: transform]
+        }
+      ]
+    },
+    ssr: {
+      define: undefined,
+      resolve: {
+        externalConditions: [ 'node', 'module-sync' ],
+        extensions: [
+          '.mjs',  '.js',
+          '.mts',  '.ts',
+          '.jsx',  '.tsx',
+          '.json'
+        ],
+        dedupe: [ 'react', 'react-dom' ],
+        noExternal: [],
+        external: [],
+        preserveSymlinks: false,
+        alias: [
+          {
+            find: '@',
+            replacement: 'C:\\Users\\gambi\\Documents\\Git\\TownGeneratorOS\\web\\src'
+          },
+          {
+            find: /^\/?@vite\/env/,
+            replacement: '/@fs/C:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/vite/dist/client/env.mjs'
+          },
+          {
+            find: /^\/?@vite\/client/,
+            replacement: '/@fs/C:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/vite/dist/client/client.mjs'
+          }
+        ],
+        mainFields: [ 'module', 'jsnext:main', 'jsnext' ],
+        conditions: [ 'module', 'node', 'development|production' ],
+        builtins: [
+          '_http_agent',         '_http_client',        '_http_common',
+          '_http_incoming',      '_http_outgoing',      '_http_server',
+          '_stream_duplex',      '_stream_passthrough', '_stream_readable',
+          '_stream_transform',   '_stream_wrap',        '_stream_writable',
+          '_tls_common',         '_tls_wrap',           'assert',
+          'assert/strict',       'async_hooks',         'buffer',
+          'child_process',       'cluster',             'console',
+          'constants',           'crypto',              'dgram',
+          'diagnostics_channel', 'dns',                 'dns/promises',
+          'domain',              'events',              'fs',
+          'fs/promises',         'http',                'http2',
+          'https',               'inspector',           'inspector/promises',
+          'module',              'net',                 'os',
+          'path',                'path/posix',          'path/win32',
+          'perf_hooks',          'process',             'punycode',
+          'querystring',         'readline',            'readline/promises',
+          'repl',                'stream',              'stream/consumers',
+          'stream/promises',     'stream/web',          'string_decoder',
+          'sys',                 'timers',              'timers/promises',
+          'tls',                 'trace_events',        'tty',
+          'url',                 'util',                'util/types',
+          'v8',                  'vm',                  'wasi',
+          'worker_threads',      'zlib',                /^node:/,
+          /^bun:/
+        ]
+      },
+      keepProcessEnv: true,
+      consumer: 'server',
+      optimizeDeps: {
+        include: [],
+        exclude: [],
+        needsInterop: [],
+        extensions: [],
+        disabled: undefined,
+        holdUntilCrawlEnd: true,
+        force: false,
+        noDiscovery: true,
+        esbuildOptions: { preserveSymlinks: false }
+      },
+      dev: {
+        warmup: [],
+        sourcemap: { js: true },
+        sourcemapIgnoreList: [Function: isInNodeModules],
+        preTransformRequests: false,
+        createEnvironment: [Function: defaultCreateDevEnvironment],
+        recoverable: false,
+        moduleRunnerTransform: true
+      },
+      build: {
+        target: [ 'chrome107', 'edge107', 'firefox104', 'safari16' ],
+        polyfillModulePreload: true,
+        modulePreload: { polyfill: true },
+        outDir: 'dist',
+        assetsDir: 'assets',
+        assetsInlineLimit: 4096,
+        sourcemap: false,
+        terserOptions: {},
+        rollupOptions: { onwarn: [Function: onwarn] },
+        commonjsOptions: { include: [ /node_modules/ ], extensions: [ '.js', '.cjs' ] },
+        dynamicImportVarsOptions: { warnOnError: true, exclude: [ /node_modules/ ] },
+        write: true,
+        emptyOutDir: null,
+        copyPublicDir: true,
+        manifest: false,
+        lib: false,
+        ssrManifest: false,
+        ssrEmitAssets: false,
+        reportCompressedSize: true,
+        chunkSizeWarningLimit: 500,
+        watch: null,
+        cssCodeSplit: true,
+        minify: false,
+        ssr: true,
+        emitAssets: false,
+        createEnvironment: [Function: createEnvironment],
+        cssTarget: [ 'chrome107', 'edge107', 'firefox104', 'safari16' ],
+        cssMinify: 'esbuild'
+      },
+      plugins: [
+        {
+          name: 'vite:watch-package-data',
+          buildStart: [Function: buildStart],
+          buildEnd: [Function: buildEnd],
+          watchChange: [Function: watchChange]
+        },
+        {
+          name: 'alias',
+          buildStart: [AsyncFunction: buildStart],
+          resolveId: [Function: resolveId]
+        },
+        {
+          name: 'vite:react-babel',
+          enforce: 'pre',
+          config: [Function: config],
+          configResolved: [Function: configResolved],
+          options: [Function: options],
+          transform: {
+            filter: {
+              id: {
+                include: /\.[tj]sx?(?:\?.*)?$/,
+                exclude: [ /\/node_modules\// ]
+              }
+            },
+            handler: [AsyncFunction: handler]
+          }
+        },
+        {
+          name: 'vite:react-refresh',
+          enforce: 'pre',
+          config: [Function: config],
+          resolveId: {
+            filter: { id: /^\/@react\-refresh$/ },
+            handler: [Function: handler]
+          },
+          load: {
+            filter: { id: /^\/@react\-refresh$/ },
+            handler: [Function: handler]
+          },
+          transformIndexHtml: [Function: transformIndexHtml]
+        },
+        {
+          name: 'vite:modulepreload-polyfill',
+          resolveId: {
+            filter: { id: /^vite\/modulepreload\-polyfill$/ },
+            handler: [Function: handler]
+          },
+          load: {
+            filter: { id: /^ vite\/modulepreload\-polyfill\.js$/ },
+            handler: [Function: handler]
+          }
+        },
+        {
+          name: 'vite:resolve',
+          resolveId: {
+            filter: { id: { exclude: /^(?:\0|\/?virtual:)/ } },
+            handler: [AsyncFunction: handler]
+          },
+          load: {
+            filter: {
+              id: [
+                /^__vite\-browser\-external/,
+                /^__vite\-optional\-peer\-dep/
+              ]
+            },
+            handler: [Function: handler]
+          }
+        },
+        {
+          name: 'vite:html-inline-proxy',
+          resolveId: {
+            filter: { id: /[?&]html-proxy\b/ },
+            handler: [Function: handler]
+          },
+          load: {
+            filter: { id: /[?&]html-proxy\b/ },
+            handler: [Function: handler]
+          }
+        },
+        {
+          name: 'vite:css',
+          buildStart: [Function: buildStart],
+          buildEnd: [Function: buildEnd],
+          load: {
+            filter: {
+              id: /\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)(?:$|\?)/
+            },
+            handler: [AsyncFunction: handler]
+          },
+          transform: {
+            filter: {
+              id: {
+                include: /\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)(?:$|\?)/,
+                exclude: [
+                  /[?&]commonjs-proxy/,
+                  /[?&](?:worker|sharedworker|raw|url)\b/
+                ]
+              }
+            },
+            handler: [AsyncFunction: handler]
+          }
+        },
+        {
+          name: 'vite:esbuild',
+          configureServer: [Function: configureServer],
+          transform: [AsyncFunction: transform]
+        },
+        {
+          name: 'vite:json',
+          transform: {
+            filter: {
+              id: {
+                include: /\.json(?:$|\?)(?!commonjs-(?:proxy|external))/,
+                exclude: /[?&](?:worker|sharedworker|raw|url)\b/
+              }
+            },
+            handler: [Function: handler]
+          }
+        },
+        {
+          name: 'vite:wasm-helper',
+          resolveId: {
+            filter: { id: /^ vite\/wasm\-helper\.js$/ },
+            handler: [Function: handler]
+          },
+          load: {
+            filter: {
+              id: [
+                /^ vite\/wasm\-helper\.js$/,
+                /(?<![?#].*)\.wasm\?init/
+              ]
+            },
+            handler: [AsyncFunction: handler]
+          }
+        },
+        {
+          name: 'vite:worker',
+          buildStart: [Function: buildStart],
+          load: {
+            filter: { id: /(?:\?|&)(worker|sharedworker)(?:&|$)/ },
+            handler: [AsyncFunction: handler]
+          },
+          shouldTransformCachedModule: [Function: shouldTransformCachedModule],
+          transform: {
+            filter: { id: /(?:\?|&)worker_file&type=(\w+)(?:&|$)/ },
+            handler: [AsyncFunction: handler]
+          },
+          renderChunk: [Function: renderChunk],
+          generateBundle: [Function: generateBundle]
+        },
+        {
+          name: 'vite:asset',
+          perEnvironmentStartEndDuringDev: true,
+          buildStart: [Function: buildStart],
+          resolveId: { handler: [Function: handler] },
+          load: {
+            filter: { id: { exclude: /^\0/ } },
+            handler: [AsyncFunction: handler]
+          },
+          renderChunk: [Function: renderChunk],
+          generateBundle: [Function: generateBundle]
+        },
+        {
+          name: 'vite:wasm-fallback',
+          load: { filter: { id: /\.wasm$/ }, handler: [Function: handler] }
+        },
+        {
+          name: 'vite:define',
+          transform: { handler: [AsyncFunction: handler] }
+        },
+        {
+          name: 'vite:css-post',
+          renderStart: [Function: renderStart],
+          transform: {
+            filter: {
+              id: {
+                include: /\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)(?:$|\?)/,
+                exclude: [
+                  /[?&]commonjs-proxy/,
+                  /[?&](?:worker|sharedworker|raw|url)\b/
+                ]
+              }
+            },
+            handler: [AsyncFunction: handler]
+          },
+          renderChunk: [AsyncFunction: renderChunk],
+          augmentChunkHash: [Function: augmentChunkHash],
+          generateBundle: [AsyncFunction: generateBundle]
+        },
+        {
+          name: 'vite:dynamic-import-vars',
+          resolveId: {
+            filter: { id: /^ vite\/dynamic\-import\-helper\.js$/ },
+            handler: [Function: handler]
+          },
+          load: {
+            filter: { id: /^ vite\/dynamic\-import\-helper\.js$/ },
+            handler: [Function: handler]
+          },
+          transform: {
+            filter: {
+              id: {
+                exclude: /^C:\\Users\\gambi\\Documents\\Git\\TownGeneratorOS\\web\\node_modules\\vite\\dist\\client\\client\.mjs$/
+              },
+              code: /\bimport\s*[(/]/
+            },
+            handler: [AsyncFunction: handler]
+          }
+        },
+        {
+          name: 'vite:import-glob',
+          buildStart: [Function: buildStart],
+          transform: {
+            filter: { code: 'import.meta.glob' },
+            handler: [AsyncFunction: handler]
+          },
+          hotUpdate: [Function: hotUpdate]
+        },
+        {
+          name: 'vite:client-inject',
+          buildStart: [AsyncFunction: buildStart],
+          transform: [AsyncFunction: transform]
+        },
+        {
+          name: 'vite:css-analysis',
+          transform: {
+            filter: {
+              id: {
+                include: /\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)(?:$|\?)/,
+                exclude: [
+                  /[?&]commonjs-proxy/,
+                  /[?&](?:worker|sharedworker|raw|url)\b/
+                ]
+              }
+            },
+            handler: [AsyncFunction: handler]
+          }
+        },
+        {
+          name: 'vite:import-analysis',
+          transform: [AsyncFunction: transform]
+        }
+      ]
+    }
+  },
+  configFile: 'C:/Users/gambi/Documents/Git/TownGeneratorOS/web/vite.config.ts',
+  configFileDependencies: [ 'C:/Users/gambi/Documents/Git/TownGeneratorOS/web/vite.config.ts' ],
+  inlineConfig: {
+    root: undefined,
+    base: undefined,
+    mode: undefined,
+    configFile: undefined,
+    configLoader: undefined,
+    logLevel: undefined,
+    clearScreen: undefined,
+    server: { host: undefined },
+    forceOptimizeDeps: undefined
+  },
+  base: '/',
+  decodedBase: '/',
+  rawBase: '/',
+  publicDir: 'C:/Users/gambi/Documents/Git/TownGeneratorOS/web/public',
+  cacheDir: 'C:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/.vite',
+  command: 'serve',
+  mode: 'development',
+  isWorker: false,
+  mainConfig: null,
+  bundleChain: [],
+  isProduction: false,
+  css: {
+    transformer: 'postcss',
+    preprocessorMaxWorkers: true,
+    devSourcemap: false
+  },
+  json: { namedExports: true, stringify: 'auto' },
+  builder: undefined,
+  preview: {
+    port: 4173,
+    strictPort: false,
+    host: true,
+    allowedHosts: [],
+    https: undefined,
+    open: false,
+    proxy: undefined,
+    cors: {
+      origin: /^https?:\/\/(?:(?:[^:]+\.)?localhost|127\.0\.0\.1|\[::1\])(?::\d+)?$/
+    },
+    headers: {}
+  },
+  envDir: 'C:/Users/gambi/Documents/Git/TownGeneratorOS/web',
+  env: { BASE_URL: '/', MODE: 'development', DEV: true, PROD: false },
+  assetsInclude: [Function: assetsInclude],
+  logger: {
+    hasWarned: false,
+    info: [Function: info],
+    warn: [Function: warn],
+    warnOnce: [Function: warnOnce],
+    error: [Function: error],
+    clearScreen: [Function: clearScreen],
+    hasErrorLogged: [Function: hasErrorLogged]
+  },
+  packageCache: Map(1) {
+    'fnpd_C:/Users/gambi/Documents/Git/TownGeneratorOS/web' => {
+      dir: 'C:/Users/gambi/Documents/Git/TownGeneratorOS/web',
+      data: {
+        name: 'village-generator',
+        version: '0.1.0',
+        private: true,
+        type: 'module',
+        scripts: {
+          start: `tsc --watch && copy index.html dist\\index.html && (echo SET "s|./dist/index.js|./index.js|" & SET "file=dist\\index.html" & powershell -Command "(Get-Content $env:file) -replace $env:s, '' | Set-Content $env:file")`,
+          build: `tsc && copy index.html dist\\index.html && (echo SET "s|./dist/index.js|./index.js|" & SET "file=dist\\index.html" & powershell -Command "(Get-Content $env:file) -replace $env:s, '' | Set-Content $env:file")`,
+          dev: 'vite --debug',
+          serve: 'http-server dist -p 8000',
+          test: 'vitest'
+        },
+        dependencies: {
+          '@kobandavis/wfc': '^1.1.0',
+          'd3-delaunay': '^6.0.4',
+          react: '^18.2.0',
+          'react-dom': '^18.2.0'
+        },
+        devDependencies: {
+          '@vitejs/plugin-react': '^4.7.0',
+          vite: '^7.0.6',
+          '@testing-library/react': '^16.3.0',
+          '@types/d3-delaunay': '^6.0.4',
+          '@types/react': '^19.1.9',
+          '@types/react-dom': '^19.1.7',
+          'http-server': '^14.1.1',
+          jsdom: '^26.1.0',
+          typescript: '^5.4.0',
+          vitest: '^3.2.4'
+        }
+      },
+      hasSideEffects: [Function: hasSideEffects],
+      setResolvedCache: [Function: setResolvedCache],
+      getResolvedCache: [Function: getResolvedCache]
+    },
+    set: [Function (anonymous)]
+  },
+  worker: { format: 'iife', plugins: '() => plugins', rollupOptions: {} },
+  appType: 'spa',
+  experimental: {
+    importGlobRestoreExtension: false,
+    renderBuiltUrl: undefined,
+    hmrPartialAccept: false
+  },
+  future: undefined,
+  ssr: {
+    target: 'node',
+    optimizeDeps: {
+      esbuildOptions: { preserveSymlinks: false },
+      include: [],
+      exclude: [],
+      needsInterop: [],
+      extensions: [],
+      holdUntilCrawlEnd: true,
+      force: false,
+      noDiscovery: true
+    },
+    external: [],
+    noExternal: [],
+    resolve: {
+      conditions: [ 'module', 'node', 'development|production' ],
+      externalConditions: [ 'node', 'module-sync' ]
+    }
+  },
+  dev: {
+    warmup: [],
+    sourcemap: { js: true },
+    sourcemapIgnoreList: [Function: isInNodeModules],
+    preTransformRequests: false,
+    createEnvironment: [Function: defaultCreateDevEnvironment],
+    recoverable: false,
+    moduleRunnerTransform: false
+  },
+  webSocketToken: 'VdgHf4kdKrdy',
+  getSortedPlugins: [Function: getSortedPlugins],
+  getSortedPluginHooks: [Function: getSortedPluginHooks],
+  createResolver: [Function: createResolver],
+  fsDenyGlob: [Function: arrayMatcher],
+  safeModulePaths: Set(0) {},
+  [Symbol(vite:resolved-config)]: true
+}
+2025-08-28T08:12:35.322Z vite:deps (client) [32mremoving old cache dir C:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/.vite/deps[39m
+2025-08-28T08:12:35.328Z vite:resolve [32m2.33ms[39m [36mreact[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/react/index.js[22m
+2025-08-28T08:12:35.329Z vite:resolve [32m1.08ms[39m [36mreact-dom[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/react-dom/index.js[22m
+2025-08-28T08:12:35.330Z vite:resolve [32m0.51ms[39m [36mreact/jsx-dev-runtime[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/react/jsx-dev-runtime.js[22m
+2025-08-28T08:12:35.331Z vite:resolve [32m0.41ms[39m [36mreact/jsx-runtime[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/react/jsx-runtime.js[22m
+2025-08-28T08:12:35.333Z vite:deps [32mscanning for dependencies...[39m
+2025-08-28T08:12:35.352Z vite:deps Crawling dependencies using entries: 
+  [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/index.html[22m
+2025-08-28T08:12:35.378Z vite:resolve [32m0.39ms[39m [36m/src/index.tsx[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/index.tsx[22m
+2025-08-28T08:12:35.383Z vite:deps [32m✨ static imports crawl ended[39m
+2025-08-28T08:12:35.397Z vite:resolve [32m1.22ms[39m [36mreact[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/react/index.js[22m
+2025-08-28T08:12:35.398Z vite:resolve [32m0.59ms[39m [36mreact-dom/client[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/react-dom/client.js[22m
+2025-08-28T08:12:35.399Z vite:resolve [32m0.38ms[39m [36m./components/TownScene[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/components/TownScene.tsx[22m
+2025-08-28T08:12:35.400Z vite:resolve [32m0.34ms[39m [36m./services/StateManager[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/StateManager.ts[22m
+2025-08-28T08:12:35.402Z vite:resolve [32m0.36ms[39m [36m./services/Model[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/Model.ts[22m
+2025-08-28T08:12:35.403Z vite:resolve [32m0.40ms[39m [36mreact/jsx-dev-runtime[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/react/jsx-dev-runtime.js[22m
+2025-08-28T08:12:35.411Z vite:resolve [32m0.79ms[39m [36m../utils/Random[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/utils/Random.ts[22m
+2025-08-28T08:12:35.412Z vite:resolve [32m1.12ms[39m [36mC:\Users\gambi\Documents\Git\TownGeneratorOS\web\src/types/patch[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/patch.ts[22m
+2025-08-28T08:12:35.412Z vite:resolve [32m1.62ms[39m [36m@/types/patch[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/patch.ts[22m
+2025-08-28T08:12:35.414Z vite:resolve [32m1.00ms[39m [36m../services/CityMap[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/CityMap.tsx[22m
+2025-08-28T08:12:35.415Z vite:resolve [32m1.19ms[39m [36mC:\Users\gambi\Documents\Git\TownGeneratorOS\web\src/types/polygon[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/polygon.ts[22m
+2025-08-28T08:12:35.415Z vite:resolve [32m1.49ms[39m [36m@/types/polygon[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/polygon.ts[22m
+2025-08-28T08:12:35.416Z vite:resolve [32m0.63ms[39m [36m../services/Model[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/Model.ts[22m
+2025-08-28T08:12:35.416Z vite:resolve [32m0.80ms[39m [36mC:\Users\gambi\Documents\Git\TownGeneratorOS\web\src/types/street[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/street.ts[22m
+2025-08-28T08:12:35.416Z vite:resolve [32m1.05ms[39m [36m@/types/street[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/street.ts[22m
+2025-08-28T08:12:35.417Z vite:resolve [32m0.39ms[39m [36m./Tooltip[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/components/Tooltip.tsx[22m
+2025-08-28T08:12:35.419Z vite:resolve [32m0.61ms[39m [36m./Ward[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/Ward.ts[22m
+2025-08-28T08:12:35.419Z vite:resolve [32m0.78ms[39m [36m./CitySizeButton[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/components/CitySizeButton.tsx[22m
+2025-08-28T08:12:35.420Z vite:resolve [32m0.38ms[39m [36m./CurtainWall[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/CurtainWall.ts[22m
+2025-08-28T08:12:35.421Z vite:resolve [32m0.28ms[39m [36mC:\Users\gambi\Documents\Git\TownGeneratorOS\web\src/utils/Random[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/utils/Random.ts[22m
+2025-08-28T08:12:35.421Z vite:resolve [32m0.48ms[39m [36m@/utils/Random[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/utils/Random.ts[22m
+2025-08-28T08:12:35.422Z vite:resolve [32m0.35ms[39m [36m./voronoi[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/voronoi.ts[22m
+2025-08-28T08:12:35.423Z vite:resolve [32m0.43ms[39m [36mC:\Users\gambi\Documents\Git\TownGeneratorOS\web\src/types/point[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/point.ts[22m
+2025-08-28T08:12:35.423Z vite:resolve [32m0.69ms[39m [36m@/types/point[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/point.ts[22m
+2025-08-28T08:12:35.426Z vite:resolve [32m0.44ms[39m [36m./Topology[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/Topology.ts[22m
+2025-08-28T08:12:35.428Z vite:resolve [32m0.52ms[39m [36m./Button[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/components/Button.tsx[22m
+2025-08-28T08:12:35.430Z vite:resolve [32m0.33ms[39m [36mC:\Users\gambi\Documents\Git\TownGeneratorOS\web\src/types/segment[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/segment.ts[22m
+2025-08-28T08:12:35.430Z vite:resolve [32m0.58ms[39m [36m@/types/segment[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/segment.ts[22m
+2025-08-28T08:12:35.431Z vite:resolve [32m0.30ms[39m [36mC:\Users\gambi\Documents\Git\TownGeneratorOS\web\src/types/palette[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/palette.ts[22m
+2025-08-28T08:12:35.431Z vite:resolve [32m0.57ms[39m [36m@/types/palette[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/palette.ts[22m
+2025-08-28T08:12:35.432Z vite:resolve [32m0.40ms[39m [36m./Brush[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/Brush.ts[22m
+2025-08-28T08:12:35.434Z vite:resolve [32m0.35ms[39m [36m./wards/Castle[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/wards/Castle.ts[22m
+2025-08-28T08:12:35.436Z vite:resolve [32m0.65ms[39m [36m./polygon[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/polygon.ts[22m
+2025-08-28T08:12:35.446Z vite:resolve [32m1.35ms[39m [36md3-delaunay[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/d3-delaunay/src/index.js[22m
+2025-08-28T08:12:35.446Z vite:resolve [32m1.57ms[39m [36m./point[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/point.ts[22m
+2025-08-28T08:12:35.449Z vite:resolve [32m0.91ms[39m [36m./geomUtils[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/geomUtils.ts[22m
+2025-08-28T08:12:35.449Z vite:resolve [32m1.10ms[39m [36m./Model[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/Model.ts[22m
+2025-08-28T08:12:35.449Z vite:resolve [32m1.20ms[39m [36mC:\Users\gambi\Documents\Git\TownGeneratorOS\web\src/types/graph[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/graph.ts[22m
+2025-08-28T08:12:35.449Z vite:resolve [32m1.50ms[39m [36m@/types/graph[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/graph.ts[22m
+2025-08-28T08:12:35.453Z vite:resolve [32m0.68ms[39m [36m./mathUtils[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/mathUtils.ts[22m
+2025-08-28T08:12:35.454Z vite:resolve [32m0.82ms[39m [36mC:\Users\gambi\Documents\Git\TownGeneratorOS\web\src/services/Cutter[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/Cutter.ts[22m
+2025-08-28T08:12:35.454Z vite:resolve [32m1.30ms[39m [36m@/services/Cutter[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/Cutter.ts[22m
+2025-08-28T08:12:35.456Z vite:resolve [32m0.77ms[39m [36m../CurtainWall[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/CurtainWall.ts[22m
+2025-08-28T08:12:35.457Z vite:resolve [32m1.01ms[39m [36mC:\Users\gambi\Documents\Git\TownGeneratorOS\web\src/types/geomUtils[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/geomUtils.ts[22m
+2025-08-28T08:12:35.457Z vite:resolve [32m1.36ms[39m [36m@/types/geomUtils[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/geomUtils.ts[22m
+2025-08-28T08:12:35.458Z vite:resolve [32m0.43ms[39m [36m./Ward[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/wards/Ward.ts[22m
+2025-08-28T08:12:35.462Z vite:resolve [32m0.40ms[39m [36mC:\Users\gambi\Documents\Git\TownGeneratorOS\web\src/services/CurtainWall[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/CurtainWall.ts[22m
+2025-08-28T08:12:35.462Z vite:resolve [32m0.99ms[39m [36m@/services/CurtainWall[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/CurtainWall.ts[22m
+2025-08-28T08:12:35.467Z vite:resolve [32m0.61ms[39m [36m./node[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/node.ts[22m
+2025-08-28T08:12:35.467Z vite:resolve [32m0.80ms[39m [36m../../types/point[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/point.ts[22m
+2025-08-28T08:12:35.468Z vite:resolve [32m0.40ms[39m [36m../../types/geomUtils[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/geomUtils.ts[22m
+2025-08-28T08:12:35.471Z vite:resolve [32m0.39ms[39m [36m../../types/polygon[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/types/polygon.ts[22m
+2025-08-28T08:12:35.472Z vite:resolve [32m0.39ms[39m [36m../../utils/Random[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/utils/Random.ts[22m
+2025-08-28T08:12:35.474Z vite:resolve [32m0.39ms[39m [36m../Cutter[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/src/services/Cutter.ts[22m
+2025-08-28T08:12:35.486Z vite:deps Scan completed in 153.15ms: 
+  [36md3-delaunay[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/d3-delaunay/src/index.js[22m
+  [36mreact[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/react/index.js[22m
+  [36mreact-dom/client[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/react-dom/client.js[22m
+  [36mreact/jsx-dev-runtime[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/react/jsx-dev-runtime.js[22m
+2025-08-28T08:12:35.488Z vite:deps [32mcreating package.json in C:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/.vite/deps_temp_ed1484ff[39m
+2025-08-28T08:12:35.522Z vite:resolve [32m1.38ms[39m [36mdelaunator[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/delaunator/index.js[22m
+2025-08-28T08:12:35.527Z vite:resolve [32m1.07ms[39m [36mreact[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/react/index.js[22m
+2025-08-28T08:12:35.528Z vite:resolve [32m0.80ms[39m [36mreact-dom[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/react-dom/index.js[22m
+2025-08-28T08:12:35.592Z vite:resolve [32m1.10ms[39m [36mrobust-predicates[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/robust-predicates/index.js[22m
+2025-08-28T08:12:35.849Z vite:resolve [32m0.93ms[39m [36mscheduler[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/scheduler/index.js[22m
+2025-08-28T08:12:36.029Z vite:deps Dependencies bundled in 539.85ms
+2025-08-28T08:12:36.030Z vite:deps [32m✨ using post-scan optimizer result, the scanner found every used dependency[39m
+2025-08-28T08:12:36.031Z vite:deps [32mcreating _metadata.json in C:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/.vite/deps_temp_ed1484ff[39m
+2025-08-28T08:12:36.032Z vite:deps [32mrenaming C:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/.vite/deps_temp_ed1484ff to C:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/.vite/deps[39m
+2025-08-28T08:12:36.033Z vite:deps [32m✨ dependencies optimized[39m
+2025-08-28T08:17:14.296Z vite:html-fallback Rewriting GET / to /index.html
+2025-08-28T08:17:14.315Z vite:time [33m23.84ms[39m [2m/index.html[22m
+2025-08-28T08:17:14.321Z vite:load [32m3.19ms[39m [fs] [2m/src/index.tsx[22m
+2025-08-28T08:17:14.826Z vite:resolve [32m0.28ms[39m [36m/@vite/client[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/vite/dist/client/client.mjs[22m
+2025-08-28T08:17:14.831Z vite:load [32m0.58ms[39m [plugin] [2m/@react-refresh[22m
+2025-08-28T08:17:14.836Z vite:import-analysis [32m1.15ms[39m [2m[0 imports rewritten] [2m/@react-refresh[22m[2m[22m
+2025-08-28T08:17:14.836Z vite:transform [32m5.06ms[39m [2m/@react-refresh[22m
+2025-08-28T08:17:14.849Z vite:time [33m19.40ms[39m [2m/@react-refresh[22m
+2025-08-28T08:17:14.851Z vite:load [33m24.57ms[39m [fs] [2m/@vite/client[22m
+2025-08-28T08:17:14.864Z vite:resolve [32m0.11ms[39m [36m@vite/env[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/vite/dist/client/env.mjs[22m
+2025-08-28T08:17:14.866Z vite:import-analysis [32m2.31ms[39m [2m[1 imports rewritten] [2mnode_modules/vite/dist/client/client.mjs[22m[2m[22m
+2025-08-28T08:17:14.866Z vite:transform [33m14.46ms[39m [2m/@vite/client[22m
+2025-08-28T08:17:14.870Z vite:time [33m45.10ms[39m [2m/@vite/client[22m
+2025-08-28T08:17:14.874Z vite:load [32m8.77ms[39m [fs] [2m/node_modules/vite/dist/client/env.mjs[22m
+2025-08-28T08:17:14.875Z vite:import-analysis [32m0.04ms[39m [2m[no imports] [2mnode_modules/vite/dist/client/env.mjs[22m[2m[22m
+2025-08-28T08:17:14.875Z vite:transform [32m0.57ms[39m [2m/node_modules/vite/dist/client/env.mjs[22m
+2025-08-28T08:17:14.879Z vite:resolve [32m2.31ms[39m [36mreact/jsx-dev-runtime[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=19f9a6ec[22m
+2025-08-28T08:17:14.880Z vite:resolve [32m2.74ms[39m [36mreact[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/.vite/deps/react.js?v=19f9a6ec[22m
+2025-08-28T08:17:14.880Z vite:resolve [32m2.94ms[39m [36mreact-dom/client[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/.vite/deps/react-dom_client.js?v=e3f2b658[22m
+2025-08-28T08:17:14.881Z vite:cache [memory] [2m/@react-refresh[22m
+2025-08-28T08:17:14.883Z vite:import-analysis /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=19f9a6ec needs interop
+2025-08-28T08:17:14.885Z vite:import-analysis /node_modules/.vite/deps/react.js?v=19f9a6ec needs interop
+2025-08-28T08:17:14.886Z vite:import-analysis /node_modules/.vite/deps/react-dom_client.js?v=e3f2b658 needs interop
+2025-08-28T08:17:14.886Z vite:hmr [self-accepts] [2msrc/index.tsx[22m
+2025-08-28T08:17:14.887Z vite:optimize-deps load [36mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/.vite/deps/react_jsx-dev-runtime.js[39m
+2025-08-28T08:17:14.887Z vite:optimize-deps load [36mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/.vite/deps/react.js[39m
+2025-08-28T08:17:14.887Z vite:optimize-deps load [36mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/.vite/deps/react-dom_client.js[39m
+2025-08-28T08:17:14.887Z vite:import-analysis [33m10.54ms[39m [2m[7 imports rewritten] [2msrc/index.tsx[22m[2m[22m
+2025-08-28T08:17:14.892Z vite:transform [31m569.41ms[39m [2m/src/index.tsx[22m
+2025-08-28T08:17:14.893Z vite:time [31m64.45ms[39m [2m/src/index.tsx[22m
+2025-08-28T08:17:14.897Z vite:cache [memory] [2m/node_modules/vite/dist/client/env.mjs[22m
+2025-08-28T08:17:14.898Z vite:time [32m1.07ms[39m [2m/node_modules/vite/dist/client/env.mjs[22m
+2025-08-28T08:17:14.900Z vite:load [33m13.13ms[39m [fs] [2m/src/services/StateManager.ts[22m
+2025-08-28T08:17:14.900Z vite:load [33m13.81ms[39m [fs] [2m/src/services/Model.ts[22m
+2025-08-28T08:17:14.901Z vite:load [33m14.58ms[39m [fs] [2m/src/components/TownScene.tsx[22m
+2025-08-28T08:17:14.926Z vite:load [33m39.50ms[39m [plugin] [2m/node_modules/.vite/deps/react.js?v=19f9a6ec[22m
+2025-08-28T08:17:14.927Z vite:resolve [32m0.13ms[39m [36m./chunk-L57YJLEW.js[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/.vite/deps/chunk-L57YJLEW.js?v=819ca99b[22m
+2025-08-28T08:17:14.927Z vite:resolve [32m0.42ms[39m [36m./chunk-BUSYA2B4.js[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/.vite/deps/chunk-BUSYA2B4.js?v=819ca99b[22m
+2025-08-28T08:17:14.928Z vite:optimize-deps load [36mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/.vite/deps/chunk-L57YJLEW.js[39m
+2025-08-28T08:17:14.929Z vite:optimize-deps load [36mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/.vite/deps/chunk-BUSYA2B4.js[39m
+2025-08-28T08:17:14.929Z vite:import-analysis [32m2.37ms[39m [2m[2 imports rewritten] [2mnode_modules/.vite/deps/react.js?v=19f9a6ec[22m[2m[22m
+2025-08-28T08:17:14.929Z vite:transform [32m2.75ms[39m [2m/node_modules/.vite/deps/react.js?v=19f9a6ec[22m
+2025-08-28T08:17:14.930Z vite:time [33m30.47ms[39m [2m/node_modules/.vite/deps/react.js?v=19f9a6ec[22m
+2025-08-28T08:17:14.931Z vite:load [33m44.00ms[39m [plugin] [2m/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=19f9a6ec[22m
+2025-08-28T08:17:14.932Z vite:import-analysis [32m0.80ms[39m [2m[2 imports rewritten] [2mnode_modules/.vite/deps/react_jsx-dev-runtime.js?v=19f9a6ec[22m[2m[22m
+2025-08-28T08:17:14.932Z vite:transform [32m1.31ms[39m [2m/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=19f9a6ec[22m
+2025-08-28T08:17:14.933Z vite:time [33m33.65ms[39m [2m/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=19f9a6ec[22m
+2025-08-28T08:17:14.942Z vite:load [31m54.97ms[39m [plugin] [2m/node_modules/.vite/deps/react-dom_client.js?v=e3f2b658[22m
+2025-08-28T08:17:14.943Z vite:resolve [32m0.17ms[39m [36m./chunk-KVMAXHTM.js[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/.vite/deps/chunk-KVMAXHTM.js?v=819ca99b[22m
+2025-08-28T08:17:14.943Z vite:optimize-deps load [36mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/.vite/deps/chunk-KVMAXHTM.js[39m
+2025-08-28T08:17:14.944Z vite:import-analysis [32m1.53ms[39m [2m[3 imports rewritten] [2mnode_modules/.vite/deps/react-dom_client.js?v=e3f2b658[22m[2m[22m
+2025-08-28T08:17:14.944Z vite:transform [32m1.99ms[39m [2m/node_modules/.vite/deps/react-dom_client.js?v=e3f2b658[22m
+2025-08-28T08:17:14.944Z vite:time [32m8.54ms[39m [2m/node_modules/.vite/deps/react-dom_client.js?v=e3f2b658[22m
+2025-08-28T08:17:14.947Z vite:import-analysis [32m1.05ms[39m [2m[1 imports rewritten] [2msrc/services/StateManager.ts[22m[2m[22m
+2025-08-28T08:17:14.947Z vite:transform [33m47.37ms[39m [2m/src/services/StateManager.ts[22m
+2025-08-28T08:17:14.948Z vite:cache [memory] [2m/src/services/StateManager.ts[22m
+2025-08-28T08:17:14.949Z vite:time [32m0.61ms[39m [2m/src/services/StateManager.ts[22m
+2025-08-28T08:17:14.953Z vite:cache [memory] [2m/@react-refresh[22m
+2025-08-28T08:17:14.953Z vite:import-analysis /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=19f9a6ec needs interop
+2025-08-28T08:17:14.953Z vite:import-analysis /node_modules/.vite/deps/react.js?v=19f9a6ec needs interop
+2025-08-28T08:17:14.954Z vite:cache [memory] [2m/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=19f9a6ec[22m
+2025-08-28T08:17:14.954Z vite:cache [memory] [2m/node_modules/.vite/deps/react.js?v=19f9a6ec[22m
+2025-08-28T08:17:14.954Z vite:hmr [self-accepts] [2msrc/components/TownScene.tsx[22m
+2025-08-28T08:17:14.955Z vite:import-analysis [32m4.76ms[39m [2m[7 imports rewritten] [2msrc/components/TownScene.tsx[22m[2m[22m
+2025-08-28T08:17:14.957Z vite:transform [31m55.34ms[39m [2m/src/components/TownScene.tsx[22m
+2025-08-28T08:17:14.958Z vite:time [33m20.92ms[39m [2m/src/components/TownScene.tsx[22m
+2025-08-28T08:17:14.959Z vite:load [33m30.85ms[39m [plugin] [2m/node_modules/.vite/deps/chunk-BUSYA2B4.js?v=819ca99b[22m
+2025-08-28T08:17:14.960Z vite:import-analysis [32m0.05ms[39m [2m[no imports] [2mnode_modules/.vite/deps/chunk-BUSYA2B4.js?v=819ca99b[22m[2m[22m
+2025-08-28T08:17:14.960Z vite:transform [32m0.57ms[39m[2m [skipped] [2m/node_modules/.vite/deps/chunk-BUSYA2B4.js?v=819ca99b[22m[2m[22m
+2025-08-28T08:17:14.960Z vite:load [33m32.27ms[39m [plugin] [2m/node_modules/.vite/deps/chunk-L57YJLEW.js?v=819ca99b[22m
+2025-08-28T08:17:14.962Z vite:cache [memory] [2m/node_modules/.vite/deps/chunk-BUSYA2B4.js?v=819ca99b[22m
+2025-08-28T08:17:14.962Z vite:import-analysis [32m1.03ms[39m [2m[1 imports rewritten] [2mnode_modules/.vite/deps/chunk-L57YJLEW.js?v=819ca99b[22m[2m[22m
+2025-08-28T08:17:14.962Z vite:transform [32m1.61ms[39m [2m/node_modules/.vite/deps/chunk-L57YJLEW.js?v=819ca99b[22m
+2025-08-28T08:17:14.963Z vite:cache [memory] [2m/node_modules/.vite/deps/chunk-L57YJLEW.js?v=819ca99b[22m
+2025-08-28T08:17:14.963Z vite:time [32m0.49ms[39m [2m/node_modules/.vite/deps/chunk-L57YJLEW.js?v=819ca99b[22m
+2025-08-28T08:17:14.971Z vite:import-analysis [32m6.68ms[39m [2m[10 imports rewritten] [2msrc/services/Model.ts[22m[2m[22m
+2025-08-28T08:17:14.972Z vite:transform [31m71.07ms[39m [2m/src/services/Model.ts[22m
+2025-08-28T08:17:14.973Z vite:time [33m13.94ms[39m [2m/src/services/Model.ts[22m
+2025-08-28T08:17:14.975Z vite:cache [memory] [2m/node_modules/.vite/deps/chunk-BUSYA2B4.js?v=819ca99b[22m
+2025-08-28T08:17:14.976Z vite:time [32m1.18ms[39m [2m/node_modules/.vite/deps/chunk-BUSYA2B4.js?v=819ca99b[22m
+2025-08-28T08:17:14.977Z vite:load [33m30.03ms[39m [fs] [2m/src/utils/Random.ts[22m
+2025-08-28T08:17:14.978Z vite:load [33m23.25ms[39m [fs] [2m/src/services/CityMap.tsx[22m
+2025-08-28T08:17:15.021Z vite:load [31m65.77ms[39m [fs] [2m/src/components/Tooltip.tsx[22m
+2025-08-28T08:17:15.031Z vite:load [31m87.38ms[39m [plugin] [2m/node_modules/.vite/deps/chunk-KVMAXHTM.js?v=819ca99b[22m
+2025-08-28T08:17:15.042Z vite:cache [memory] [2m/node_modules/.vite/deps/chunk-L57YJLEW.js?v=819ca99b[22m
+2025-08-28T08:17:15.042Z vite:cache [memory] [2m/node_modules/.vite/deps/chunk-BUSYA2B4.js?v=819ca99b[22m
+2025-08-28T08:17:15.043Z vite:import-analysis [32m8.06ms[39m [2m[2 imports rewritten] [2mnode_modules/.vite/deps/chunk-KVMAXHTM.js?v=819ca99b[22m[2m[22m
+2025-08-28T08:17:15.043Z vite:transform [33m12.07ms[39m [2m/node_modules/.vite/deps/chunk-KVMAXHTM.js?v=819ca99b[22m
+2025-08-28T08:17:15.047Z vite:time [31m70.28ms[39m [2m/node_modules/.vite/deps/chunk-KVMAXHTM.js?v=819ca99b[22m
+2025-08-28T08:17:15.050Z vite:load [31m95.12ms[39m [fs] [2m/src/components/CitySizeButton.tsx[22m
+2025-08-28T08:17:15.059Z vite:load [31m88.02ms[39m [fs] [2m/src/services/Ward.ts[22m
+2025-08-28T08:17:15.060Z vite:load [31m89.38ms[39m [fs] [2m/src/services/Topology.ts[22m
+2025-08-28T08:17:15.061Z vite:load [31m90.72ms[39m [fs] [2m/src/services/voronoi.ts[22m
+2025-08-28T08:17:15.063Z vite:load [31m91.84ms[39m [fs] [2m/src/services/CurtainWall.ts[22m
+2025-08-28T08:17:15.064Z vite:load [31m92.44ms[39m [fs] [2m/src/types/street.ts[22m
+2025-08-28T08:17:15.064Z vite:load [31m93.10ms[39m [fs] [2m/src/types/segment.ts[22m
+2025-08-28T08:17:15.065Z vite:load [31m93.58ms[39m [fs] [2m/src/types/patch.ts[22m
+2025-08-28T08:17:15.065Z vite:load [31m93.92ms[39m [fs] [2m/src/types/point.ts[22m
+2025-08-28T08:17:15.066Z vite:load [31m94.32ms[39m [fs] [2m/src/types/polygon.ts[22m
+2025-08-28T08:17:15.069Z vite:cache [memory] [2m/@react-refresh[22m
+2025-08-28T08:17:15.069Z vite:import-analysis /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=19f9a6ec needs interop
+2025-08-28T08:17:15.070Z vite:import-analysis /node_modules/.vite/deps/react.js?v=19f9a6ec needs interop
+2025-08-28T08:17:15.070Z vite:cache [memory] [2m/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=19f9a6ec[22m
+2025-08-28T08:17:15.071Z vite:cache [memory] [2m/node_modules/.vite/deps/react.js?v=19f9a6ec[22m
+2025-08-28T08:17:15.072Z vite:hmr [self-accepts] [2msrc/services/CityMap.tsx[22m
+2025-08-28T08:17:15.072Z vite:import-analysis [32m5.59ms[39m [2m[7 imports rewritten] [2msrc/services/CityMap.tsx[22m[2m[22m
+2025-08-28T08:17:15.074Z vite:transform [31m95.89ms[39m [2m/src/services/CityMap.tsx[22m
+2025-08-28T08:17:15.075Z vite:time [33m16.87ms[39m [2m/src/services/CityMap.tsx[22m
+2025-08-28T08:17:15.083Z vite:import-analysis [32m0.39ms[39m [2m[no imports] [2msrc/utils/Random.ts[22m[2m[22m
+2025-08-28T08:17:15.083Z vite:transform [31m106.32ms[39m [2m/src/utils/Random.ts[22m
+2025-08-28T08:17:15.087Z vite:time [31m109.24ms[39m [2m/src/utils/Random.ts[22m
+2025-08-28T08:17:15.088Z vite:resolve [32m5.47ms[39m [36md3-delaunay[39m -> [2mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/.vite/deps/d3-delaunay.js?v=2f1402a7[22m
+2025-08-28T08:17:15.088Z vite:cache [memory] [2m/@react-refresh[22m
+2025-08-28T08:17:15.089Z vite:cache [memory] [2m/src/services/Model.ts[22m
+2025-08-28T08:17:15.089Z vite:import-analysis /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=19f9a6ec needs interop
+2025-08-28T08:17:15.090Z vite:import-analysis /node_modules/.vite/deps/react.js?v=19f9a6ec needs interop
+2025-08-28T08:17:15.091Z vite:import-analysis /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=19f9a6ec needs interop
+2025-08-28T08:17:15.091Z vite:cache [memory] [2m/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=19f9a6ec[22m
+2025-08-28T08:17:15.092Z vite:cache [memory] [2m/node_modules/.vite/deps/react.js?v=19f9a6ec[22m
+2025-08-28T08:17:15.092Z vite:hmr [self-accepts] [2msrc/components/Tooltip.tsx[22m
+2025-08-28T08:17:15.092Z vite:hmr [self-accepts] [2msrc/components/CitySizeButton.tsx[22m
+2025-08-28T08:17:15.094Z vite:import-analysis [33m11.68ms[39m [2m[3 imports rewritten] [2msrc/components/Tooltip.tsx[22m[2m[22m
+2025-08-28T08:17:15.094Z vite:import-analysis [33m12.11ms[39m [2m[3 imports rewritten] [2msrc/components/CitySizeButton.tsx[22m[2m[22m
+2025-08-28T08:17:15.095Z vite:optimize-deps load [36mC:/Users/gambi/Documents/Git/TownGeneratorOS/web/node_modules/.vite/deps/d3-delaunay.js[39m
+2025-08-28T08:17:15.097Z vite:transform [31m75.43ms[39m [2m/src/components/Tooltip.tsx[22m
+2025-08-28T08:17:15.097Z vite:transform [33m46.40ms[39m [2m/src/components/CitySizeButton.tsx[22m
+2025-08-28T08:17:15.097Z vite:time [33m17.85ms[39m [2m/src/components/Tooltip.tsx[22m
+2025-08-28T08:17:15.098Z vite:import-analysis [33m15.47ms[39m [2m[3 imports rewritten] [2msrc/services/voronoi.ts[22m[2m[22m
+2025-08-28T08:17:15.098Z vite:import-analysis [33m15.68ms[39m [2m[3 imports rewritten] [2msrc/services/CurtainWall.ts[22m[2m[22m
+2025-08-28T08:17:15.098Z vite:import-analysis [33m15.85ms[39m [2m[3 imports rewritten] [2msrc/services/Topology.ts[22m[2m[22m
+2025-08-28T08:17:15.098Z vite:transform [33m36.62ms[39m [2m/src/services/voronoi.ts[22m
+2025-08-28T08:17:15.099Z vite:transform [33m35.84ms[39m [2m/src/services/CurtainWall.ts[22m
+2025-08-28T08:17:15.099Z vite:transform [33m38.69ms[39m [2m/src/services/Topology.ts[22m
+2025-08-28T08:17:15.101Z vite:import-analysis [32m0.48ms[39m [2m[no imports] [2msrc/types/segment.ts[22m[2m[22m
+2025-08-28T08:17:15.101Z vite:import-analysis [32m0.86ms[39m [2m[no imports] [2msrc/types/point.ts[22m[2m[22m
+2025-08-28T08:17:15.102Z vite:transform [33m37.00ms[39m [2m/src/types/segment.ts[22m
+2025-08-28T08:17:15.102Z vite:transform [33m36.54ms[39m [2m/src/types/point.ts[22m
+2025-08-28T08:17:15.109Z vite:import-analysis [32m8.74ms[39m [2m[1 imports rewritten] [2msrc/types/street.ts[22m[2m[22m
+2025-08-28T08:17:15.110Z vite:import-analysis [32m9.38ms[39m [2m[1 imports rewritten] [2msrc/types/patch.ts[22m[2m[22m
+2025-08-28T08:17:15.110Z vite:transform [33m46.06ms[39m [2m/src/types/street.ts[22m
+2025-08-28T08:17:15.110Z vite:transform [33m45.28ms[39m [2m/src/types/patch.ts[22m
+2025-08-28T08:17:15.111Z vite:cache [memory] [2m/src/types/point.ts[22m
+2025-08-28T08:17:15.111Z vite:cache [memory] [2m/src/utils/Random.ts[22m
+2025-08-28T08:17:15.112Z vite:cache [memory] [2m/src/services/CurtainWall.ts[22m
+2025-08-28T08:17:15.112Z vite:import-analysis [33m11.39ms[39m [2m[6 imports rewritten] [2msrc/services/Ward.ts[22m[2m[22m
+2025-08-28T08:17:15.112Z vite:transform [31m52.95ms[39m [2m/src/services/Ward.ts[22m
+2025-08-28T08:17:15.115Z vite:cache [memory] [2m/src/types/point.ts[22m
+2025-08-28T08:17:15.115Z vite:import-analysis [32m2.11ms[39m [2m[3 imports rewritten] [2msrc/types/polygon.ts[22m[2m[22m
+2025-08-28T08:17:15.115Z vite:transform [33m49.47ms[39m [2m/src/types/polygon.ts[22m
+2025-08-28T08:17:15.116Z vite:cache [memory] [2m/src/components/CitySizeButton.tsx[22m
+2025-08-28T08:17:15.117Z vite:time [32m0.45ms[39m [2m/src/components/CitySizeButton.tsx[22m
+2025-08-28T08:17:15.118Z vite:cache [memory] [2m/src/types/patch.ts[22m
+2025-08-28T08:17:15.118Z vite:time [32m0.52ms[39m [2m/src/types/patch.ts[22m
+2025-08-28T08:17:15.119Z vite:cache [memory] [2m/src/types/polygon.ts[22m
+2025-08-28T08:17:15.119Z vite:time [32m0.51ms[39m [2m/src/types/polygon.ts[22m
+2025-08-28T08:17:15.120Z vite:load [33m48.81ms[39m [fs] [2m/src/services/Brush.ts[22m
+2025-08-28T08:17:15.121Z vite:load [33m49.10ms[39m [fs] [2m/src/types/palette.ts[22m
+2025-08-28T08:17:15.122Z vite:load [31m50.82ms[39m [fs] [2m/src/services/wards/Castle.ts[22m
+2025-08-28T08:17:15.124Z vite:load [33m12.02ms[39m [fs] [2m/src/services/Cutter.ts[22m
+2025-08-28T08:17:15.125Z vite:load [33m26.70ms[39m [fs] [2m/src/types/graph.ts[22m
+2025-08-28T08:17:15.126Z vite:cache [memory] [2m/src/types/street.ts[22m
+2025-08-28T08:17:15.127Z vite:time [32m0.60ms[39m [2m/src/types/street.ts[22m
+2025-08-28T08:17:15.128Z vite:load [33m33.64ms[39m [plugin] [2m/node_modules/.vite/deps/d3-delaunay.js?v=2f1402a7[22m
+2025-08-28T08:17:15.128Z vite:cache [memory] [2m/node_modules/.vite/deps/chunk-BUSYA2B4.js?v=819ca99b[22m
+2025-08-28T08:17:15.129Z vite:import-analysis [32m0.81ms[39m [2m[1 imports rewritten] [2mnode_modules/.vite/deps/d3-delaunay.js?v=2f1402a7[22m[2m[22m
+2025-08-28T08:17:15.129Z vite:transform [32m1.40ms[39m [2m/node_modules/.vite/deps/d3-delaunay.js?v=2f1402a7[22m
+2025-08-28T08:17:15.130Z vite:load [33m17.91ms[39m [fs] [2m/src/types/geomUtils.ts[22m
+2025-08-28T08:17:15.131Z vite:load [33m16.25ms[39m [fs] [2m/src/types/mathUtils.ts[22m
+2025-08-28T08:17:15.133Z vite:load [33m38.69ms[39m [fs] [2m/src/components/Button.tsx[22m
+2025-08-28T08:17:15.139Z vite:import-analysis [32m0.04ms[39m [2m[no imports] [2msrc/services/Brush.ts[22m[2m[22m
+2025-08-28T08:17:15.140Z vite:import-analysis [32m0.65ms[39m [2m[no imports] [2msrc/types/palette.ts[22m[2m[22m
+2025-08-28T08:17:15.140Z vite:transform [33m20.25ms[39m [2m/src/services/Brush.ts[22m
+2025-08-28T08:17:15.141Z vite:transform [33m19.45ms[39m [2m/src/types/palette.ts[22m
+2025-08-28T08:17:15.144Z vite:cache [memory] [2m/src/services/CurtainWall.ts[22m
+2025-08-28T08:17:15.145Z vite:cache [memory] [2m/src/types/point.ts[22m
+2025-08-28T08:17:15.145Z vite:import-analysis [32m6.06ms[39m [2m[2 imports rewritten] [2msrc/services/wards/Castle.ts[22m[2m[22m
+2025-08-28T08:17:15.145Z vite:import-analysis [32m6.27ms[39m [2m[2 imports rewritten] [2msrc/types/graph.ts[22m[2m[22m
+2025-08-28T08:17:15.146Z vite:transform [33m23.47ms[39m [2m/src/services/wards/Castle.ts[22m
+2025-08-28T08:17:15.146Z vite:transform [33m21.30ms[39m [2m/src/types/graph.ts[22m
+2025-08-28T08:17:15.147Z vite:cache [memory] [2m/src/types/polygon.ts[22m
+2025-08-28T08:17:15.147Z vite:cache [memory] [2m/src/types/point.ts[22m
+2025-08-28T08:17:15.147Z vite:import-analysis [32m8.02ms[39m [2m[3 imports rewritten] [2msrc/services/Cutter.ts[22m[2m[22m
+2025-08-28T08:17:15.147Z vite:transform [33m23.44ms[39m [2m/src/services/Cutter.ts[22m
+2025-08-28T08:17:15.148Z vite:cache [memory] [2m/src/services/Ward.ts[22m
+2025-08-28T08:17:15.149Z vite:time [32m0.56ms[39m [2m/src/services/Ward.ts[22m
+2025-08-28T08:17:15.149Z vite:cache [memory] [2m/src/services/CurtainWall.ts[22m
+2025-08-28T08:17:15.150Z vite:time [32m0.36ms[39m [2m/src/services/CurtainWall.ts[22m
+2025-08-28T08:17:15.151Z vite:cache [memory] [2m/src/services/voronoi.ts[22m
+2025-08-28T08:17:15.151Z vite:time [32m0.47ms[39m [2m/src/services/voronoi.ts[22m
+2025-08-28T08:17:15.152Z vite:import-analysis [32m0.03ms[39m [2m[no imports] [2msrc/types/mathUtils.ts[22m[2m[22m
+2025-08-28T08:17:15.152Z vite:transform [33m20.70ms[39m [2m/src/types/mathUtils.ts[22m
+2025-08-28T08:17:15.153Z vite:cache [memory] [2m/src/types/point.ts[22m
+2025-08-28T08:17:15.154Z vite:import-analysis [32m1.68ms[39m [2m[1 imports rewritten] [2msrc/types/geomUtils.ts[22m[2m[22m
+2025-08-28T08:17:15.154Z vite:transform [33m23.72ms[39m [2m/src/types/geomUtils.ts[22m
+2025-08-28T08:17:15.154Z vite:cache [memory] [2m/src/types/point.ts[22m
+2025-08-28T08:17:15.155Z vite:time [32m0.39ms[39m [2m/src/types/point.ts[22m
+2025-08-28T08:17:15.156Z vite:cache [memory] [2m/@react-refresh[22m
+2025-08-28T08:17:15.156Z vite:import-analysis /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=19f9a6ec needs interop
+2025-08-28T08:17:15.157Z vite:cache [memory] [2m/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=19f9a6ec[22m
+2025-08-28T08:17:15.157Z vite:hmr [self-accepts] [2msrc/components/Button.tsx[22m
+2025-08-28T08:17:15.157Z vite:import-analysis [32m1.69ms[39m [2m[2 imports rewritten] [2msrc/components/Button.tsx[22m[2m[22m
+2025-08-28T08:17:15.158Z vite:transform [33m24.96ms[39m [2m/src/components/Button.tsx[22m
+2025-08-28T08:17:15.158Z vite:load [33m13.22ms[39m [fs] [2m/src/services/wards/Ward.ts[22m
+2025-08-28T08:17:15.160Z vite:load [33m14.55ms[39m [fs] [2m/src/types/node.ts[22m
+2025-08-28T08:17:15.161Z vite:cache [memory] [2m/src/services/Topology.ts[22m
+2025-08-28T08:17:15.161Z vite:time [32m0.46ms[39m [2m/src/services/Topology.ts[22m
+2025-08-28T08:17:15.162Z vite:cache [memory] [2m/src/types/segment.ts[22m
+2025-08-28T08:17:15.162Z vite:time [32m0.41ms[39m [2m/src/types/segment.ts[22m
+2025-08-28T08:17:15.163Z vite:cache [memory] [2m/src/types/palette.ts[22m
+2025-08-28T08:17:15.163Z vite:time [32m0.43ms[39m [2m/src/types/palette.ts[22m
+2025-08-28T08:17:15.166Z vite:cache [memory] [2m/src/types/point.ts[22m
+2025-08-28T08:17:15.166Z vite:cache [memory] [2m/src/types/geomUtils.ts[22m
+2025-08-28T08:17:15.167Z vite:cache [memory] [2m/src/types/polygon.ts[22m
+2025-08-28T08:17:15.167Z vite:cache [memory] [2m/src/utils/Random.ts[22m
+2025-08-28T08:17:15.167Z vite:cache [memory] [2m/src/services/Cutter.ts[22m
+2025-08-28T08:17:15.168Z vite:import-analysis [32m3.24ms[39m [2m[5 imports rewritten] [2msrc/services/wards/Ward.ts[22m[2m[22m
+2025-08-28T08:17:15.168Z vite:transform [32m9.13ms[39m [2m/src/services/wards/Ward.ts[22m
+2025-08-28T08:17:15.168Z vite:cache [memory] [2m/src/services/Brush.ts[22m
+2025-08-28T08:17:15.169Z vite:time [32m0.39ms[39m [2m/src/services/Brush.ts[22m
+2025-08-28T08:17:15.169Z vite:cache [memory] [2m/src/services/wards/Castle.ts[22m
+2025-08-28T08:17:15.170Z vite:time [32m0.44ms[39m [2m/src/services/wards/Castle.ts[22m
+2025-08-28T08:17:15.171Z vite:cache [memory] [2m/src/components/Button.tsx[22m
+2025-08-28T08:17:15.171Z vite:time [32m0.60ms[39m [2m/src/components/Button.tsx[22m
+2025-08-28T08:17:15.172Z vite:import-analysis [32m0.03ms[39m [2m[no imports] [2msrc/types/node.ts[22m[2m[22m
+2025-08-28T08:17:15.172Z vite:transform [33m12.29ms[39m [2m/src/types/node.ts[22m
+2025-08-28T08:17:15.173Z vite:cache [memory] [2m/src/types/geomUtils.ts[22m
+2025-08-28T08:17:15.173Z vite:time [32m0.61ms[39m [2m/src/types/geomUtils.ts[22m
+2025-08-28T08:17:15.174Z vite:cache [memory] [2m/src/types/mathUtils.ts[22m
+2025-08-28T08:17:15.174Z vite:time [32m0.40ms[39m [2m/src/types/mathUtils.ts[22m
+2025-08-28T08:17:15.175Z vite:cache [memory] [2m/src/services/Cutter.ts[22m
+2025-08-28T08:17:15.176Z vite:time [32m0.56ms[39m [2m/src/services/Cutter.ts[22m
+2025-08-28T08:17:15.178Z vite:cache [memory] [2m/node_modules/.vite/deps/d3-delaunay.js?v=2f1402a7[22m
+2025-08-28T08:17:15.178Z vite:time [32m0.59ms[39m [2m/node_modules/.vite/deps/d3-delaunay.js?v=2f1402a7[22m
+2025-08-28T08:17:15.179Z vite:cache [memory] [2m/src/types/graph.ts[22m
+2025-08-28T08:17:15.180Z vite:time [32m0.43ms[39m [2m/src/types/graph.ts[22m
+2025-08-28T08:17:15.180Z vite:cache [memory] [2m/src/services/wards/Ward.ts[22m
+2025-08-28T08:17:15.181Z vite:time [32m0.50ms[39m [2m/src/services/wards/Ward.ts[22m
+2025-08-28T08:17:15.185Z vite:cache [memory] [2m/src/types/node.ts[22m
+2025-08-28T08:17:15.186Z vite:time [32m0.64ms[39m [2m/src/types/node.ts[22m
+2025-08-28T08:17:15.609Z vite:time [32m0.96ms[39m [2m/favicon.ico[22m
+2025-08-28T14:23:44.807Z vite:html-fallback Rewriting GET /?size=15&seed=1874895647 to /index.html
+2025-08-28T14:23:44.812Z vite:cache [memory] [2m/src/index.tsx[22m
+2025-08-28T14:23:44.813Z vite:time [32m6.11ms[39m [2m/index.html[22m
+2025-08-28T14:23:45.236Z vite:cache [memory] [2m/@vite/client[22m
+2025-08-28T14:23:45.236Z vite:time [32m0.90ms[39m [2m/@vite/client[22m
+2025-08-28T14:23:45.291Z vite:cache [304] [2m/src/index.tsx[22m
+2025-08-28T14:23:45.291Z vite:time [32m0.50ms[39m [2m/src/index.tsx[22m
+2025-08-28T14:23:45.292Z vite:cache [304] [2m/@react-refresh[22m
+2025-08-28T14:23:45.292Z vite:time [32m0.23ms[39m [2m/@react-refresh[22m
+2025-08-28T14:23:45.375Z vite:cache [304] [2m/node_modules/vite/dist/client/env.mjs[22m
+2025-08-28T14:23:45.375Z vite:time [32m0.49ms[39m [2m/node_modules/vite/dist/client/env.mjs[22m
+2025-08-28T14:23:45.415Z vite:cache [304] [2m/src/components/TownScene.tsx[22m
+2025-08-28T14:23:45.416Z vite:time [32m0.43ms[39m [2m/src/components/TownScene.tsx[22m
+2025-08-28T14:23:45.417Z vite:cache [304] [2m/src/services/StateManager.ts[22m
+2025-08-28T14:23:45.417Z vite:time [32m0.37ms[39m [2m/src/services/StateManager.ts[22m
+2025-08-28T14:23:45.464Z vite:cache [304] [2m/src/services/Model.ts[22m
+2025-08-28T14:23:45.465Z vite:time [32m0.49ms[39m [2m/src/services/Model.ts[22m
+2025-08-28T14:23:45.505Z vite:cache [304] [2m/src/services/CityMap.tsx[22m
+2025-08-28T14:23:45.506Z vite:time [32m0.54ms[39m [2m/src/services/CityMap.tsx[22m
+2025-08-28T14:23:45.507Z vite:cache [304] [2m/src/components/Tooltip.tsx[22m
+2025-08-28T14:23:45.507Z vite:time [32m0.39ms[39m [2m/src/components/Tooltip.tsx[22m
+2025-08-28T14:23:45.574Z vite:cache [304] [2m/src/components/CitySizeButton.tsx[22m
+2025-08-28T14:23:45.575Z vite:time [32m0.49ms[39m [2m/src/components/CitySizeButton.tsx[22m
+2025-08-28T14:23:45.588Z vite:cache [304] [2m/src/utils/Random.ts[22m
+2025-08-28T14:23:45.588Z vite:time [32m0.52ms[39m [2m/src/utils/Random.ts[22m
+2025-08-28T14:23:45.589Z vite:cache [304] [2m/src/types/patch.ts[22m
+2025-08-28T14:23:45.589Z vite:time [32m0.30ms[39m [2m/src/types/patch.ts[22m
+2025-08-28T14:23:45.628Z vite:cache [304] [2m/src/types/polygon.ts[22m
+2025-08-28T14:23:45.628Z vite:time [32m0.39ms[39m [2m/src/types/polygon.ts[22m
+2025-08-28T14:23:45.629Z vite:cache [304] [2m/src/types/street.ts[22m
+2025-08-28T14:23:45.629Z vite:time [32m0.31ms[39m [2m/src/types/street.ts[22m
+2025-08-28T14:23:45.644Z vite:cache [304] [2m/src/services/Ward.ts[22m
+2025-08-28T14:23:45.644Z vite:time [32m0.39ms[39m [2m/src/services/Ward.ts[22m
+2025-08-28T14:23:45.648Z vite:cache [304] [2m/src/services/CurtainWall.ts[22m
+2025-08-28T14:23:45.648Z vite:time [32m0.46ms[39m [2m/src/services/CurtainWall.ts[22m
+2025-08-28T14:23:45.649Z vite:cache [304] [2m/src/services/voronoi.ts[22m
+2025-08-28T14:23:45.649Z vite:time [32m0.56ms[39m [2m/src/services/voronoi.ts[22m
+2025-08-28T14:23:45.659Z vite:cache [304] [2m/src/types/point.ts[22m
+2025-08-28T14:23:45.659Z vite:time [32m0.52ms[39m [2m/src/types/point.ts[22m
+2025-08-28T14:23:45.660Z vite:cache [304] [2m/src/services/Topology.ts[22m
+2025-08-28T14:23:45.660Z vite:time [32m0.29ms[39m [2m/src/services/Topology.ts[22m
+2025-08-28T14:23:45.661Z vite:cache [304] [2m/src/types/segment.ts[22m
+2025-08-28T14:23:45.661Z vite:time [32m0.30ms[39m [2m/src/types/segment.ts[22m
+2025-08-28T14:23:45.668Z vite:cache [304] [2m/src/types/palette.ts[22m
+2025-08-28T14:23:45.668Z vite:time [32m0.73ms[39m [2m/src/types/palette.ts[22m
+2025-08-28T14:23:45.677Z vite:cache [304] [2m/src/services/Brush.ts[22m
+2025-08-28T14:23:45.677Z vite:time [32m0.42ms[39m [2m/src/services/Brush.ts[22m
+2025-08-28T14:23:45.678Z vite:cache [304] [2m/src/services/wards/Castle.ts[22m
+2025-08-28T14:23:45.678Z vite:time [32m0.32ms[39m [2m/src/services/wards/Castle.ts[22m
+2025-08-28T14:23:45.679Z vite:cache [304] [2m/src/types/geomUtils.ts[22m
+2025-08-28T14:23:45.679Z vite:time [32m0.32ms[39m [2m/src/types/geomUtils.ts[22m
+2025-08-28T14:23:45.689Z vite:cache [304] [2m/src/types/mathUtils.ts[22m
+2025-08-28T14:23:45.690Z vite:time [32m0.44ms[39m [2m/src/types/mathUtils.ts[22m
+2025-08-28T14:23:45.691Z vite:cache [304] [2m/src/components/Button.tsx[22m
+2025-08-28T14:23:45.691Z vite:time [32m0.39ms[39m [2m/src/components/Button.tsx[22m
+2025-08-28T14:23:45.693Z vite:cache [304] [2m/src/services/Cutter.ts[22m
+2025-08-28T14:23:45.693Z vite:time [32m0.42ms[39m [2m/src/services/Cutter.ts[22m
+2025-08-28T14:23:45.699Z vite:cache [304] [2m/src/types/graph.ts[22m
+2025-08-28T14:23:45.699Z vite:time [32m0.49ms[39m [2m/src/types/graph.ts[22m
+2025-08-28T14:23:45.702Z vite:cache [304] [2m/src/services/wards/Ward.ts[22m
+2025-08-28T14:23:45.703Z vite:time [32m0.41ms[39m [2m/src/services/wards/Ward.ts[22m
+2025-08-28T14:23:45.708Z vite:cache [304] [2m/src/types/node.ts[22m
+2025-08-28T14:23:45.708Z vite:time [32m0.42ms[39m [2m/src/types/node.ts[22m
+2025-08-28T15:05:54.650Z vite:hmr [file change] [2msrc/services/CurtainWall.ts[22m
+2025-08-28T15:05:54.682Z vite:hmr (ssr) [no modules matched] [2msrc/services/CurtainWall.ts[22m
+2025-08-28T15:05:54.689Z vite:cache [memory-hmr] [2m/src/index.tsx[22m
+2025-08-28T15:05:54.689Z vite:cache [memory] [2m/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=19f9a6ec[22m
+2025-08-28T15:05:54.689Z vite:cache [memory] [2m/@react-refresh[22m
+2025-08-28T15:05:54.690Z vite:cache [memory] [2m/node_modules/.vite/deps/react.js?v=19f9a6ec[22m
+2025-08-28T15:05:54.690Z vite:cache [memory] [2m/node_modules/.vite/deps/react-dom_client.js?v=e3f2b658[22m
+2025-08-28T15:05:54.690Z vite:cache [memory] [2m/src/services/StateManager.ts[22m
+2025-08-28T15:05:54.691Z vite:cache [memory-hmr] [2m/src/components/TownScene.tsx[22m
+2025-08-28T15:05:54.691Z vite:cache [memory-hmr] [2m/src/services/Model.ts[22m
+2025-08-28T15:05:54.692Z vite:cache [memory] [2m/src/components/Tooltip.tsx[22m
+2025-08-28T15:05:54.692Z vite:cache [memory] [2m/src/components/CitySizeButton.tsx[22m
+2025-08-28T15:05:54.692Z vite:cache [memory] [2m/src/types/patch.ts[22m
+2025-08-28T15:05:54.692Z vite:cache [memory] [2m/src/types/polygon.ts[22m
+2025-08-28T15:05:54.692Z vite:cache [memory] [2m/src/types/street.ts[22m
+2025-08-28T15:05:54.693Z vite:cache [memory] [2m/src/utils/Random.ts[22m
+2025-08-28T15:05:54.693Z vite:cache [memory] [2m/src/services/voronoi.ts[22m
+2025-08-28T15:05:54.693Z vite:cache [memory] [2m/src/types/point.ts[22m
+2025-08-28T15:05:54.693Z vite:cache [memory] [2m/src/services/Topology.ts[22m
+2025-08-28T15:05:54.693Z vite:cache [memory] [2m/src/types/segment.ts[22m
+2025-08-28T15:05:54.693Z vite:cache [memory-hmr] [2m/src/services/CityMap.tsx[22m
+2025-08-28T15:05:54.693Z vite:cache [memory-hmr] [2m/src/services/Ward.ts[22m
+2025-08-28T15:05:54.694Z vite:cache [memory] [2m/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=19f9a6ec[22m
+2025-08-28T15:05:54.694Z vite:cache [memory] [2m/@react-refresh[22m
+2025-08-28T15:05:54.694Z vite:cache [memory] [2m/node_modules/.vite/deps/react.js?v=19f9a6ec[22m
+2025-08-28T15:05:54.694Z vite:cache [memory] [2m/src/types/palette.ts[22m
+2025-08-28T15:05:54.694Z vite:cache [memory] [2m/src/services/Brush.ts[22m
+2025-08-28T15:05:54.695Z vite:cache [memory] [2m/src/services/Cutter.ts[22m
+2025-08-28T15:05:54.695Z vite:cache [memory] [2m/src/types/geomUtils.ts[22m
+2025-08-28T15:05:54.695Z vite:time [32m7.07ms[39m [2m/src/index.tsx[22m
+2025-08-28T15:05:54.695Z vite:cache [memory-hmr] [2m/src/services/wards/Castle.ts[22m
+2025-08-28T15:05:54.695Z vite:cache [memory] [2m/src/services/wards/Ward.ts[22m
+2025-08-28T15:05:54.697Z vite:cache [memory] [2m/src/components/TownScene.tsx[22m
+2025-08-28T15:05:54.697Z vite:time [32m0.34ms[39m [2m/src/components/TownScene.tsx[22m
+2025-08-28T15:05:54.697Z vite:cache [memory] [2m/src/services/CityMap.tsx[22m
+2025-08-28T15:05:54.698Z vite:time [32m0.36ms[39m [2m/src/services/CityMap.tsx[22m
+2025-08-28T15:05:54.698Z vite:load [32m2.76ms[39m [fs] [2m/src/services/CurtainWall.ts[22m
+2025-08-28T15:05:54.701Z vite:cache [memory] [2m/src/services/Model.ts[22m
+2025-08-28T15:05:54.702Z vite:time [32m0.66ms[39m [2m/src/services/Model.ts[22m
+2025-08-28T15:05:54.704Z vite:cache [memory] [2m/src/services/Model.ts[22m
+2025-08-28T15:05:54.705Z vite:cache [memory] [2m/src/types/patch.ts[22m
+2025-08-28T15:05:54.705Z vite:cache [memory] [2m/src/types/point.ts[22m
+2025-08-28T15:05:54.706Z vite:import-analysis [32m2.44ms[39m [2m[3 imports rewritten] [2msrc/services/CurtainWall.ts[22m[2m[22m
+2025-08-28T15:05:54.706Z vite:transform [32m7.20ms[39m [2m/src/services/CurtainWall.ts[22m
+2025-08-28T15:05:54.706Z vite:cache [memory] [2m/src/services/Ward.ts[22m
+2025-08-28T15:05:54.706Z vite:time [32m0.37ms[39m [2m/src/services/Ward.ts[22m
+2025-08-28T15:05:54.707Z vite:cache [memory] [2m/src/services/wards/Castle.ts[22m
+2025-08-28T15:05:54.707Z vite:time [32m0.26ms[39m [2m/src/services/wards/Castle.ts[22m
+2025-08-28T15:05:54.714Z vite:cache [memory] [2m/src/services/CurtainWall.ts[22m
+2025-08-28T15:05:54.715Z vite:time [32m0.52ms[39m [2m/src/services/CurtainWall.ts[22m
+2025-08-28T15:05:55.385Z vite:html-fallback Rewriting GET /?size=15&seed=1874895647 to /index.html
+2025-08-28T15:05:55.388Z vite:cache [memory] [2m/src/index.tsx[22m
+2025-08-28T15:05:55.389Z vite:time [32m3.83ms[39m [2m/index.html[22m
+2025-08-28T15:05:55.588Z vite:cache [memory] [2m/@vite/client[22m
+2025-08-28T15:05:55.588Z vite:time [32m0.45ms[39m [2m/@vite/client[22m
+2025-08-28T15:05:55.598Z vite:cache [memory] [2m/src/index.tsx[22m
+2025-08-28T15:05:55.598Z vite:time [32m0.49ms[39m [2m/src/index.tsx[22m
+2025-08-28T15:05:55.598Z vite:cache [304] [2m/@react-refresh[22m
+2025-08-28T15:05:55.599Z vite:time [32m0.22ms[39m [2m/@react-refresh[22m
+2025-08-28T15:05:55.693Z vite:cache [304] [2m/node_modules/vite/dist/client/env.mjs[22m
+2025-08-28T15:05:55.694Z vite:time [32m0.31ms[39m [2m/node_modules/vite/dist/client/env.mjs[22m
+2025-08-28T15:05:55.729Z vite:cache [memory] [2m/src/components/TownScene.tsx[22m
+2025-08-28T15:05:55.730Z vite:time [32m0.45ms[39m [2m/src/components/TownScene.tsx[22m
+2025-08-28T15:05:55.731Z vite:cache [304] [2m/src/services/StateManager.ts[22m
+2025-08-28T15:05:55.731Z vite:time [32m0.35ms[39m [2m/src/services/StateManager.ts[22m
+2025-08-28T15:05:55.738Z vite:cache [memory] [2m/src/services/Model.ts[22m
+2025-08-28T15:05:55.739Z vite:time [32m0.57ms[39m [2m/src/services/Model.ts[22m
+2025-08-28T15:05:55.761Z vite:cache [memory] [2m/src/services/CityMap.tsx[22m
+2025-08-28T15:05:55.762Z vite:time [32m0.50ms[39m [2m/src/services/CityMap.tsx[22m
+2025-08-28T15:05:55.771Z vite:cache [304] [2m/src/components/Tooltip.tsx[22m
+2025-08-28T15:05:55.772Z vite:time [32m0.44ms[39m [2m/src/components/Tooltip.tsx[22m
+2025-08-28T15:05:55.785Z vite:cache [304] [2m/src/components/CitySizeButton.tsx[22m
+2025-08-28T15:05:55.785Z vite:time [32m0.58ms[39m [2m/src/components/CitySizeButton.tsx[22m
+2025-08-28T15:05:55.792Z vite:cache [304] [2m/src/utils/Random.ts[22m
+2025-08-28T15:05:55.793Z vite:time [32m0.53ms[39m [2m/src/utils/Random.ts[22m
+2025-08-28T15:05:55.795Z vite:cache [304] [2m/src/types/patch.ts[22m
+2025-08-28T15:05:55.795Z vite:time [32m0.52ms[39m [2m/src/types/patch.ts[22m
+2025-08-28T15:05:55.813Z vite:cache [304] [2m/src/types/polygon.ts[22m
+2025-08-28T15:05:55.814Z vite:time [32m0.83ms[39m [2m/src/types/polygon.ts[22m
+2025-08-28T15:05:55.822Z vite:cache [304] [2m/src/types/street.ts[22m
+2025-08-28T15:05:55.822Z vite:time [32m0.45ms[39m [2m/src/types/street.ts[22m
+2025-08-28T15:05:55.824Z vite:cache [memory] [2m/src/services/Ward.ts[22m
+2025-08-28T15:05:55.824Z vite:time [32m0.58ms[39m [2m/src/services/Ward.ts[22m
+2025-08-28T15:05:55.837Z vite:cache [memory] [2m/src/services/CurtainWall.ts[22m
+2025-08-28T15:05:55.837Z vite:time [32m0.48ms[39m [2m/src/services/CurtainWall.ts[22m
+2025-08-28T15:05:55.838Z vite:cache [304] [2m/src/services/voronoi.ts[22m
+2025-08-28T15:05:55.838Z vite:time [32m0.25ms[39m [2m/src/services/voronoi.ts[22m
+2025-08-28T15:05:55.839Z vite:cache [304] [2m/src/types/point.ts[22m
+2025-08-28T15:05:55.839Z vite:time [32m0.27ms[39m [2m/src/types/point.ts[22m
+2025-08-28T15:05:55.851Z vite:cache [304] [2m/src/services/Topology.ts[22m
+2025-08-28T15:05:55.851Z vite:time [32m0.42ms[39m [2m/src/services/Topology.ts[22m
+2025-08-28T15:05:55.852Z vite:cache [304] [2m/src/types/segment.ts[22m
+2025-08-28T15:05:55.852Z vite:time [32m0.35ms[39m [2m/src/types/segment.ts[22m
+2025-08-28T15:05:55.853Z vite:cache [304] [2m/src/types/palette.ts[22m
+2025-08-28T15:05:55.853Z vite:time [32m0.26ms[39m [2m/src/types/palette.ts[22m
+2025-08-28T15:05:55.865Z vite:cache [304] [2m/src/services/Brush.ts[22m
+2025-08-28T15:05:55.866Z vite:time [32m0.35ms[39m [2m/src/services/Brush.ts[22m
+2025-08-28T15:05:55.866Z vite:cache [memory] [2m/src/services/wards/Castle.ts[22m
+2025-08-28T15:05:55.866Z vite:time [32m0.32ms[39m [2m/src/services/wards/Castle.ts[22m
+2025-08-28T15:05:55.867Z vite:cache [304] [2m/src/components/Button.tsx[22m
+2025-08-28T15:05:55.867Z vite:time [32m0.24ms[39m [2m/src/components/Button.tsx[22m
+2025-08-28T15:05:55.880Z vite:cache [304] [2m/src/types/geomUtils.ts[22m
+2025-08-28T15:05:55.881Z vite:time [32m0.39ms[39m [2m/src/types/geomUtils.ts[22m
+2025-08-28T15:05:55.881Z vite:cache [304] [2m/src/types/mathUtils.ts[22m
+2025-08-28T15:05:55.882Z vite:time [32m0.30ms[39m [2m/src/types/mathUtils.ts[22m
+2025-08-28T15:05:55.883Z vite:cache [304] [2m/src/services/Cutter.ts[22m
+2025-08-28T15:05:55.883Z vite:time [32m0.26ms[39m [2m/src/services/Cutter.ts[22m
+2025-08-28T15:05:55.899Z vite:cache [304] [2m/src/types/graph.ts[22m
+2025-08-28T15:05:55.900Z vite:time [32m0.39ms[39m [2m/src/types/graph.ts[22m
+2025-08-28T15:05:55.900Z vite:cache [304] [2m/src/services/wards/Ward.ts[22m
+2025-08-28T15:05:55.901Z vite:time [32m0.24ms[39m [2m/src/services/wards/Ward.ts[22m
+2025-08-28T15:05:55.912Z vite:cache [304] [2m/src/types/node.ts[22m
+2025-08-28T15:05:55.913Z vite:time [32m0.40ms[39m [2m/src/types/node.ts[22m
+2025-08-28T16:33:48.297Z vite:html-fallback Rewriting GET /?size=15&seed=1874895647 to /index.html
+2025-08-28T16:33:48.300Z vite:cache [memory] [2m/src/index.tsx[22m
+2025-08-28T16:33:48.300Z vite:time [32m4.14ms[39m [2m/index.html[22m
+2025-08-28T16:33:48.660Z vite:cache [memory] [2m/@vite/client[22m
+2025-08-28T16:33:48.660Z vite:time [32m0.59ms[39m [2m/@vite/client[22m
+2025-08-28T16:33:48.681Z vite:cache [memory] [2m/src/index.tsx[22m
+2025-08-28T16:33:48.681Z vite:time [32m0.65ms[39m [2m/src/index.tsx[22m
+2025-08-28T16:33:48.716Z vite:cache [304] [2m/@react-refresh[22m
+2025-08-28T16:33:48.717Z vite:time [32m0.46ms[39m [2m/@react-refresh[22m
+2025-08-28T16:33:48.752Z vite:cache [304] [2m/node_modules/vite/dist/client/env.mjs[22m
+2025-08-28T16:33:48.752Z vite:time [32m0.33ms[39m [2m/node_modules/vite/dist/client/env.mjs[22m
+2025-08-28T16:33:48.780Z vite:cache [memory] [2m/src/components/TownScene.tsx[22m
+2025-08-28T16:33:48.781Z vite:time [32m0.53ms[39m [2m/src/components/TownScene.tsx[22m
+2025-08-28T16:33:48.782Z vite:cache [304] [2m/src/services/StateManager.ts[22m
+2025-08-28T16:33:48.783Z vite:time [32m0.39ms[39m [2m/src/services/StateManager.ts[22m
+2025-08-28T16:33:48.810Z vite:cache [memory] [2m/src/services/Model.ts[22m
+2025-08-28T16:33:48.811Z vite:time [32m0.53ms[39m [2m/src/services/Model.ts[22m
+2025-08-28T16:33:48.837Z vite:cache [memory] [2m/src/services/CityMap.tsx[22m
+2025-08-28T16:33:48.837Z vite:time [32m0.74ms[39m [2m/src/services/CityMap.tsx[22m
+2025-08-28T16:33:48.842Z vite:cache [304] [2m/src/components/Tooltip.tsx[22m
+2025-08-28T16:33:48.842Z vite:time [32m0.42ms[39m [2m/src/components/Tooltip.tsx[22m
+2025-08-28T16:33:48.861Z vite:cache [304] [2m/src/components/CitySizeButton.tsx[22m
+2025-08-28T16:33:48.862Z vite:time [32m0.40ms[39m [2m/src/components/CitySizeButton.tsx[22m
+2025-08-28T16:33:48.863Z vite:cache [304] [2m/src/utils/Random.ts[22m
+2025-08-28T16:33:48.863Z vite:time [32m0.28ms[39m [2m/src/utils/Random.ts[22m
+2025-08-28T16:33:48.865Z vite:cache [304] [2m/src/types/patch.ts[22m
+2025-08-28T16:33:48.865Z vite:time [32m0.37ms[39m [2m/src/types/patch.ts[22m
+2025-08-28T16:33:48.873Z vite:cache [304] [2m/src/types/polygon.ts[22m
+2025-08-28T16:33:48.873Z vite:time [32m0.41ms[39m [2m/src/types/polygon.ts[22m
+2025-08-28T16:33:48.874Z vite:cache [304] [2m/src/types/street.ts[22m
+2025-08-28T16:33:48.874Z vite:time [32m0.32ms[39m [2m/src/types/street.ts[22m
+2025-08-28T16:33:48.875Z vite:cache [memory] [2m/src/services/Ward.ts[22m
+2025-08-28T16:33:48.875Z vite:time [32m0.39ms[39m [2m/src/services/Ward.ts[22m
+2025-08-28T16:33:48.881Z vite:cache [memory] [2m/src/services/CurtainWall.ts[22m
+2025-08-28T16:33:48.882Z vite:time [32m0.50ms[39m [2m/src/services/CurtainWall.ts[22m
+2025-08-28T16:33:48.883Z vite:cache [304] [2m/src/services/voronoi.ts[22m
+2025-08-28T16:33:48.883Z vite:time [32m0.42ms[39m [2m/src/services/voronoi.ts[22m
+2025-08-28T16:33:48.886Z vite:cache [304] [2m/src/types/point.ts[22m
+2025-08-28T16:33:48.886Z vite:time [32m0.38ms[39m [2m/src/types/point.ts[22m
+2025-08-28T16:33:48.889Z vite:cache [304] [2m/src/services/Topology.ts[22m
+2025-08-28T16:33:48.890Z vite:time [32m0.33ms[39m [2m/src/services/Topology.ts[22m
+2025-08-28T16:33:48.891Z vite:cache [304] [2m/src/types/segment.ts[22m
+2025-08-28T16:33:48.891Z vite:time [32m0.29ms[39m [2m/src/types/segment.ts[22m
+2025-08-28T16:33:48.892Z vite:cache [304] [2m/src/types/palette.ts[22m
+2025-08-28T16:33:48.892Z vite:time [32m0.48ms[39m [2m/src/types/palette.ts[22m
+2025-08-28T16:33:48.898Z vite:cache [304] [2m/src/services/Brush.ts[22m
+2025-08-28T16:33:48.898Z vite:time [32m0.45ms[39m [2m/src/services/Brush.ts[22m
+2025-08-28T16:33:48.899Z vite:cache [memory] [2m/src/services/wards/Castle.ts[22m
+2025-08-28T16:33:48.899Z vite:time [32m0.35ms[39m [2m/src/services/wards/Castle.ts[22m
+2025-08-28T16:33:48.901Z vite:cache [304] [2m/src/components/Button.tsx[22m
+2025-08-28T16:33:48.901Z vite:time [32m0.38ms[39m [2m/src/components/Button.tsx[22m
+2025-08-28T16:33:48.911Z vite:cache [304] [2m/src/types/geomUtils.ts[22m
+2025-08-28T16:33:48.911Z vite:time [32m0.43ms[39m [2m/src/types/geomUtils.ts[22m
+2025-08-28T16:33:48.912Z vite:cache [304] [2m/src/types/mathUtils.ts[22m
+2025-08-28T16:33:48.912Z vite:time [32m0.27ms[39m [2m/src/types/mathUtils.ts[22m
+2025-08-28T16:33:48.913Z vite:cache [304] [2m/src/services/Cutter.ts[22m
+2025-08-28T16:33:48.913Z vite:time [32m0.35ms[39m [2m/src/services/Cutter.ts[22m
+2025-08-28T16:33:48.927Z vite:cache [304] [2m/src/types/graph.ts[22m
+2025-08-28T16:33:48.927Z vite:time [32m0.40ms[39m [2m/src/types/graph.ts[22m
+2025-08-28T16:33:48.928Z vite:cache [304] [2m/src/services/wards/Ward.ts[22m
+2025-08-28T16:33:48.928Z vite:time [32m0.24ms[39m [2m/src/services/wards/Ward.ts[22m
+2025-08-28T16:33:48.938Z vite:cache [304] [2m/src/types/node.ts[22m
+2025-08-28T16:33:48.938Z vite:time [32m0.40ms[39m [2m/src/types/node.ts[22m
+2025-08-28T16:36:05.947Z vite:hmr [file change] [2msrc/components/BuildingEditor.tsx[22m
+2025-08-28T16:36:05.948Z vite:hmr (client) [no modules matched] [2msrc/components/BuildingEditor.tsx[22m
+2025-08-28T16:36:05.948Z vite:hmr (ssr) [no modules matched] [2msrc/components/BuildingEditor.tsx[22m
+2025-08-28T16:36:06.129Z vite:hmr [file change] [2msrc/services/StandaloneBuildingGenerator.ts[22m
+2025-08-28T16:36:06.129Z vite:hmr (client) [no modules matched] [2msrc/services/StandaloneBuildingGenerator.ts[22m
+2025-08-28T16:36:06.129Z vite:hmr (ssr) [no modules matched] [2msrc/services/StandaloneBuildingGenerator.ts[22m
+2025-08-28T17:00:25.296Z vite:html-fallback Rewriting GET /?size=15&seed=1874895647 to /index.html
+2025-08-28T17:00:25.299Z vite:cache [memory] [2m/src/index.tsx[22m
+2025-08-28T17:00:25.299Z vite:time [32m3.95ms[39m [2m/index.html[22m
+2025-08-28T17:00:25.353Z vite:cache [memory] [2m/@vite/client[22m
+2025-08-28T17:00:25.354Z vite:time [32m0.64ms[39m [2m/@vite/client[22m
+2025-08-28T17:00:25.367Z vite:cache [memory] [2m/src/index.tsx[22m
+2025-08-28T17:00:25.367Z vite:time [32m0.91ms[39m [2m/src/index.tsx[22m
+2025-08-28T17:00:25.368Z vite:cache [304] [2m/@react-refresh[22m
+2025-08-28T17:00:25.368Z vite:time [32m0.40ms[39m [2m/@react-refresh[22m
+2025-08-28T17:00:25.373Z vite:cache [304] [2m/node_modules/vite/dist/client/env.mjs[22m
+2025-08-28T17:00:25.374Z vite:time [32m0.65ms[39m [2m/node_modules/vite/dist/client/env.mjs[22m
+2025-08-28T17:00:25.376Z vite:cache [memory] [2m/src/components/TownScene.tsx[22m
+2025-08-28T17:00:25.377Z vite:time [32m0.60ms[39m [2m/src/components/TownScene.tsx[22m
+2025-08-28T17:00:25.377Z vite:cache [304] [2m/src/services/StateManager.ts[22m
+2025-08-28T17:00:25.378Z vite:time [32m0.32ms[39m [2m/src/services/StateManager.ts[22m
+2025-08-28T17:00:25.378Z vite:cache [memory] [2m/src/services/Model.ts[22m
+2025-08-28T17:00:25.379Z vite:time [32m0.46ms[39m [2m/src/services/Model.ts[22m
+2025-08-28T17:00:25.384Z vite:cache [memory] [2m/src/services/CityMap.tsx[22m
+2025-08-28T17:00:25.384Z vite:time [32m0.65ms[39m [2m/src/services/CityMap.tsx[22m
+2025-08-28T17:00:25.385Z vite:cache [304] [2m/src/components/Tooltip.tsx[22m
+2025-08-28T17:00:25.385Z vite:time [32m0.45ms[39m [2m/src/components/Tooltip.tsx[22m
+2025-08-28T17:00:25.386Z vite:cache [304] [2m/src/components/CitySizeButton.tsx[22m
+2025-08-28T17:00:25.386Z vite:time [32m0.34ms[39m [2m/src/components/CitySizeButton.tsx[22m
+2025-08-28T17:00:25.390Z vite:cache [304] [2m/src/types/patch.ts[22m
+2025-08-28T17:00:25.391Z vite:time [32m0.66ms[39m [2m/src/types/patch.ts[22m
+2025-08-28T17:00:25.391Z vite:cache [304] [2m/src/types/polygon.ts[22m
+2025-08-28T17:00:25.391Z vite:time [32m0.33ms[39m [2m/src/types/polygon.ts[22m
+2025-08-28T17:00:25.392Z vite:cache [304] [2m/src/types/street.ts[22m
+2025-08-28T17:00:25.392Z vite:time [32m0.27ms[39m [2m/src/types/street.ts[22m
+2025-08-28T17:00:25.393Z vite:cache [memory] [2m/src/services/Ward.ts[22m
+2025-08-28T17:00:25.393Z vite:time [32m0.41ms[39m [2m/src/services/Ward.ts[22m
+2025-08-28T17:00:25.394Z vite:cache [memory] [2m/src/services/CurtainWall.ts[22m
+2025-08-28T17:00:25.394Z vite:time [32m0.57ms[39m [2m/src/services/CurtainWall.ts[22m
+2025-08-28T17:00:25.395Z vite:cache [304] [2m/src/utils/Random.ts[22m
+2025-08-28T17:00:25.395Z vite:time [32m0.40ms[39m [2m/src/utils/Random.ts[22m
+2025-08-28T17:00:25.396Z vite:cache [304] [2m/src/services/voronoi.ts[22m
+2025-08-28T17:00:25.396Z vite:time [32m0.19ms[39m [2m/src/services/voronoi.ts[22m
+2025-08-28T17:00:25.396Z vite:cache [304] [2m/src/types/point.ts[22m
+2025-08-28T17:00:25.397Z vite:time [32m0.40ms[39m [2m/src/types/point.ts[22m
+2025-08-28T17:00:25.397Z vite:cache [304] [2m/src/services/Topology.ts[22m
+2025-08-28T17:00:25.398Z vite:time [32m0.35ms[39m [2m/src/services/Topology.ts[22m
+2025-08-28T17:00:25.398Z vite:cache [304] [2m/src/types/segment.ts[22m
+2025-08-28T17:00:25.398Z vite:time [32m0.32ms[39m [2m/src/types/segment.ts[22m
+2025-08-28T17:00:25.399Z vite:cache [304] [2m/src/types/palette.ts[22m
+2025-08-28T17:00:25.399Z vite:time [32m0.28ms[39m [2m/src/types/palette.ts[22m
+2025-08-28T17:00:25.400Z vite:cache [304] [2m/src/services/Brush.ts[22m
+2025-08-28T17:00:25.400Z vite:time [32m0.32ms[39m [2m/src/services/Brush.ts[22m
+2025-08-28T17:00:25.401Z vite:cache [memory] [2m/src/services/wards/Castle.ts[22m
+2025-08-28T17:00:25.401Z vite:time [32m0.42ms[39m [2m/src/services/wards/Castle.ts[22m
+2025-08-28T17:00:25.402Z vite:cache [304] [2m/src/components/Button.tsx[22m
+2025-08-28T17:00:25.402Z vite:time [32m0.24ms[39m [2m/src/components/Button.tsx[22m
+2025-08-28T17:00:25.402Z vite:cache [304] [2m/src/types/geomUtils.ts[22m
+2025-08-28T17:00:25.403Z vite:time [32m0.23ms[39m [2m/src/types/geomUtils.ts[22m
+2025-08-28T17:00:25.403Z vite:cache [304] [2m/src/types/mathUtils.ts[22m
+2025-08-28T17:00:25.403Z vite:time [32m0.24ms[39m [2m/src/types/mathUtils.ts[22m
+2025-08-28T17:00:25.404Z vite:cache [304] [2m/src/services/Cutter.ts[22m
+2025-08-28T17:00:25.404Z vite:time [32m0.28ms[39m [2m/src/services/Cutter.ts[22m
+2025-08-28T17:00:25.406Z vite:cache [304] [2m/src/types/graph.ts[22m
+2025-08-28T17:00:25.406Z vite:time [32m0.38ms[39m [2m/src/types/graph.ts[22m
+2025-08-28T17:00:25.414Z vite:cache [304] [2m/src/services/wards/Ward.ts[22m
+2025-08-28T17:00:25.414Z vite:time [32m0.46ms[39m [2m/src/services/wards/Ward.ts[22m
+2025-08-28T17:00:25.418Z vite:cache [304] [2m/src/types/node.ts[22m
+2025-08-28T17:00:25.418Z vite:time [32m0.40ms[39m [2m/src/types/node.ts[22m
+2025-08-28T17:18:58.913Z vite:hmr [file change] [2mpackage-lock.json[22m
+2025-08-28T17:18:58.914Z vite:hmr (client) [no modules matched] [2mpackage-lock.json[22m
+2025-08-28T17:18:58.915Z vite:hmr (ssr) [no modules matched] [2mpackage-lock.json[22m
+2025-08-28T18:07:03.310Z vite:html-fallback Rewriting GET /?size=15&seed=1874895647 to /index.html
+2025-08-28T18:07:03.315Z vite:cache [memory] [2m/src/index.tsx[22m
+2025-08-28T18:07:03.316Z vite:time [32m6.74ms[39m [2m/index.html[22m
+2025-08-28T18:07:03.358Z vite:cache [memory] [2m/@vite/client[22m
+2025-08-28T18:07:03.359Z vite:time [32m0.52ms[39m [2m/@vite/client[22m
+2025-08-28T18:07:03.375Z vite:cache [memory] [2m/src/index.tsx[22m
+2025-08-28T18:07:03.375Z vite:time [32m0.46ms[39m [2m/src/index.tsx[22m
+2025-08-28T18:07:03.387Z vite:cache [304] [2m/@react-refresh[22m
+2025-08-28T18:07:03.388Z vite:time [32m0.48ms[39m [2m/@react-refresh[22m
+2025-08-28T18:07:03.392Z vite:cache [memory] [2m/src/components/TownScene.tsx[22m
+2025-08-28T18:07:03.392Z vite:time [32m0.50ms[39m [2m/src/components/TownScene.tsx[22m
+2025-08-28T18:07:03.394Z vite:cache [304] [2m/src/services/StateManager.ts[22m
+2025-08-28T18:07:03.395Z vite:time [32m0.66ms[39m [2m/src/services/StateManager.ts[22m
+2025-08-28T18:07:03.395Z vite:cache [memory] [2m/src/services/Model.ts[22m
+2025-08-28T18:07:03.396Z vite:time [32m0.46ms[39m [2m/src/services/Model.ts[22m
+2025-08-28T18:07:03.396Z vite:cache [304] [2m/node_modules/vite/dist/client/env.mjs[22m
+2025-08-28T18:07:03.396Z vite:time [32m0.35ms[39m [2m/node_modules/vite/dist/client/env.mjs[22m
+2025-08-28T18:07:03.400Z vite:cache [memory] [2m/src/services/CityMap.tsx[22m
+2025-08-28T18:07:03.400Z vite:time [32m0.49ms[39m [2m/src/services/CityMap.tsx[22m
+2025-08-28T18:07:03.401Z vite:cache [304] [2m/src/components/Tooltip.tsx[22m
+2025-08-28T18:07:03.401Z vite:time [32m0.31ms[39m [2m/src/components/Tooltip.tsx[22m
+2025-08-28T18:07:03.402Z vite:cache [304] [2m/src/components/CitySizeButton.tsx[22m
+2025-08-28T18:07:03.402Z vite:time [32m0.32ms[39m [2m/src/components/CitySizeButton.tsx[22m
+2025-08-28T18:07:03.402Z vite:cache [304] [2m/src/utils/Random.ts[22m
+2025-08-28T18:07:03.402Z vite:time [32m0.26ms[39m [2m/src/utils/Random.ts[22m
+2025-08-28T18:07:03.410Z vite:cache [304] [2m/src/types/patch.ts[22m
+2025-08-28T18:07:03.410Z vite:time [32m0.35ms[39m [2m/src/types/patch.ts[22m
+2025-08-28T18:07:03.410Z vite:cache [304] [2m/src/types/polygon.ts[22m
+2025-08-28T18:07:03.411Z vite:time [32m0.26ms[39m [2m/src/types/polygon.ts[22m
+2025-08-28T18:07:03.411Z vite:cache [304] [2m/src/types/street.ts[22m
+2025-08-28T18:07:03.411Z vite:time [32m0.25ms[39m [2m/src/types/street.ts[22m
+2025-08-28T18:07:03.412Z vite:cache [memory] [2m/src/services/Ward.ts[22m
+2025-08-28T18:07:03.412Z vite:time [32m0.33ms[39m [2m/src/services/Ward.ts[22m
+2025-08-28T18:07:03.414Z vite:cache [memory] [2m/src/services/CurtainWall.ts[22m
+2025-08-28T18:07:03.414Z vite:time [32m0.65ms[39m [2m/src/services/CurtainWall.ts[22m
+2025-08-28T18:07:03.415Z vite:cache [304] [2m/src/services/voronoi.ts[22m
+2025-08-28T18:07:03.415Z vite:time [32m0.32ms[39m [2m/src/services/voronoi.ts[22m
+2025-08-28T18:07:03.415Z vite:cache [304] [2m/src/types/point.ts[22m
+2025-08-28T18:07:03.416Z vite:time [32m0.33ms[39m [2m/src/types/point.ts[22m
+2025-08-28T18:07:03.416Z vite:cache [304] [2m/src/services/Topology.ts[22m
+2025-08-28T18:07:03.416Z vite:time [32m0.20ms[39m [2m/src/services/Topology.ts[22m
+2025-08-28T18:07:03.416Z vite:cache [304] [2m/src/types/segment.ts[22m
+2025-08-28T18:07:03.417Z vite:time [32m0.21ms[39m [2m/src/types/segment.ts[22m
+2025-08-28T18:07:03.417Z vite:cache [304] [2m/src/types/palette.ts[22m
+2025-08-28T18:07:03.417Z vite:time [32m0.22ms[39m [2m/src/types/palette.ts[22m
+2025-08-28T18:07:03.418Z vite:cache [304] [2m/src/services/Brush.ts[22m
+2025-08-28T18:07:03.418Z vite:time [32m0.20ms[39m [2m/src/services/Brush.ts[22m
+2025-08-28T18:07:03.418Z vite:cache [memory] [2m/src/services/wards/Castle.ts[22m
+2025-08-28T18:07:03.418Z vite:time [32m0.26ms[39m [2m/src/services/wards/Castle.ts[22m
+2025-08-28T18:07:03.419Z vite:cache [304] [2m/src/components/Button.tsx[22m
+2025-08-28T18:07:03.419Z vite:time [32m0.18ms[39m [2m/src/components/Button.tsx[22m
+2025-08-28T18:07:03.419Z vite:cache [304] [2m/src/types/geomUtils.ts[22m
+2025-08-28T18:07:03.420Z vite:time [32m0.25ms[39m [2m/src/types/geomUtils.ts[22m
+2025-08-28T18:07:03.421Z vite:cache [304] [2m/src/types/mathUtils.ts[22m
+2025-08-28T18:07:03.421Z vite:time [32m0.41ms[39m [2m/src/types/mathUtils.ts[22m
+2025-08-28T18:07:03.421Z vite:cache [304] [2m/src/services/Cutter.ts[22m
+2025-08-28T18:07:03.422Z vite:time [32m0.26ms[39m [2m/src/services/Cutter.ts[22m
+2025-08-28T18:07:03.426Z vite:cache [304] [2m/src/types/graph.ts[22m
+2025-08-28T18:07:03.426Z vite:time [32m0.41ms[39m [2m/src/types/graph.ts[22m
+2025-08-28T18:07:03.427Z vite:cache [304] [2m/src/services/wards/Ward.ts[22m
+2025-08-28T18:07:03.427Z vite:time [32m0.36ms[39m [2m/src/services/wards/Ward.ts[22m
+2025-08-28T18:07:03.432Z vite:cache [304] [2m/src/types/node.ts[22m
+2025-08-28T18:07:03.432Z vite:time [32m0.45ms[39m [2m/src/types/node.ts[22m
