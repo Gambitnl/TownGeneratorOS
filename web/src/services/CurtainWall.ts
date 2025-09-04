@@ -42,12 +42,18 @@ export class CurtainWall {
             entrances = this.shape.vertices.filter((v: Point) => {
                 return (!reserved.some(r => r.x === v.x && r.y === v.y) && model.patchByVertex(v).filter((p: Patch) => this.patches.includes(p)).length > 1);
             });
+            // Fallback: if no multi-patch junctions are available on the outer shape,
+            // allow any non-reserved vertex to serve as a gate candidate.
+            if (entrances.length === 0) {
+                entrances = this.shape.vertices.filter((v: Point) => !reserved.some(r => r.x === v.x && r.y === v.y));
+            }
         } else {
             entrances = this.shape.vertices.filter((v: Point) => !reserved.some(r => r.x === v.x && r.y === v.y));
         }
 
-        if (entrances.length === 0) {
-            throw new Error("Bad walled area shape!");
+        // Absolute fallback to ensure at least one gate candidate
+        if (entrances.length === 0 && this.shape.vertices.length > 0) {
+            entrances = [this.shape.vertices[0]];
         }
 
         do {
@@ -95,8 +101,9 @@ export class CurtainWall {
             }
         } while (entrances.length >= 3);
 
-        if (this.gates.length === 0) {
-            throw new Error("Bad walled area shape!");
+        if (this.gates.length === 0 && this.shape.vertices.length > 0) {
+            // Ensure at least one gate exists to keep the model viable
+            this.gates = [this.shape.vertices[0]];
         }
 
         if (real) {

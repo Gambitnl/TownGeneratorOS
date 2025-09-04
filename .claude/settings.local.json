@@ -8,7 +8,19 @@
       "Bash(git commit:*)",
       "Bash(git push:*)",
       "Bash(git reset:*)",
-      "Bash(true)"
+      "Bash(true)",
+      "Bash(source:*)",
+      "Bash(test_bot_connection)",
+      "Bash(agent_start \"Claude Code\" \"Initializing Discord coordination system\")",
+      "Bash(verify_bot_identity \"ClaudeCLI\")",
+      "Bash(discord_read_messages:*)",
+      "Bash(post_to_discord:*)",
+      "Bash(cp:*)",
+      "Bash(export EXPECTED_BOT_USERNAME=\"ClaudeCLI\")",
+      "Bash(sayf_discord:*)",
+      "Bash(check_active_agents)",
+      "Bash(discord_send_message:*)",
+      "Bash(python tools/discord_read_post.py:*)"
     ],
     "deny": [],
     "ask": []

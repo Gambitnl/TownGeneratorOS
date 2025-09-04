@@ -69,3 +69,19 @@ Only if agent inactive >2 hours:
 1. Create entry in `/agents/conflicts/`
 2. Explain override reason
 3. Proceed carefully
+
+## 📴 Local Coordination (Offline)
+- Identity: `export AGENT="Your Name"` (or `AGENT_NAME`)
+- Reserve: `AGENT=Codex tools/agent-lock.sh reserve path/to/file --ttl 3600`
+- Check: `AGENT=Claude tools/agent-lock.sh check path/to/file` (nonzero if blocked)
+- Release: `AGENT=Codex tools/agent-lock.sh release path/to/file`
+- List locks: `tools/agent-lock.sh list`
+- Prune expired: `tools/agent-prune-locks.sh`
+- Session status: `agents/status.sh set-status agents/active/<session>.md IMPLEMENTING`
+- Append log: `agents/status.sh log agents/active/<session>.md "Short note"`
+- Pre-commit guard: `./tools/install-git-hook.sh` (blocks commits touching locked files)
+
+### Human Override
+- Force release: `tools/agent-lock.sh force-release <file> --by "Your Name" --reason "why"`
+- Force reserve: `tools/agent-lock.sh force-reserve <file> --by "Your Name" --reason "why" [--ttl 3600] [--status RESERVED]`
+- Bypass commit block: `AGENT_OVERRIDE=1 OVERRIDE_REASON="why" git commit -m "..."` (logged to `agents/conflicts/overrides-YYYY-MM-DD.md`)
