@@ -116,7 +116,7 @@ This file defines the coordination protocol for multiple AI agents working on th
 ## Discord Integration
 
 ### Required Setup
-1. Follow `DISCORD-MCP-SETUP.md` to configure Discord MCP
+1. Follow `discord/docs/DISCORD-MCP-SETUP.md` to configure Discord MCP
 2. Ensure you have access to these channels:
    - #agent-status (lifecycle events)
    - #file-reservations (file locking)

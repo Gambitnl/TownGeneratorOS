@@ -8,3 +8,12 @@
 .env
 .env.*
 !.env.template
+
+# Discord integration segregation
+discord/messages/tmp/
+discord/config/.env
+discord/config/.env.*
+!discord/config/.env.discord.template
+discord/python/__pycache__/
+**/__pycache__/
+*.pyc
