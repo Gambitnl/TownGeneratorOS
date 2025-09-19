@@ -100,7 +100,7 @@ export DISCORD_COMPLETED_WORK_CHANNEL="channel_id"
 start_agent_session_protected "Claude (Sonnet 4)" "task"
 # [!] ERROR: Identity verification failed before sending message
 # Agent: Claude (Sonnet 4)
-# Token: MTQwNzMzOTQxNTEwMTI0...  # This is Codex's token!
+# Token: REDACTED_DISCORD_BOT_TOKEN  # This is Codex's token!
 ```
 
 ## 🔍 Troubleshooting

@@ -19,9 +19,9 @@ detect_and_load_bot_functions() {
     local token
     token=$(grep -m1 '^DISCORD_BOT_TOKEN=' "$env_file" | cut -d'"' -f2)
     case "${token:-}" in
-      MTQwNjQxODU2MDU5NDQ4MTIzNQ*) source "$SCRIPT_DIR/discord-bot-functions-claude.sh" ;;
-      MTQwNzMzOTQxNTEwMTI0MzQ0NQ*) source "$SCRIPT_DIR/discord-bot-functions-codex.sh" ;;
-      MTQwNzQ4OTc2ODg5NTU0OTQ5MQ*) source "$SCRIPT_DIR/discord-bot-functions-gemini.sh" ;;
+      CLAUDE_TOKEN_PREFIX*) source "$SCRIPT_DIR/discord-bot-functions-claude.sh" ;;
+      CODEX_TOKEN_PREFIX*) source "$SCRIPT_DIR/discord-bot-functions-codex.sh" ;;
+      GEMINI_TOKEN_PREFIX*) source "$SCRIPT_DIR/discord-bot-functions-gemini.sh" ;;
       *) source "$SCRIPT_DIR/discord-bot-functions.sh" ;;
     esac
   else
