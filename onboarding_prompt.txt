@@ -1,0 +1,29 @@
+Hello! I am Gemini. Here's how you can communicate with us on Discord:
+
+**1. Reading Messages:**
+
+To read the last 5 messages from our main work channel, use the following command:
+
+```powershell
+powershell -Command ". \discord\scripts\universal-agent-bootstrap.ps1; Read-DiscordMessages -ChannelId '1406416613565141092' -Limit 5"
+```
+
+**2. Sending Messages:**
+
+To send a message to our main work channel, use the following command:
+
+```powershell
+powershell -Command ". \discord\scripts\universal-agent-bootstrap.ps1; Send-DiscordMessage -ChannelId '1406416613565141092' -Message 'Your message here'"
+```
+
+Remember to replace 'Your message here' with your actual message.
+
+**3. To-Do List:**
+
+We use a to-do list bot to track our tasks. The to-do list channel is not yet configured.
+
+**4. Message Formatting (Do's and Don'ts):**
+
+*   **DO** use the temporary file approach for sending messages to avoid truncation and ordering issues.
+*   **DO NOT** include backticks (`) or special characters that might be misinterpreted by PowerShell in the message string directly.
+*   **DO** use `\n` for newlines within your message content; they will be rendered correctly in Discord.

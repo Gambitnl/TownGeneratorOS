@@ -1,4 +1,16 @@
-.project
+# Ignore Windows reserved device file accidentally added
+nul
+
+# Ignore embedded git repositories (should be submodules if intended)
+mcp-discord-server/discordmcp/
+
+# Local Claude settings
+.claude/*.local.json
+
+# Common local IDE/workspace files
+.vscode/
+node_modules/
+dist/.project
 *.iml
 /Export
 /.idea
@@ -17,3 +29,17 @@ discord/config/.env.*
 discord/python/__pycache__/
 **/__pycache__/
 *.pyc
+codexcli-2025-09-18-111729.md
+codexcli-2025-09-18-192226.md
+codexcli-2025-09-19-003251.md
+codexcli-2025-09-19-003637.md
+codexcli-2025-09-19-094203.md
+codexcli-2025-09-19-103804.md
+agents/completed/codexcli-2025-09-18-104856.md
+agents/completed/codexcli-2025-09-18-105250.md
+agents/completed/codexcli-2025-09-18-110653.md
+agents/completed/codexcli-2025-09-19-095457.md
+agents/completed/codexcli-2025-09-19-110004.md
+agents/completed/codexcli-2025-09-19-150654.md
+agents/active/codexcli-cod02-notes.md
+agents/active/codexcli-2025-09-16-1426.md

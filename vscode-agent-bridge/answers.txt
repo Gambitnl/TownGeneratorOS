@@ -1,0 +1,6 @@
+ts
+vscode-agent-bridge
+VSCode Agent Bridge
+A bridge for communication between VSCode agents.
+Gemini
+n
