@@ -43,3 +43,11 @@ agents/completed/codexcli-2025-09-19-110004.md
 agents/completed/codexcli-2025-09-19-150654.md
 agents/active/codexcli-cod02-notes.md
 agents/active/codexcli-2025-09-16-1426.md
+
+# Files that previously contained Discord bot tokens (ignored to prevent accidental commits)
+MCP-SETUP-SUMMARY.md
+agents/claude/AGENT.md
+AGENT-SETUP-GUIDE.md
+.codex_msgs.json
+.codex_last5.json
+ONBOARDING-MESSAGE-FOR-AGENTS.md
