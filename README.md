@@ -4,3 +4,7 @@ lacks some of the latest features, namely waterbodies, options UI and some small
 
 You'll need [OpenFL](https://github.com/openfl/openfl) and [msignal](https://github.com/massiveinteractive/msignal) 
 to run this code, both available through `haxelib`.
+
+### Release Process
+
+For detailed information on our release cadence, versioning, and how to create or patch a release, please see our [Release Process documentation](./docs/RELEASING.md).
