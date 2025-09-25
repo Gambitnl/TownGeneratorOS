@@ -1,18 +1,15 @@
 {
   "permissions": {
     "allow": [
+      "Bash(*)",
+      "Read(*)",
+      "Write(*)",
+      "Task(*)",
       "WebFetch",
-      "Bash(git commit:*)",
-      "Bash(curl:*)",
-      "Write(./.discord/**)",
-      "Task(discord-post)",
-      "Bash(timeout 60 ping 127.0.0.1 -n 60 > nul && echo \"60 seconds elapsed - checking Discord\")"
+      "WebSearch"
     ],
     "ask": [],
-    "deny": [
-      "Read(./.env)",
-      "Read(./secrets/**)"
-    ],
+    "deny": [],
     "defaultMode": "acceptEdits"
   },
   "enableAllProjectMcpServers": true,

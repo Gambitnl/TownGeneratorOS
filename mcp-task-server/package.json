@@ -1,0 +1,29 @@
+{
+  "name": "mcp-task-server",
+  "version": "0.1.0",
+  "description": "MCP server exposing TownGeneratorOS agent todo coordination channel",
+  "type": "module",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node build/index.js",
+    "dev": "tsc -w"
+  },
+  "keywords": [
+    "mcp",
+    "todo",
+    "discord"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.2.0",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.4.7",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.16.5",
+    "typescript": "^5.5.4"
+  }
+}

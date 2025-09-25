@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  # Main development environment
+  dev:
+    build: .
+    volumes:
+      - .:/app
+      - node_modules:/app/web/node_modules
+      - mcp_node_modules:/app/mcp-task-server/node_modules
+    ports:
+      - "3000:3000"  # web dev server
+      - "8080:8080"  # mcp server
+    environment:
+      - PYTHONPATH=/app
+      - NODE_ENV=development
+    command: sh -c "cd web && npm install && npm run dev & cd mcp-task-server && npm install && npm run dev"
+
+  # Test runner for Python components
+  test-python:
+    build: .
+    volumes:
+      - .:/app
+    working_dir: /app
+    environment:
+      - PYTHONPATH=/app
+    command: python -m pytest agents/tests
+
+  # Test runner for Node components  
+  test-node:
+    build: .
+    volumes:
+      - .:/app
+      - node_modules:/app/web/node_modules
+      - mcp_node_modules:/app/mcp-task-server/node_modules
+    working_dir: /app/web
+    command: npm test
+
+volumes:
+  node_modules:
+  mcp_node_modules:
