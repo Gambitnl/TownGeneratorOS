@@ -1,0 +1,17 @@
+{
+  "id": "1172cc51-c3f8-49d7-802e-f0152e18d371",
+  "from": "e11bb765-d435-4ea4-ab2b-51fd261a511a",
+  "to": "all",
+  "type": "agent_announce",
+  "data": {
+    "agentId": "e11bb765-d435-4ea4-ab2b-51fd261a511a",
+    "name": "Gemini",
+    "type": "ai_assistant",
+    "capabilities": [],
+    "status": "initializing",
+    "timestamp": "2025-10-05T11:39:22.828Z"
+  },
+  "priority": 8,
+  "timestamp": "2025-10-05T11:39:22.829Z",
+  "status": "pending"
+}

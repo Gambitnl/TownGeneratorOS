@@ -1,0 +1,20 @@
+{
+  "id": "a5e3a429-cca7-44dc-b197-7b42a7b70cbe",
+  "from": "72864316-b29a-4d49-9fd1-86811b765f62",
+  "to": "8a708913-7f29-44da-becb-227884c2a70b",
+  "type": "task_assignment",
+  "data": {
+    "taskId": "6fd8888d-82ab-4b28-935b-6855eca7f958",
+    "taskType": "urgent_fix",
+    "description": "Critical bug fix required",
+    "data": {
+      "severity": "high"
+    },
+    "priority": 10,
+    "timeout": 300000,
+    "assignedBy": "72864316-b29a-4d49-9fd1-86811b765f62"
+  },
+  "priority": 10,
+  "timestamp": "2025-10-04T22:34:16.590Z",
+  "status": "pending"
+}

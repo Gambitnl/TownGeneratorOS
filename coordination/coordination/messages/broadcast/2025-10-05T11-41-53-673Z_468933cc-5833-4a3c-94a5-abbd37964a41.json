@@ -1,0 +1,17 @@
+{
+  "id": "468933cc-5833-4a3c-94a5-abbd37964a41",
+  "from": "3ac30fb9-180b-4fbb-a917-f77bbfa38331",
+  "to": "all",
+  "type": "agent_announce",
+  "data": {
+    "agentId": "3ac30fb9-180b-4fbb-a917-f77bbfa38331",
+    "name": "Codex",
+    "type": "ai_assistant",
+    "capabilities": [],
+    "status": "initializing",
+    "timestamp": "2025-10-05T11:41:53.672Z"
+  },
+  "priority": 8,
+  "timestamp": "2025-10-05T11:41:53.673Z",
+  "status": "pending"
+}

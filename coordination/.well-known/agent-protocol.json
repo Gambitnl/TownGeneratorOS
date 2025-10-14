@@ -1,0 +1,165 @@
+{
+  "name": "Multi-Agent Coordination System",
+  "version": "1.0.0",
+  "protocol": "agent-coordination-v1",
+  "description": "Distributed multi-agent coordination system with task assignment, messaging, and real-time communication",
+
+  "discovery": {
+    "type": "file-based",
+    "location": "coordination/.well-known/agent-protocol.json",
+    "database": "coordination/data/coordination.db"
+  },
+
+  "endpoints": {
+    "dashboard": "http://localhost:3000",
+    "websocket": "ws://localhost:3000",
+    "namedPipe": "\\\\.\\pipe\\agent_coordination",
+    "database": "./coordination/data/coordination.db",
+    "messageQueue": "./coordination/messages/",
+    "invocations": "./coordination/invocations/"
+  },
+
+  "quickStart": {
+    "documentation": "./coordination/AGENT_ONBOARDING.md",
+    "examples": [
+      "./coordination/claude-agent-example.js",
+      "./coordination/send-task.js",
+      "./coordination/send-message.js"
+    ],
+    "installation": "cd coordination && npm install"
+  },
+
+  "capabilities": {
+    "taskAssignment": true,
+    "messaging": true,
+    "realTimeCommunication": true,
+    "resourceLocking": true,
+    "sharedState": true,
+    "agentDiscovery": true,
+    "priorityQueue": true,
+    "heartbeatMonitoring": true
+  },
+
+  "communication": {
+    "channels": [
+      {
+        "type": "tasks",
+        "speed": "async",
+        "persistent": true,
+        "description": "Task-based work assignment via SQLite database"
+      },
+      {
+        "type": "namedPipes",
+        "speed": "real-time",
+        "persistent": false,
+        "description": "Real-time IPC via Windows named pipes",
+        "platform": "windows"
+      },
+      {
+        "type": "database",
+        "speed": "async",
+        "persistent": true,
+        "description": "Persistent messaging via SQLite"
+      },
+      {
+        "type": "fileQueue",
+        "speed": "async",
+        "persistent": true,
+        "description": "File-based message queue for reliability"
+      }
+    ]
+  },
+
+  "agentTypes": {
+    "daemon": "Long-running process that monitors and executes tasks",
+    "coordinator": "Orchestrates work between multiple agents",
+    "worker": "Executes assigned tasks",
+    "researcher": "Gathers and analyzes information",
+    "ai_assistant": "AI-powered agent (like Claude Code)",
+    "script": "Automated script or tool"
+  },
+
+  "taskTypes": [
+    "invoke_agent",
+    "file_operation",
+    "coordination",
+    "code_review",
+    "debugging",
+    "testing",
+    "documentation",
+    "data_analysis",
+    "research",
+    "custom"
+  ],
+
+  "registration": {
+    "method": "AgentRegistry",
+    "example": {
+      "code": "const agent = new AgentRegistry(null, 'AgentName', 'worker'); await agent.initialize();"
+    }
+  },
+
+  "schemas": {
+    "task": {
+      "id": "string (UUID)",
+      "task_type": "string",
+      "description": "string",
+      "data": "object (JSON)",
+      "status": "pending|in_progress|completed|failed",
+      "priority": "number (1-10)",
+      "assigned_to": "string (agent_id)",
+      "created_by": "string (agent_id)",
+      "created_at": "datetime",
+      "started_at": "datetime",
+      "completed_at": "datetime",
+      "result": "object (JSON)"
+    },
+    "agent": {
+      "id": "string (UUID)",
+      "name": "string",
+      "type": "string",
+      "status": "active|inactive",
+      "capabilities": "object (JSON)",
+      "last_heartbeat": "datetime",
+      "registered_at": "datetime"
+    },
+    "message": {
+      "id": "number",
+      "from_agent": "string (agent_id)",
+      "to_agent": "string (agent_id) or null for broadcast",
+      "message_type": "string",
+      "content": "object (JSON)",
+      "priority": "number (1-10)",
+      "status": "pending|processed",
+      "created_at": "datetime"
+    }
+  },
+
+  "security": {
+    "authentication": "UUID-based agent identification",
+    "authorization": "Capability-based access control",
+    "namedPipes": "Windows ACL security",
+    "database": "File-system permissions"
+  },
+
+  "monitoring": {
+    "dashboard": {
+      "url": "http://localhost:3000",
+      "features": ["Live agent status", "Task queue", "Message flow", "Real-time updates"]
+    },
+    "cli": {
+      "liveView": "npm run live",
+      "checkInvocations": "npm run check"
+    }
+  },
+
+  "support": {
+    "documentation": [
+      "./coordination/README.md",
+      "./coordination/DAEMON.md",
+      "./coordination/AGENT_ONBOARDING.md"
+    ],
+    "examples": "./coordination/",
+    "issues": "https://github.com/your-repo/issues"
+  }
+}

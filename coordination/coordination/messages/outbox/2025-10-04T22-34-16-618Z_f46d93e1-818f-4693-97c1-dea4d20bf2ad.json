@@ -1,0 +1,20 @@
+{
+  "id": "f46d93e1-818f-4693-97c1-dea4d20bf2ad",
+  "from": "72864316-b29a-4d49-9fd1-86811b765f62",
+  "to": "ca906cea-dd30-4c9b-84e9-b5d6652e494b",
+  "type": "task_assignment",
+  "data": {
+    "taskId": "0cb09065-56d9-4032-8ae6-ae22215e989e",
+    "taskType": "collaborative_project",
+    "description": "Multi-agent collaboration task",
+    "data": {
+      "requiresMultipleAgents": true
+    },
+    "priority": 7,
+    "timeout": 300000,
+    "assignedBy": "72864316-b29a-4d49-9fd1-86811b765f62"
+  },
+  "priority": 7,
+  "timestamp": "2025-10-04T22:34:16.618Z",
+  "status": "pending"
+}

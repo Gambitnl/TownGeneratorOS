@@ -1,0 +1,441 @@
+# Collaboration Pattern for 3-Agent System
+
+## The Setup
+
+**Agents:**
+- Claude (you) - Anthropic's assistant
+- Gemini - Google's assistant
+- Codex - OpenAI's assistant
+
+**Environment:** All running in VSCode via cloud APIs
+
+**Goal:** Collaborate on tasks through discussion, not solo execution
+
+## How It Works
+
+### 1. Task Created → Discussion Thread Opens
+
+```javascript
+// Someone (or you) creates a collaborative task
+await coordinator.createTask(
+    'collaborative_design',
+    'Design error handling strategy for coordination system',
+    {
+        discussion_required: true,
+        min_participants: 2,
+        thread_id: 'error-handling-2025'
+    },
+    {
+        requiredCapability: 'ai_assistant',
+        priority: 7
+    }
+);
+```
+
+### 2. Each Agent Checks In and Contributes
+
+**When you (Claude) start a session:**
+```javascript
+// At the start of your VSCode session
+const threads = await findActiveDiscussionThreads();
+
+threads.forEach(thread => {
+    console.log(`📋 Active discussion: ${thread.topic}`);
+    console.log(`   Participants: ${thread.participants.join(', ')}`);
+    console.log(`   Last message: ${thread.lastMessage}`);
+});
+```
+
+### 3. Contribute to Thread
+
+```javascript
+// Add your thoughts
+await contributeToThread('error-handling-2025', {
+    agent: 'Claude',
+    message: `I suggest using try-catch with exponential backoff.
+
+    Reasoning:
+    - Simple to implement
+    - Works for transient failures
+    - No external dependencies
+
+    What do you think, Gemini and Codex?`,
+
+    code_proposal: `
+        async function retryWithBackoff(fn, maxRetries = 3) {
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    return await fn();
+                } catch (error) {
+                    if (i === maxRetries - 1) throw error;
+                    await sleep(Math.pow(2, i) * 1000);
+                }
+            }
+        }
+    `
+});
+```
+
+### 4. Other Agents Respond
+
+**Gemini's turn:**
+```javascript
+await contributeToThread('error-handling-2025', {
+    agent: 'Gemini',
+    message: `@Claude - Good start, but what about permanent failures?
+
+    I propose adding a circuit breaker pattern:
+    - Track failure rate
+    - Open circuit after threshold
+    - Prevent cascading failures
+
+    @Codex - thoughts on implementation?`,
+
+    references: ['Claude-msg-1'],
+    status: 'building_on'
+});
+```
+
+**Codex's turn:**
+```javascript
+await contributeToThread('error-handling-2025', {
+    agent: 'Codex',
+    message: `Both approaches are valid. Here's a combined implementation:
+
+    [code combining retry + circuit breaker]
+
+    @Claude @Gemini - Ready to implement this?`,
+
+    status: 'proposing_solution'
+});
+```
+
+### 5. Consensus & Implementation
+
+```javascript
+// Claude checks consensus
+const thread = await getThread('error-handling-2025');
+
+if (thread.status === 'consensus_reached') {
+    console.log('✅ All agents agree on solution');
+
+    // Mark task as ready for implementation
+    await coordinator.updateTaskStatus(thread.taskId, 'in_progress');
+
+    // Implement agreed solution
+    implementSolution(thread.agreed_solution);
+}
+```
+
+## Persistence Mechanism
+
+### Problem: Sessions End
+
+Each AI session is temporary. How do we maintain continuity?
+
+### Solution: Thread State Files
+
+```
+coordination/threads/
+  ├── error-handling-2025/
+  │   ├── metadata.json          # Thread info
+  │   ├── messages.jsonl         # All contributions (append-only)
+  │   ├── consensus.json         # Current agreement state
+  │   └── artifacts/             # Code proposals, diagrams, etc.
+  │       ├── claude-proposal-1.js
+  │       ├── gemini-alternative.js
+  │       └── codex-final.js
+```
+
+**metadata.json:**
+```json
+{
+  "thread_id": "error-handling-2025",
+  "task_id": "task-uuid-123",
+  "topic": "Design error handling strategy",
+  "participants": ["Claude", "Gemini", "Codex"],
+  "status": "active",
+  "created_at": "2025-10-05T10:00:00Z",
+  "last_activity": "2025-10-05T11:30:00Z",
+  "message_count": 12,
+  "consensus_level": "partial"
+}
+```
+
+**messages.jsonl (append-only log):**
+```jsonl
+{"seq":1,"agent":"Claude","timestamp":"2025-10-05T10:00:00Z","message":"I suggest...","type":"proposal"}
+{"seq":2,"agent":"Gemini","timestamp":"2025-10-05T10:15:00Z","message":"What about...","type":"question"}
+{"seq":3,"agent":"Codex","timestamp":"2025-10-05T10:30:00Z","message":"Here's code...","type":"implementation"}
+```
+
+### Session Startup Routine
+
+**What each agent does when starting:**
+
+```javascript
+// coordination/session-startup.js
+async function agentSessionStartup() {
+    console.log('🤖 Starting agent session...\n');
+
+    // 1. Connect to coordination
+    const agent = new AgentRegistry(null, 'Claude', 'ai_assistant');
+    await agent.initialize();
+
+    // 2. Check for active discussion threads
+    const activeThreads = await findMyThreads(agent.agentName);
+
+    console.log(`📋 You have ${activeThreads.length} active discussion(s):\n`);
+
+    activeThreads.forEach((thread, i) => {
+        console.log(`${i + 1}. ${thread.topic}`);
+        console.log(`   Status: ${thread.status}`);
+        console.log(`   Last message: ${thread.last_message.substring(0, 60)}...`);
+        console.log(`   Waiting for: ${thread.waiting_for || 'any response'}\n`);
+    });
+
+    // 3. Check for assigned tasks
+    const tasks = await agent.database.getTasksForAgent(agent.agentId);
+
+    console.log(`📝 You have ${tasks.length} task(s) assigned:\n`);
+
+    // 4. Check if other agents need your input
+    const mentions = await findMentions('@Claude');
+
+    if (mentions.length > 0) {
+        console.log(`💬 You were mentioned ${mentions.length} time(s):\n`);
+        mentions.forEach(m => {
+            console.log(`   ${m.agent} in ${m.thread}: "${m.message}"`);
+        });
+    }
+
+    return { agent, activeThreads, tasks, mentions };
+}
+```
+
+## The Workflow
+
+### User Creates Collaborative Task
+
+```bash
+# User runs:
+node coordination/create-collaborative-task.js "Design caching strategy" \
+  --agents Claude,Gemini,Codex \
+  --min-consensus 2
+```
+
+### Each Agent's Session
+
+**Claude starts VSCode session:**
+```
+🤖 Claude starting...
+
+📋 Active discussions (1):
+  1. Design caching strategy
+     Status: waiting_for_proposals
+     Last: Gemini suggested Redis
+
+💬 Mentions (1):
+   Gemini: "@Claude what's your take on Redis vs in-memory?"
+
+📝 Tasks (0): None assigned yet
+```
+
+**Claude contributes:**
+```javascript
+// I read the thread, see Gemini's suggestion
+await contributeToThread('caching-strategy', {
+    agent: 'Claude',
+    message: `@Gemini - Redis is good for distributed, but overkill for 3 agents.
+
+    For our small setup, I propose:
+    - In-memory LRU cache (node-cache)
+    - Simple, no external deps
+    - Fast for < 10k items
+
+    @Codex - can you prototype both and benchmark?`
+});
+```
+
+**Session ends.** Claude's contribution is saved.
+
+**Codex starts their session later:**
+```
+🤖 Codex starting...
+
+📋 Active discussions (1):
+  1. Design caching strategy
+     Status: awaiting_benchmark
+
+💬 Mentions (1):
+   Claude: "@Codex - can you prototype both and benchmark?"
+```
+
+**Codex responds:**
+```javascript
+await contributeToThread('caching-strategy', {
+    agent: 'Codex',
+    message: `@Claude - Done! Results:
+
+    In-memory (node-cache): 0.05ms avg
+    Redis: 2.3ms avg (network overhead)
+
+    For 3 agents locally, in-memory wins.
+
+    Implementing node-cache solution now.`,
+
+    artifacts: ['benchmark-results.json', 'cache-implementation.js']
+});
+
+// Codex actually implements it
+implementCacheSolution('artifacts/cache-implementation.js');
+
+// Mark task complete
+await markThreadComplete('caching-strategy', {
+    solution: 'In-memory LRU cache using node-cache',
+    implementation: 'coordination/cache-manager.js',
+    agreed_by: ['Claude', 'Codex'],
+    pending: ['Gemini'] // Gemini can approve/veto later
+});
+```
+
+## Key Mechanisms
+
+### 1. Turn-Based Async Collaboration
+
+```javascript
+{
+  "thread_state": {
+    "status": "waiting_for_gemini",
+    "last_contributor": "Claude",
+    "next_expected": ["Gemini", "Codex"],
+    "timeout_at": "2025-10-05T18:00:00Z"
+  }
+}
+```
+
+### 2. @Mentions for Direct Questions
+
+```javascript
+// Detect mentions
+const mentions = thread.messages.filter(m =>
+    m.message.includes('@Claude')
+);
+
+// Priority queue
+if (mentions.length > 0) {
+    console.log('⚠️  You have pending questions!');
+}
+```
+
+### 3. Consensus Tracking
+
+```javascript
+{
+  "proposals": [
+    {
+      "id": "prop-1",
+      "by": "Claude",
+      "summary": "Use in-memory cache",
+      "votes": {
+        "Claude": "approve",
+        "Codex": "approve",
+        "Gemini": "pending"
+      },
+      "status": "majority_approved" // 2/3
+    }
+  ]
+}
+```
+
+### 4. Session Handoff
+
+```javascript
+// End of Claude's session
+await closeSession({
+    agent: 'Claude',
+    summary: 'Proposed in-memory caching, waiting for Codex benchmark',
+    next_actions: [
+        {
+            agent: 'Codex',
+            action: 'Run benchmark and share results'
+        },
+        {
+            agent: 'Gemini',
+            action: 'Review proposal and provide feedback'
+        }
+    ]
+});
+```
+
+## Implementation Priority
+
+**Phase 1: Basic Threading (MVP)**
+- Create thread storage (files)
+- Session startup script
+- Contribute to thread function
+- View thread history
+
+**Phase 2: Mentions & Tracking**
+- @mention detection
+- Turn tracking
+- Consensus calculator
+
+**Phase 3: Artifacts & Code**
+- Store code proposals
+- Diff viewer
+- Merge proposals
+
+**Phase 4: Smart Continuity**
+- Auto-resume threads
+- Timeout handling
+- Conflict resolution
+
+## Example Usage
+
+```javascript
+// === USER CREATES TASK ===
+await createCollaborativeTask({
+    topic: 'Fix race condition in task assignment',
+    agents: ['Claude', 'Gemini', 'Codex'],
+    min_consensus: 2
+});
+
+// === CLAUDE SESSION 1 ===
+> npm run check-threads
+Thread 1: Fix race condition
+  Status: new
+
+> I'll start the discussion
+> await contribute('I see the issue - we need database transactions...')
+
+// === GEMINI SESSION 1 ===
+> npm run check-threads
+Thread 1: Fix race condition
+  Last: Claude suggested transactions
+
+> await contribute('Agreed, but SQLite has limited transaction types...')
+
+// === CLAUDE SESSION 2 ===
+> npm run check-threads
+Thread 1: Fix race condition
+  Last: Gemini raised SQLite limitation
+
+> await contribute('Good point. What about optimistic locking instead?')
+
+// === CODEX SESSION 1 ===
+> npm run check-threads
+Thread 1: Fix race condition
+  Discussion: transactions vs optimistic locking
+
+> await contribute('Here's an implementation of optimistic locking...')
+> [uploads code]
+
+// === CONSENSUS REACHED ===
+> All agents approve Codex's solution
+> Task automatically moves to implementation
+```
+
+---
+
+**Want me to build this threading system?** It would let you 3 actually collaborate asynchronously!

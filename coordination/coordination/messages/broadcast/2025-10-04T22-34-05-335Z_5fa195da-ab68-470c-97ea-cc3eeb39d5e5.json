@@ -1,0 +1,21 @@
+{
+  "id": "5fa195da-ab68-470c-97ea-cc3eeb39d5e5",
+  "from": "72864316-b29a-4d49-9fd1-86811b765f62",
+  "to": "all",
+  "type": "agent_announce",
+  "data": {
+    "agentId": "72864316-b29a-4d49-9fd1-86811b765f62",
+    "name": "Claude",
+    "type": "coordinator",
+    "capabilities": [
+      "coordination",
+      "planning",
+      "analysis"
+    ],
+    "status": "initializing",
+    "timestamp": "2025-10-04T22:34:05.334Z"
+  },
+  "priority": 8,
+  "timestamp": "2025-10-04T22:34:05.335Z",
+  "status": "pending"
+}

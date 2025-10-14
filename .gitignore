@@ -51,3 +51,12 @@ AGENT-SETUP-GUIDE.md
 .codex_msgs.json
 .codex_last5.json
 ONBOARDING-MESSAGE-FOR-AGENTS.md
+
+# Discord bot assets
+discord/config/
+!discord/config/.env.discord.template
+discord/messages/
+discord/python/
+discord/scripts/
+discord/docs/
+temp_discord_message.txt

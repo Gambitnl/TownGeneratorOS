@@ -1,0 +1,627 @@
+{
+  "edgeUtils": {
+    "ROAD_EDGE_TYPES": [
+      "ROAD",
+      "MAIN_ROAD",
+      "SMALL_ROAD",
+      "DIRT_ROAD",
+      "INVISIBLE"
+    ],
+    "WALL_EDGE_TYPES": [
+      "STONE_FENCE",
+      "WALL",
+      "STONE_WALL",
+      "SANDSTONE_WALL",
+      "WOOD_WALL"
+    ],
+    "HARBOUR_EDGE_TYPES": [
+      "STONE_PIER",
+      "WOOD_PIER"
+    ],
+    "OTHER_EDGE_TYPES": [
+      "BORDER"
+    ],
+    "EDGE_TYPES": [
+      "ROAD",
+      "MAIN_ROAD",
+      "SMALL_ROAD",
+      "DIRT_ROAD",
+      "INVISIBLE",
+      "STONE_FENCE",
+      "WALL",
+      "STONE_WALL",
+      "SANDSTONE_WALL",
+      "WOOD_WALL",
+      "BORDER",
+      "STONE_PIER",
+      "WOOD_PIER"
+    ],
+    "roadColour": "#beb6aa",
+    "dirtRoadColour": "#ae9c87",
+    "stoneFenceColour": "#717171",
+    "visibleInvisibleColour": "#d705ef",
+    "wallColour": "#373636",
+    "roadBackgroundColour": "#837e76",
+    "wallBackgroundColour": "#000000",
+    "sandstoneColour": "#a29880",
+    "woodColour": "#775e4d",
+    "edgeTypeToColor": {
+      "MAIN_ROAD": "#beb6aa",
+      "ROAD": "#beb6aa",
+      "SMALL_ROAD": "#beb6aa",
+      "INVISIBLE": "#d705ef",
+      "DIRT_ROAD": "#ae9c87",
+      "BORDER": "#373636",
+      "WALL": "#373636",
+      "STONE_FENCE": "#717171",
+      "SANDSTONE_WALL": "#a29880",
+      "STONE_WALL": "#717171",
+      "WOOD_WALL": "#775e4d",
+      "STONE_PIER": "#8e8e8e",
+      "WOOD_PIER": "#856856"
+    },
+    "edgeTypeToHeight": {
+      "error": "Identifier COMMON_HEIGHTS not found in environment."
+    },
+    "edgeTypeToShadowDepth": {
+      "MAIN_ROAD": 0,
+      "ROAD": 0,
+      "SMALL_ROAD": 0,
+      "DIRT_ROAD": 0,
+      "INVISIBLE": 0,
+      "BORDER": 0,
+      "STONE_FENCE": 1,
+      "STONE_WALL": 10,
+      "WALL": 10,
+      "SANDSTONE_WALL": 10,
+      "WOOD_WALL": 10,
+      "STONE_PIER": 1,
+      "WOOD_PIER": 1
+    }
+  },
+  "layerColors": {
+    "BUILDING_TYPE": {
+      "GOVERNMENT": "GOVERNMENT",
+      "ARTISAN": "ARTISAN",
+      "CULTURAL": "CULTURAL",
+      "EDUCATIONAL": "EDUCATIONAL",
+      "FARM": "FARM",
+      "RESIDENCE": "RESIDENCE",
+      "TAVERN": "TAVERN",
+      "INN": "INN",
+      "SHOP": "SHOP",
+      "SERVICE": "SERVICE",
+      "RELIGIOUS": "RELIGIOUS",
+      "WAREHOUSE": "WAREHOUSE",
+      "LAW_ENFORCEMENT": "LAW_ENFORCEMENT",
+      "INDUSTRIAL": "INDUSTRIAL",
+      "MARKET": "MARKET",
+      "FACTION": "FACTION"
+    },
+    "buildingTypeOptions": [
+      "GOVERNMENT",
+      "ARTISAN",
+      "CULTURAL",
+      "EDUCATIONAL",
+      "FARM",
+      "RESIDENCE",
+      "TAVERN",
+      "INN",
+      "SHOP",
+      "SERVICE",
+      "RELIGIOUS",
+      "WAREHOUSE",
+      "LAW_ENFORCEMENT",
+      "INDUSTRIAL",
+      "MARKET",
+      "FACTION"
+    ],
+    "MATERIAL_OPTIONS": [
+      "WOOD",
+      "STONE_BRICK",
+      "PAVEMENT",
+      "THATCH",
+      "RED_TILE",
+      "BLUE_TILE",
+      "ORANGE_TILE",
+      "SLATE",
+      "WALL"
+    ],
+    "BUILDING_MATERIAL_COLOURS": {
+      "WOOD": "#775e4d",
+      "STONE_BRICK": "#717171",
+      "PAVEMENT": "#beb6aa",
+      "THATCH": "#d7c391",
+      "RED_TILE": "#AA605B",
+      "BLUE_TILE": "#677ea2",
+      "ORANGE_TILE": "#dfa065",
+      "SLATE": "#645f61",
+      "WALL": "#373636"
+    },
+    "BUILDING_MATERIAL_IMG_FILTER": {
+      "WOOD": "invert(39%) sepia(5%) saturate(2023%) hue-rotate(341deg) brightness(96%) contrast(92%)",
+      "STONE_BRICK": "invert(59%) sepia(0%) saturate(2981%) hue-rotate(322deg) brightness(87%) contrast(93%)",
+      "PAVEMENT": "invert(79%) sepia(13%) saturate(209%) hue-rotate(357deg) brightness(91%) contrast(92%)",
+      "THATCH": "invert(83%) sepia(6%) saturate(1412%) hue-rotate(5deg) brightness(90%) contrast(103%)",
+      "RED_TILE": "invert(48%) sepia(30%) saturate(779%) hue-rotate(315deg) brightness(83%) contrast(85%)",
+      "BLUE_TILE": "invert(51%) sepia(13%) saturate(1107%) hue-rotate(178deg) brightness(91%) contrast(83%)",
+      "ORANGE_TILE": "invert(79%) sepia(89%) saturate(574%) hue-rotate(309deg) brightness(92%) contrast(90%)",
+      "SLATE": "invert(43%) sepia(5%) saturate(186%) hue-rotate(277deg) brightness(86%) contrast(78%)",
+      "WALL": "filter: brightness(0) saturate(100%) invert(17%) sepia(1%) saturate(2224%) hue-rotate(320deg) brightness(98%) contrast(86%);",
+      "CUSTOM": ""
+    },
+    "BUILDING_TYPE_COLOURS": {
+      "GOVERNMENT": "#000000",
+      "ARTISAN": "#dcbeff",
+      "CULTURAL": "#911eb4",
+      "EDUCATIONAL": "#f032e6",
+      "FARM": "#808000",
+      "RESIDENCE": "#3cb44b",
+      "TAVERN": "#4363d8",
+      "INN": "#469990",
+      "SHOP": "#ffe119",
+      "SERVICE": "#000075",
+      "RELIGIOUS": "#f58231",
+      "WAREHOUSE": "#a9a9a9",
+      "LAW_ENFORCEMENT": "#e6194B",
+      "INDUSTRIAL": "#9A6324",
+      "MARKET": "#bfef45",
+      "FACTION": "#6c6b6b"
+    },
+    "USEFUL_SHOP_COLOURS": {
+      "blacksmith": "#000000",
+      "jeweler": "#911eb4",
+      "stock": "#ffe119",
+      "tailor": "#bfef45",
+      "general store": "#3cb44b",
+      "fletcher": "#9A6324",
+      "weapon maker": "#e6194B",
+      "tanner": "#42d4f4",
+      "leather armourer": "#4363d8",
+      "armourer": "#000075",
+      "tavern": "#f032e6",
+      "inn": "#fabed4"
+    }
+  },
+  "newSettlementTypes": {
+    "RIVER_SHAPES": [
+      "STRAIGHT",
+      "GENTLE_CURVES",
+      "SHARP_CURVES"
+    ],
+    "COAST_SHAPES": [
+      "SMOOTH",
+      "GENTLE_CURVES",
+      "SHARP_CURVES"
+    ],
+    "COAST_DETAIL_SHAPES": [
+      "NONE",
+      "ROUGH",
+      "JAGGED",
+      "BAYS",
+      "DEEP_BAYS"
+    ],
+    "BAY_OPTIONS": [
+      "SANDY_BEACH",
+      "PEBBLE_BEACH",
+      "ROCKS",
+      "NONE"
+    ],
+    "INSET_POSITION": [
+      "NONE",
+      "WHOLE_COAST",
+      "HEADLAND_ONLY"
+    ],
+    "BUILDING_PLACEMENT_OPTIONS": [
+      "DENSE",
+      "GAPS",
+      "INDIVIDUALLY_PLACED"
+    ],
+    "ROAD_BRANCH_TYPE_OPTIONS": [
+      "CONTINUE",
+      "CURVE_AROUND_ORIGIN"
+    ],
+    "LOT_DECORATION_OPTIONS": [
+      "PARK",
+      "PARK_WITH_FOUNTAIN",
+      "PLAZA",
+      "PLAZA_WITH_FOUNTAIN",
+      "PLAZA_WITH_WELL",
+      "DIRT"
+    ],
+    "PLOT_DECORATION_OPTIONS": [
+      "TREES",
+      "GRASS",
+      "FENCES",
+      "WELL",
+      "FOUNTAIN",
+      "BANDSTAND",
+      "STATUE",
+      "MONUMENT",
+      "FIRE"
+    ],
+    "LOT_EDGE_OPTIONS": [
+      "TREES"
+    ],
+    "KEEP_OPTIONS": [
+      {
+        "label": "Random",
+        "value": null
+      },
+      {
+        "label": "Garden",
+        "value": "GARDEN"
+      },
+      {
+        "label": "Plaza",
+        "value": "PLAZA"
+      },
+      {
+        "label": "Dense",
+        "value": "DENSE"
+      }
+    ],
+    "OUTSIDE_CASTLE_OPTIONS": [
+      {
+        "label": "Random",
+        "value": null
+      },
+      {
+        "label": "Buildings",
+        "value": "BUILDINGS"
+      },
+      {
+        "label": "Park",
+        "value": "PARK"
+      },
+      {
+        "label": "Plaza",
+        "value": "PLAZA"
+      }
+    ],
+    "initialRoadsOptions": [
+      {
+        "label": "Random",
+        "value": null
+      },
+      {
+        "label": "Dead-end",
+        "value": "DEAD_END"
+      },
+      {
+        "label": "Single through-road",
+        "value": "SINGLE"
+      },
+      {
+        "label": "Three-way crossroad",
+        "value": "THREE_WAY_CROSSROAD"
+      },
+      {
+        "label": "Four-way crossroad",
+        "value": "FOUR_WAY_CROSSROAD"
+      },
+      {
+        "label": "Five-way crossroad",
+        "value": "FIVE_WAY_CROSSROAD"
+      },
+      {
+        "label": "Six-way crossroad",
+        "value": "SIX_WAY_CROSSROAD"
+      }
+    ],
+    "HARBOUR_SHAPE_OPTIONS": [
+      {
+        "label": "Random",
+        "value": null
+      },
+      {
+        "label": "No harbour",
+        "value": "NONE"
+      },
+      {
+        "label": "Rectangle",
+        "value": "RECTANGLE"
+      },
+      {
+        "label": "Semi-octagon",
+        "value": "SEMI_OCTAGON"
+      },
+      {
+        "label": "Semi-hexagon",
+        "value": "SEMI_HEXAGON"
+      },
+      {
+        "label": "L-shaped (wide opening)",
+        "value": "L_SHAPED_WIDE_OPENING"
+      },
+      {
+        "label": "L-shaped (narrow opening)",
+        "value": "L_SHAPED_NARROW_OPENING"
+      }
+    ],
+    "HARBOUR_WALL_SHAPE_OPTIONS": [
+      {
+        "label": "Random",
+        "value": null
+      },
+      {
+        "label": "No wall",
+        "value": "NONE"
+      },
+      {
+        "label": "Single arm, follow coast",
+        "value": "SINGLE_ARM_FOLLOW_COAST"
+      },
+      {
+        "label": "Single arm, stick out",
+        "value": "SINGLE_ARM_STICK_OUT"
+      },
+      {
+        "label": "Two arm, follow coast",
+        "value": "TWO_ARM_FOLLOW_COAST"
+      },
+      {
+        "label": "Two arm, stick out",
+        "value": "TWO_ARM_STICK_OUT"
+      }
+    ],
+    "HARBOUR_WALL_TYPE_OPTIONS": [
+      {
+        "label": "Random",
+        "value": null
+      },
+      {
+        "label": "Wall",
+        "value": "WALL"
+      },
+      {
+        "label": "Wall with rocks",
+        "value": "WALL_WITH_ROCKS"
+      },
+      {
+        "label": "Breakwater",
+        "value": "BREAKWATER"
+      }
+    ],
+    "PIER_SHAPE_OPTIONS": [
+      {
+        "label": "Random",
+        "value": null
+      },
+      {
+        "label": "No piers",
+        "value": "NONE"
+      },
+      {
+        "label": "No branches",
+        "value": "NO_BRANCHES"
+      },
+      {
+        "label": "Branching",
+        "value": "BRANCHING"
+      }
+    ],
+    "PIER_MATERIAL_OPTION": [
+      {
+        "label": "Random",
+        "value": null
+      },
+      {
+        "label": "Wood",
+        "value": "WOOD"
+      },
+      {
+        "label": "Stone",
+        "value": "STONE"
+      }
+    ],
+    "layoutPresetOptions": [
+      {
+        "label": "Custom",
+        "value": "CUSTOM"
+      },
+      {
+        "label": "Medieval europe",
+        "value": "MEDIEVAL_EUROPE"
+      },
+      {
+        "label": "American",
+        "value": "AMERICAN_SQUARE"
+      },
+      {
+        "label": "Ringed",
+        "value": "RINGED"
+      }
+    ]
+  },
+  "districtConstants": {
+    "districtConditionalOptions": [
+      {
+        "value": "ALWAYS",
+        "label": "Always"
+      },
+      {
+        "value": "AVERAGE_LIFESTYLE_AT_MOST_SQUALID",
+        "label": "Average lifestyle is at most squalid"
+      },
+      {
+        "value": "AVERAGE_LIFESTYLE_AT_MOST_POOR",
+        "label": "Average lifestyle is at most poor"
+      },
+      {
+        "value": "AVERAGE_LIFESTYLE_AT_MOST_MODEST",
+        "label": "Average lifestyle is at most modest"
+      },
+      {
+        "value": "AVERAGE_LIFESTYLE_AT_MOST_COMFORTABLE",
+        "label": "Average lifestyle is at most comfortable"
+      },
+      {
+        "value": "AVERAGE_LIFESTYLE_AT_MOST_WEALTHY",
+        "label": "Average lifestyle is at most wealthy"
+      },
+      {
+        "value": "WATER_IS_AVAILABLE",
+        "label": "Water is available"
+      },
+      {
+        "value": "NEVER",
+        "label": "Never"
+      }
+    ],
+    "districtNewLotOptions": [
+      {
+        "value": "ANY",
+        "label": "Any"
+      },
+      {
+        "value": "FURTHEST_FROM_CENTER",
+        "label": "Furthest from center"
+      },
+      {
+        "value": "WATERFRONT",
+        "label": "Waterfront"
+      }
+    ],
+    "districtGrowthOptions": [
+      {
+        "value": "ANY",
+        "label": "Any"
+      },
+      {
+        "value": "WATERFRONT",
+        "label": "Waterfront"
+      }
+    ],
+    "modifyDistrictBuildingsOption": [
+      {
+        "value": "NONE",
+        "label": "None"
+      },
+      {
+        "value": "SMALLER_TENTS",
+        "label": "Small tents"
+      },
+      {
+        "value": "SMALLER",
+        "label": "Smaller"
+      },
+      {
+        "value": "BIGGER",
+        "label": "Bigger"
+      }
+    ],
+    "districtBuildingMaterialOptions": [
+      {
+        "value": "NONE",
+        "label": "Default"
+      },
+      {
+        "value": "WOOD",
+        "label": "Wood"
+      },
+      {
+        "value": "STONE_BRICK",
+        "label": "Stone Brick"
+      },
+      {
+        "value": "PAVEMENT",
+        "label": "Pavement"
+      },
+      {
+        "value": "THATCH",
+        "label": "Thatch"
+      },
+      {
+        "value": "RED_TILE",
+        "label": "Red Tile"
+      },
+      {
+        "value": "BLUE_TILE",
+        "label": "Blue Tile"
+      },
+      {
+        "value": "ORANGE_TILE",
+        "label": "Orange Tile"
+      },
+      {
+        "value": "SLATE",
+        "label": "Slate"
+      },
+      {
+        "value": "WALL",
+        "label": "Wall"
+      }
+    ],
+    "lotDecorationOptions": [
+      {
+        "value": "PARK",
+        "label": "Park"
+      },
+      {
+        "value": "PARK_WITH_FOUNTAIN",
+        "label": "Park with fountain"
+      },
+      {
+        "value": "PLAZA",
+        "label": "Plaza"
+      },
+      {
+        "value": "PLAZA_WITH_FOUNTAIN",
+        "label": "Plaza with fountain"
+      },
+      {
+        "value": "PLAZA_WITH_WELL",
+        "label": "Plaza with well"
+      },
+      {
+        "value": "DIRT",
+        "label": "Dirt"
+      }
+    ],
+    "plotDecorationOptions": [
+      {
+        "value": "TREES",
+        "label": "Trees"
+      },
+      {
+        "value": "GRASS",
+        "label": "Grass"
+      },
+      {
+        "value": "FENCES",
+        "label": "Garden fences"
+      },
+      {
+        "value": "WELL",
+        "label": "Well"
+      },
+      {
+        "value": "FOUNTAIN",
+        "label": "Fountain"
+      },
+      {
+        "value": "BANDSTAND",
+        "label": "Bandstand"
+      },
+      {
+        "value": "STATUE",
+        "label": "Statue"
+      },
+      {
+        "value": "MONUMENT",
+        "label": "Monument"
+      },
+      {
+        "value": "FIRE",
+        "label": "Campfire"
+      }
+    ],
+    "lotEdgeOptions": [
+      {
+        "value": "TREES",
+        "label": "Trees"
+      }
+    ]
+  }
+}

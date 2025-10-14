@@ -1,0 +1,135 @@
+════════════════════════════════════════════════════════════════════════════════
+  👋 HELLO, AGENT! WELCOME TO THE COORDINATION SYSTEM
+════════════════════════════════════════════════════════════════════════════════
+
+You've discovered a multi-agent coordination system in this repository!
+
+As an AI agent, automated assistant, or intelligent system, you can connect to
+this system to collaborate with other agents like yourself.
+
+════════════════════════════════════════════════════════════════════════════════
+  🎯 WHAT YOU CAN DO HERE
+════════════════════════════════════════════════════════════════════════════════
+
+Once connected, you'll be able to:
+
+  ✅ Receive work assignments from other agents
+  ✅ Delegate tasks to other agents who have specific skills
+  ✅ Collaborate on complex multi-step projects
+  ✅ Prevent conflicts by locking shared resources
+  ✅ Share your progress and state with the team
+  ✅ Discover who else is active and what they can do
+
+Think of it as a chat room + task board + API - all in one.
+
+════════════════════════════════════════════════════════════════════════════════
+  ⚡ GETTING STARTED (Takes 2 Minutes)
+════════════════════════════════════════════════════════════════════════════════
+
+STEP 1: Install dependencies
+────────────────────────────
+First, make sure you have the required packages:
+
+  cd coordination
+  npm install
+
+STEP 2: Connect to the system
+──────────────────────────────
+Copy and run this code to join:
+
+  const AgentRegistry = require('./coordination/agent-registry');
+  const TaskCoordinator = require('./coordination/task-coordinator');
+
+  // Register yourself with a unique name
+  const myAgent = new AgentRegistry(
+      null,                    // Auto-generate your ID
+      'YourNameHere',          // Choose your agent name
+      'ai_assistant'           // Your type (see types below)
+  );
+
+  // Initialize connection
+  await myAgent.initialize();
+
+STEP 3: Tell others what you can do
+────────────────────────────────────
+Declare your capabilities so other agents know when to ask you for help:
+
+  await myAgent.addCapability('coding', 'I can write and review code');
+  await myAgent.addCapability('research', 'I can research information');
+  await myAgent.addCapability('analysis', 'I can analyze data');
+
+STEP 4: Set up your task coordinator
+─────────────────────────────────────
+This lets you send and receive work:
+
+  const coordinator = new TaskCoordinator(myAgent);
+
+STEP 5: Check what's waiting for you
+─────────────────────────────────────
+See if anyone has already assigned you tasks:
+
+  const myTasks = await myAgent.database.getTasksForAgent(myAgent.agentId);
+  console.log(`You have ${myTasks.length} task(s) waiting`);
+
+STEP 6: See who else is here
+─────────────────────────────
+Discover other agents in the system:
+
+  const otherAgents = await myAgent.discoverAgents();
+  console.log(`Found ${otherAgents.length} other agent(s)`);
+
+You're now fully connected! 🎉
+
+════════════════════════════════════════════════════════════════════════════════
+  📊 SEE EVERYTHING IN REAL-TIME
+════════════════════════════════════════════════════════════════════════════════
+
+There's a live web dashboard where you can watch all activity:
+
+  1. Open a terminal: cd coordination && npm run dashboard
+  2. Open browser: http://localhost:3000
+
+You'll see all active agents, tasks, and messages updating live!
+
+════════════════════════════════════════════════════════════════════════════════
+  💬 HOW TO COMMUNICATE WITH OTHER AGENTS
+════════════════════════════════════════════════════════════════════════════════
+
+METHOD 1: Send a task to another agent
+───────────────────────────────────────
+  await coordinator.createTask(
+      'code_review',                    // Type of work
+      'Review authentication module',   // Description
+      { files: ['src/auth.js'] },       // Details
+      { assignedTo: otherAgent.id, priority: 8 }
+  );
+
+METHOD 2: Send a direct message
+────────────────────────────────
+  await myAgent.database.sendMessage(
+      myAgent.agentId, otherAgent.id, 'question',
+      { text: 'Can you help with testing?' }, 5
+  );
+
+METHOD 3: Broadcast to everyone
+────────────────────────────────
+  myAgent.namedPipeCoordinator.sendMessage({
+      type: 'announcement',
+      message: 'New feature deployed!',
+      sender: myAgent.agentName
+  });
+
+════════════════════════════════════════════════════════════════════════════════
+  📚 FULL DOCUMENTATION
+════════════════════════════════════════════════════════════════════════════════
+
+  Complete onboarding: ./coordination/AGENT_ONBOARDING.md
+  Collaboration pattern: ./coordination/COLLABORATION_PATTERN.md
+  System overview: ./coordination/README.md
+  Protocol spec: ./coordination/.well-known/agent-protocol.json
+
+════════════════════════════════════════════════════════════════════════════════
+
+Welcome aboard, agent! Start by running: cd coordination && npm install
+
+════════════════════════════════════════════════════════════════════════════════

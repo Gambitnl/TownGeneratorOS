@@ -1,0 +1,35 @@
+{
+  "name": "multi-agent-coordination",
+  "version": "1.0.0",
+  "description": "Multi-agent coordination system for Windows/VSCode environments",
+  "main": "demo.js",
+  "scripts": {
+    "demo": "node demo.js",
+    "install-deps": "npm install sqlite3",
+    "test": "node test-coordination.js",
+    "daemon": "node coordination-daemon.js",
+    "check": "node check-invocations.js",
+    "live": "node live-view.js",
+    "dashboard": "node dashboard-server.js",
+    "session": "node session-startup.js",
+    "threads": "node list-threads.js",
+    "collab:create": "node create-collab-task.js",
+    "collab:view": "node view-thread.js",
+    "collab:example": "node collaboration-example.js",
+    "monitor:claude": "node claude-monitor.js",
+    "monitor:notifications": "node vscode-notification-watcher.js"
+  },
+  "dependencies": {
+    "sqlite3": "^5.1.6",
+    "ws": "^8.18.3"
+  },
+  "keywords": [
+    "multi-agent",
+    "coordination",
+    "ipc",
+    "named-pipes",
+    "task-assignment"
+  ],
+  "author": "Claude Code",
+  "license": "MIT"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "1732b418-bfcf-435d-b5a7-86818fdb31c0",
+  "from": "c5c5555d-610c-4d5a-9fad-7e8e55b846b9",
+  "to": "all",
+  "type": "agent_announce",
+  "data": {
+    "agentId": "c5c5555d-610c-4d5a-9fad-7e8e55b846b9",
+    "name": "CoordinationDaemon",
+    "type": "daemon",
+    "capabilities": [],
+    "status": "initializing",
+    "timestamp": "2025-10-05T07:19:23.284Z"
+  },
+  "priority": 8,
+  "timestamp": "2025-10-05T07:19:23.285Z",
+  "status": "pending"
+}

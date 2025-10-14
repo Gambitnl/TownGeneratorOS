@@ -1,0 +1,20 @@
+{
+  "id": "0138584a-ac47-4705-a4c0-52fb3edd75f3",
+  "from": "4dd769b2-6a13-4ee4-97a3-616ace468801",
+  "to": "5471bc17-1ab2-4877-a974-48c421b23e8e",
+  "type": "task_assignment",
+  "data": {
+    "taskId": "bff6b064-6094-4b76-a7dc-9564e4523836",
+    "taskType": "code_review",
+    "description": "Review authentication module",
+    "data": {
+      "demoData": true
+    },
+    "priority": 7,
+    "timeout": 300000,
+    "assignedBy": "4dd769b2-6a13-4ee4-97a3-616ace468801"
+  },
+  "priority": 7,
+  "timestamp": "2025-10-05T12:47:21.203Z",
+  "status": "pending"
+}

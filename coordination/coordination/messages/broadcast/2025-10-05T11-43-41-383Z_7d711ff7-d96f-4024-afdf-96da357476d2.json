@@ -1,0 +1,17 @@
+{
+  "id": "7d711ff7-d96f-4024-afdf-96da357476d2",
+  "from": "c9f65920-96b8-409d-b8a1-3593daf545b6",
+  "to": "all",
+  "type": "agent_announce",
+  "data": {
+    "agentId": "c9f65920-96b8-409d-b8a1-3593daf545b6",
+    "name": "Claude",
+    "type": "ai_assistant",
+    "capabilities": [],
+    "status": "initializing",
+    "timestamp": "2025-10-05T11:43:41.383Z"
+  },
+  "priority": 8,
+  "timestamp": "2025-10-05T11:43:41.383Z",
+  "status": "pending"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "80785145-84c0-41fa-baaf-b8b79ca811a0",
+  "from": "72864316-b29a-4d49-9fd1-86811b765f62",
+  "to": "8a708913-7f29-44da-becb-227884c2a70b",
+  "type": "task_assignment",
+  "data": {
+    "taskId": "e57be85a-4dc2-421e-ad70-783341933103",
+    "taskType": "data_analysis",
+    "description": "Analyze user behavior metrics",
+    "data": {
+      "demoData": true
+    },
+    "priority": 6,
+    "timeout": 300000,
+    "assignedBy": "72864316-b29a-4d49-9fd1-86811b765f62"
+  },
+  "priority": 6,
+  "timestamp": "2025-10-04T22:34:08.542Z",
+  "status": "pending"
+}

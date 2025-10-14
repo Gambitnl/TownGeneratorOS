@@ -1,0 +1,21 @@
+{
+  "id": "40a5204e-905b-42cc-bd6f-d5d2d09b13eb",
+  "from": "5471bc17-1ab2-4877-a974-48c421b23e8e",
+  "to": "all",
+  "type": "agent_announce",
+  "data": {
+    "agentId": "5471bc17-1ab2-4877-a974-48c421b23e8e",
+    "name": "Codex",
+    "type": "developer",
+    "capabilities": [
+      "coding",
+      "testing",
+      "debugging"
+    ],
+    "status": "initializing",
+    "timestamp": "2025-10-05T12:47:18.135Z"
+  },
+  "priority": 8,
+  "timestamp": "2025-10-05T12:47:18.135Z",
+  "status": "pending"
+}

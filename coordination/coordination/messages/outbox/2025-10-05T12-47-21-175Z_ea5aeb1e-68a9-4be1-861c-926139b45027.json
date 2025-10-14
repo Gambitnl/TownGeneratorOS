@@ -1,0 +1,20 @@
+{
+  "id": "ea5aeb1e-68a9-4be1-861c-926139b45027",
+  "from": "4dd769b2-6a13-4ee4-97a3-616ace468801",
+  "to": "463eb57e-0937-4305-972d-b0cbf903472d",
+  "type": "task_assignment",
+  "data": {
+    "taskId": "3371606c-6627-467e-9a08-da9131c8ff9e",
+    "taskType": "web_research",
+    "description": "Research latest AI developments",
+    "data": {
+      "demoData": true
+    },
+    "priority": 8,
+    "timeout": 300000,
+    "assignedBy": "4dd769b2-6a13-4ee4-97a3-616ace468801"
+  },
+  "priority": 8,
+  "timestamp": "2025-10-05T12:47:21.175Z",
+  "status": "pending"
+}

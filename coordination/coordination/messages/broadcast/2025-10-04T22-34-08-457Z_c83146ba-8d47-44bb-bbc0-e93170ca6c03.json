@@ -1,0 +1,12 @@
+{
+  "id": "c83146ba-8d47-44bb-bbc0-e93170ca6c03",
+  "from": "72864316-b29a-4d49-9fd1-86811b765f62",
+  "to": "all",
+  "type": "discovery_request",
+  "data": {
+    "requesterId": "72864316-b29a-4d49-9fd1-86811b765f62"
+  },
+  "priority": 7,
+  "timestamp": "2025-10-04T22:34:08.457Z",
+  "status": "pending"
+}

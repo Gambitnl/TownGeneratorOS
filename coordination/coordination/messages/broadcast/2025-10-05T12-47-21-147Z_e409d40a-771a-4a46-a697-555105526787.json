@@ -1,0 +1,12 @@
+{
+  "id": "e409d40a-771a-4a46-a697-555105526787",
+  "from": "4dd769b2-6a13-4ee4-97a3-616ace468801",
+  "to": "all",
+  "type": "discovery_request",
+  "data": {
+    "requesterId": "4dd769b2-6a13-4ee4-97a3-616ace468801"
+  },
+  "priority": 7,
+  "timestamp": "2025-10-05T12:47:21.147Z",
+  "status": "pending"
+}
