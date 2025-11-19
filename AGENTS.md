@@ -108,6 +108,7 @@ This file defines the coordination protocol for multiple AI agents working on th
    - `IN_PROGRESS` work should complete within 2 hours
    - Long tasks should be broken into smaller chunks
 
+
 ## Local Coordination (Offline)
 
 Use these local tools to coordinate safely:
