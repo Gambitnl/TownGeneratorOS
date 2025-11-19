@@ -20,7 +20,9 @@
       "Bash(sayf_discord:*)",
       "Bash(check_active_agents)",
       "Bash(discord_send_message:*)",
-      "Bash(python tools/discord_read_post.py:*)"
+      "Bash(python tools/discord_read_post.py:*)",
+      "Bash(python:*)",
+      "Bash(pip install:*)"
     ],
     "deny": [],
     "ask": []
