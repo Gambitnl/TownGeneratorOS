@@ -1,0 +1,5 @@
+{
+  "name": "Realmsmith: Procedural Town Generator",
+  "description": "A high-fidelity, browser-based D&D town map generator using procedural generation algorithms and advanced Canvas API rendering techniques.",
+  "requestFramePermissions": []
+}

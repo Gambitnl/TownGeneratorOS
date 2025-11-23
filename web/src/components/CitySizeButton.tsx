@@ -1,10 +1,4 @@
 import React from 'react';
-import { Button } from './Button';
-import { StateManager } from '../services/StateManager';
-import { Model } from '../services/Model';
-import { Game } from '../services/Game';
-import { TownScene } from './TownScene';
-import { Random } from '../utils/Random';
 
 interface CitySizeButtonProps {
   label: string;
@@ -19,5 +13,10 @@ export const CitySizeButton: React.FC<CitySizeButtonProps> = ({ label, minSize, 
     onGenerate(size);
   };
 
-  return <Button label={label} onClick={handleClick} />;
+  return (
+    <button className="btn btn-primary" onClick={handleClick}>
+      {label}
+    </button>
+  );
 };
+

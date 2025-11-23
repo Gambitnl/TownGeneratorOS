@@ -1,0 +1,46 @@
+.tile-inspector {
+    background: rgba(20, 20, 30, 0.95);
+    border: 2px solid #4a9eff;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    font-family: 'Courier New', monospace;
+    min-width: 200px;
+    z-index: 10000;
+    backdrop-filter: blur(4px);
+}
+
+.tile-inspector-header {
+    font-size: 14px;
+    font-weight: bold;
+    color: #4a9eff;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #4a9eff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.tile-inspector-content {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.tile-inspector-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 12px;
+}
+
+.tile-inspector-label {
+    color: #88ccff;
+    font-weight: 500;
+}
+
+.tile-inspector-value {
+    color: #ffffff;
+    font-weight: bold;
+    text-align: right;
+}

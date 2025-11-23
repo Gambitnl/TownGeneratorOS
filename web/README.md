@@ -1,30 +1,28 @@
-# Medieval Fantasy City Generator (Web Port)
+# Medieval Fantasy City Generator (Web Application)
 
-This directory contains the web-based port of the original Medieval Fantasy City Generator.
+This directory contains the web-based town generator with a clean, grid-based architecture.
 
-**Purpose:** This project is an ongoing effort to port the core city generation logic from its original Haxe / OpenFL / msignal codebase to a modern web stack using TypeScript, React, and CSS, with Node.js for potential backend services.
+## Architecture
+*   **`GridModel.ts`**: Core generation logic orchestrating the full town generation pipeline
+*   **`generators/WFCGenerator.ts`**: Wave Function Collapse algorithm for road network generation
+*   **`generators/WaterGenerator.ts`**: Procedural water body placement (rivers and lakes)
+*   **`zoning/ZoneAllocator.ts`**: Intelligent zone assignment for buildings
+*   **`CityMap.tsx`**: Canvas-based renderer with pan/zoom support
+*   **`services/realmsmith/`**: Ported RealmSmith generator logic (Perlin noise based)
+*   **`components/RealmSmithCanvas.tsx`**: Renderer for RealmSmith maps
+*   **Assets**: Located in `public/assets/tiles/` - 64x64 PNG tiles representing 5ft squares
 
-The goal is to eventually replace the reliance on the Haxe-compiled JavaScript output with native TypeScript implementations, allowing for easier development, maintenance, and integration with modern web technologies.
+## Current Features
+*   ✅ Grid-based town generation
+*   ✅ Wave Function Collapse for roads (with retry logic on contradictions)
+*   ✅ Water feature generation (rivers & lakes)
+*   ✅ Zone allocation (residential, commercial, etc.)
+*   ✅ Canvas rendering with AI-generated PNG assets
+*   ✅ Pan/zoom controls
+*   ✅ VTT JSON export
+*   ✅ **RealmSmith Integration**: Alternative Perlin-noise based generator with distinct visual style
 
-## Porting Status
+**Note**: The WFC algorithm occasionally encounters contradictions during road generation. The system automatically retries (up to 5 times) and falls back to a simple grid pattern if needed. This ensures reliable map generation even when the algorithm struggles.
 
-This is a work in progress. The goal is to incrementally port the Haxe codebase to TypeScript.
-
-**Current UI Status:** The UI is currently not fully functional due to ongoing porting efforts. The application is encountering runtime errors as it attempts to use unported or partially ported Haxe logic. The immediate focus is to resolve these errors to get the UI to load and display correctly.
-
-**Currently Ported Modules (with placeholders for complex logic):**
-
-*   `Random.ts`: Core random number generation.
-*   `Point.ts`: Basic 2D point structure with essential geometric operations.
-*   `Polygon.ts`: Represents a polygon, with placeholder methods for complex geometric operations. The `contains` method has been updated with a basic ray-casting algorithm.
-*   `GeomUtils.ts`: Placeholder for geometric utility functions.
-*   `Cutter.ts`: Placeholder for polygon cutting logic.
-*   `Patch.ts`: Represents a land patch.
-*   `Model.ts`: Overall city model, with placeholder methods for complex operations. The `findCircumference` method has been updated with a basic bounding-box implementation.
-*   `CurtainWall.ts`: Logic for city walls, with some complex methods still as placeholders. This module has been significantly ported to resolve previous errors.
-*   `Ward.ts`: Base class for different city wards, with some complex methods still as placeholders.
-*   `Castle.ts`: Specific ward type, currently relying on placeholders from `Ward.ts`.
-
-**Next Steps:**
-
-The immediate focus is to get the application's UI to load without errors. This involves progressively porting the Haxe modules that are causing runtime errors, filling in the placeholder logic as needed. Once the UI is stable, the focus will shift to ensuring the core map generation functions correctly.
+## Development
+Run `npm run dev` to start the local development server.

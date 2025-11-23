@@ -1,40 +1,39 @@
-class Random {
-  private static g = 48271.0;
-  private static n = 2147483647;
+let seed = 1;
+const g = 48271.0;
+const n = 2147483647;
 
-  private static seed = 1;
-
-  public static reset(seed: number = -1) {
-    Random.seed = seed !== -1 ? seed : Math.floor(Date.now() % Random.n);
-  }
-
-  public static getSeed(): number {
-    return Random.seed;
-  }
-
-  private static next(): number {
-    return (Random.seed = Math.floor((Random.seed * Random.g) % Random.n));
-  }
-
-  public static float(): number {
-    return Random.next() / Random.n;
-  }
-
-  public static normal(): number {
-    return (Random.float() + Random.float() + Random.float()) / 3;
-  }
-
-  public static int(min: number, max: number): number {
-    return Math.floor(min + (Random.next() / Random.n) * (max - min));
-  }
-
-  public static bool(chance: number = 0.5): boolean {
-    return Random.float() < chance;
-  }
-
-  public static fuzzy(f: number = 1.0): number {
-    return f === 0 ? 0.5 : (1 - f) / 2 + f * Random.normal();
-  }
+export function reset(newSeed: number = -1) {
+  seed = newSeed !== -1 ? newSeed : Math.floor(Date.now() % n);
 }
 
-export { Random };
+export function getSeed(): number {
+  return seed;
+}
+
+function next(): number {
+  return (seed = Math.floor((seed * g) % n));
+}
+
+export function float(min: number = 0, max: number = 1): number {
+  return min + (next() / n) * (max - min);
+}
+
+export function normal(): number {
+  return (float() + float() + float()) / 3;
+}
+
+export function int(min: number, max: number): number {
+  return Math.floor(min + (next() / n) * (max - min));
+}
+
+export function bool(chance: number = 0.5): boolean {
+  return float() < chance;
+}
+
+export function pick<T>(array: T[]): T {
+  return array[int(0, array.length)];
+}
+
+export function fuzzy(f: number = 1.0): number {
+  return f === 0 ? 0.5 : (1 - f) / 2 + f * normal();
+}

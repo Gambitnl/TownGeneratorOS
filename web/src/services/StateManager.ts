@@ -1,4 +1,4 @@
-import { Random } from '../utils/Random';
+import * as Random from '../utils/Random';
 
 export class StateManager {
   private static readonly SIZE = 'size';

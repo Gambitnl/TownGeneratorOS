@@ -1,166 +1,271 @@
-import React, { useRef, useEffect } from 'react';
-import { Model } from './Model';
-import { Palette } from '@/types/palette';
-import { Brush } from './Brush';
-import { PatchView } from './PatchView';
-import { CurtainWall } from './CurtainWall';
-import { Street } from '@/types/street';
-import { Polygon } from '@/types/polygon';
-import { Point } from '@/types/point';
-import { Ward, AdministrationWard, Cathedral, CommonWard, CraftsmenWard, Farm, GateWard, Market, MerchantWard, MilitaryWard, Park, PatriciateWard, Slum } from './Ward';
-import { Castle } from './wards/Castle';
+import React, { useRef, useEffect, useState } from 'react';
+import { GridModel } from './GridModel';
+import { TileType } from '@/types/tile';
 
 interface CityMapProps {
-  model: Model;
+  model: GridModel;
+  showGrid: boolean;
+  showZones: boolean;
+  showWater: boolean;
 }
 
-export const CityMap: React.FC<CityMapProps> = ({ model }) => {
+const TILE_SIZE = 64;
+const TILE_IMAGES: Record<string, HTMLImageElement> = {};
+const IMAGE_NAMES = ['grass', 'road_straight', 'road_corner', 'road_tee', 'road_cross', 'house', 'water'];
+
+export const CityMap: React.FC<CityMapProps> = ({ model, showGrid, showZones, showWater }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+
+  // Load images on mount
+  useEffect(() => {
+    let loadedCount = 0;
+    IMAGE_NAMES.forEach(name => {
+      const img = new Image();
+      // Use PNGs for generated assets, fallback to SVG if needed (but we are replacing them now)
+      // Actually, let's stick to one format. I will copy the PNGs to the assets folder.
+      // For the road variants, I'll reuse the straight road for now or generate more.
+      // Let's assume we have PNGs for everything or fallback.
+      // For now, let's switch to .png and I will duplicate the road texture for other variants temporarily.
+      img.src = `/assets/tiles/${name}.png`;
+      img.onload = () => {
+        loadedCount++;
+        if (loadedCount === IMAGE_NAMES.length) {
+          setImagesLoaded(true);
+        }
+      };
+      TILE_IMAGES[name] = img;
+    });
+  }, []);
+
+  // Pan and zoom state
+  const [scale, setScale] = useState(0.5);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+
+  // Handle export event
+  useEffect(() => {
+    const handleExport = () => {
+      if (canvasRef.current) {
+        const link = document.createElement('a');
+        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+        link.download = `medieval-town-${timestamp}.png`;
+        link.href = canvasRef.current.toDataURL('image/png');
+        link.click();
+      }
+    };
+
+    window.addEventListener('exportCanvas', handleExport);
+    return () => window.removeEventListener('exportCanvas', handleExport);
+  }, []);
+
+  // Pan/Zoom event handlers
+  const handleWheel = (e: React.WheelEvent) => {
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? 0.9 : 1.1;
+    setScale(prevScale => Math.min(Math.max(prevScale * delta, 0.1), 5));
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    setDragStart({ x: e.clientX - offset.x, y: e.clientY - offset.y });
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (isDragging) {
+      setOffset({
+        x: e.clientX - dragStart.x,
+        y: e.clientY - dragStart.y
+      });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleZoomIn = () => {
+    setScale(prevScale => Math.min(prevScale * 1.2, 5));
+  };
+
+  const handleZoomOut = () => {
+    setScale(prevScale => Math.max(prevScale / 1.2, 0.1));
+  };
+
+  const handleZoomReset = () => {
+    setScale(0.5);
+    setOffset({ x: 0, y: 0 });
+  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) {
-      return;
-    }
+    if (!canvas) return;
+
+    // Set canvas size to match model size * tile size (or fixed size)
+    // For now fixed size canvas, but we draw the whole map
+    canvas.width = 1200;
+    canvas.height = 800;
 
     const ctx = canvas.getContext('2d');
-    if (!ctx) {
-      return;
-    }
+    if (!ctx) return;
 
-    const palette = Palette.DEFAULT;
-    const brush = new Brush(palette);
-
-    ctx.fillStyle = `#${palette.paper.toString(16)}`;
+    // Clear
+    ctx.fillStyle = '#222';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    for (const road of model.roads) {
-      drawRoad(ctx, brush, road, palette);
-    }
+    ctx.save();
 
-    for (const patch of model.patches) {
-      const ward = patch.ward;
-      if (ward) {
-        switch (ward.constructor) {
-          case Castle:
-            drawBuilding(ctx, brush, ward.geometry, palette.light, palette.dark, Brush.NORMAL_STROKE * 2);
-            break;
-          case CommonWard:
-          case CraftsmenWard:
-          case MerchantWard:
-          case Slum:
-          case PatriciateWard:
-          case GateWard:
-            drawBuilding(ctx, brush, ward.geometry, 0xcfa, palette.dark, Brush.NORMAL_STROKE);
-            break;
-          case Farm:
-            drawBuilding(ctx, brush, ward.geometry, 0xdeb887, palette.dark, Brush.NORMAL_STROKE);
-            break;
-          case Market:
-            drawBuilding(ctx, brush, ward.geometry, 0xf5a, palette.dark, Brush.NORMAL_STROKE);
-            break;
-          case Cathedral:
-            drawBuilding(ctx, brush, ward.geometry, 0xf0f, palette.dark, Brush.NORMAL_STROKE);
-            break;
-          case AdministrationWard:
-            drawBuilding(ctx, brush, ward.geometry, 0x0ff, palette.dark, Brush.NORMAL_STROKE);
-            break;
-          case MilitaryWard:
-            drawBuilding(ctx, brush, ward.geometry, 0xf00, palette.dark, Brush.NORMAL_STROKE);
-            break;
-          case Park:
-            drawBuilding(ctx, brush, ward.geometry, 0x0f0, palette.dark, Brush.NORMAL_STROKE);
-            break;
+    // Apply transformations
+    ctx.translate(offset.x + canvas.width / 2, offset.y + canvas.height / 2);
+    ctx.scale(scale, scale);
+
+    // Center the map
+    const mapWidth = model.width * TILE_SIZE;
+    const mapHeight = model.height * TILE_SIZE;
+    ctx.translate(-mapWidth / 2, -mapHeight / 2);
+
+    // Layer 0: Ground (Grass)
+    for (let y = 0; y < model.height; y++) {
+      for (let x = 0; x < model.width; x++) {
+        const posX = x * TILE_SIZE;
+        const posY = y * TILE_SIZE;
+        if (TILE_IMAGES['grass'] && TILE_IMAGES['grass'].complete) {
+          ctx.drawImage(TILE_IMAGES['grass'], posX, posY, TILE_SIZE, TILE_SIZE);
         }
       }
     }
 
-    if (model.wall) {
-      drawWall(ctx, brush, model.wall, false, palette);
-    }
-
-    if (model.citadel && model.citadel.ward instanceof Castle) {
-      drawWall(ctx, brush, model.citadel.ward.wall, true, palette);
-    }
-  }, [model]);
-
-  const drawRoad = (ctx: CanvasRenderingContext2D, brush: Brush, road: Street, palette: Palette) => {
-    ctx.strokeStyle = `#${palette.medium.toString(16)}`;
-    ctx.lineWidth = Ward.MAIN_STREET + Brush.NORMAL_STROKE;
-    ctx.beginPath();
-    for (const point of road.vertices) {
-      ctx.lineTo(point.x, point.y);
-    }
-    ctx.stroke();
-
-    ctx.strokeStyle = `#${palette.paper.toString(16)}`;
-    ctx.lineWidth = Ward.MAIN_STREET - Brush.NORMAL_STROKE;
-    ctx.beginPath();
-    for (const point of road.vertices) {
-      ctx.lineTo(point.x, point.y);
-    }
-    ctx.stroke();
-  };
-
-  const drawWall = (ctx: CanvasRenderingContext2D, brush: Brush, wall: CurtainWall, large: boolean, palette: Palette) => {
-    ctx.strokeStyle = `#${palette.dark.toString(16)}`;
-    ctx.lineWidth = Brush.THICK_STROKE;
-    ctx.beginPath();
-    for (const point of wall.shape.vertices) {
-      ctx.lineTo(point.x, point.y);
-    }
-    ctx.closePath();
-    ctx.stroke();
-
-    for (const gate of wall.gates) {
-      drawGate(ctx, brush, wall.shape, gate, palette);
-    }
-
-    for (const tower of wall.towers) {
-      drawTower(ctx, brush, tower, Brush.THICK_STROKE * (large ? 1.5 : 1), palette);
-    }
-  };
-
-  const drawTower = (ctx: CanvasRenderingContext2D, brush: Brush, p: Point, r: number, palette: Palette) => {
-    ctx.fillStyle = `#${palette.dark.toString(16)}`;
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, r, 0, 2 * Math.PI);
-    ctx.fill();
-  };
-
-  const drawGate = (ctx: CanvasRenderingContext2D, brush: Brush, wall: Polygon, gate: Point, palette: Palette) => {
-    ctx.strokeStyle = `#${palette.dark.toString(16)}`;
-    ctx.lineWidth = Brush.THICK_STROKE * 2;
-    const dir = wall.next(gate).subtract(wall.prev(gate));
-    dir.normalize(Brush.THICK_STROKE * 1.5);
-    ctx.beginPath();
-    ctx.moveTo(gate.x - dir.x, gate.y - dir.y);
-    ctx.lineTo(gate.x + dir.x, gate.y + dir.y);
-    ctx.stroke();
-  };
-
-  const drawBuilding = (ctx: CanvasRenderingContext2D, brush: Brush, blocks: Polygon[], fill: number, line: number, thickness: number) => {
-    ctx.strokeStyle = `#${line.toString(16)}`;
-    ctx.lineWidth = thickness * 2;
-    for (const block of blocks) {
-      ctx.beginPath();
-      for (const point of block.vertices) {
-        ctx.lineTo(point.x, point.y);
+    // Layer 1: Water
+    for (let y = 0; y < model.height; y++) {
+      for (let x = 0; x < model.width; x++) {
+        const tile = model.tiles[y][x];
+        if (tile.type === TileType.Water) {
+          const posX = x * TILE_SIZE;
+          const posY = y * TILE_SIZE;
+          // TODO: Add water variants logic here if needed
+          if (showWater && TILE_IMAGES['water'] && TILE_IMAGES['water'].complete) {
+            ctx.drawImage(TILE_IMAGES['water'], posX, posY, TILE_SIZE, TILE_SIZE);
+          }
+        }
       }
-      ctx.closePath();
+    }
+
+    // Layer 2: Roads
+    for (let y = 0; y < model.height; y++) {
+      for (let x = 0; x < model.width; x++) {
+        const tile = model.tiles[y][x];
+        if (tile.type === TileType.Road) {
+          const posX = x * TILE_SIZE;
+          const posY = y * TILE_SIZE;
+          const imgName = tile.variant ? `road_${tile.variant}` : 'road_straight';
+
+          if (TILE_IMAGES[imgName] && TILE_IMAGES[imgName].complete) {
+            ctx.save();
+            ctx.translate(posX + TILE_SIZE / 2, posY + TILE_SIZE / 2);
+            ctx.rotate((tile.rotation * Math.PI) / 180);
+            ctx.drawImage(TILE_IMAGES[imgName], -TILE_SIZE / 2, -TILE_SIZE / 2, TILE_SIZE, TILE_SIZE);
+            ctx.restore();
+          }
+        }
+      }
+    }
+
+    // Layer 3: Buildings & Zones
+    for (let y = 0; y < model.height; y++) {
+      for (let x = 0; x < model.width; x++) {
+        const tile = model.tiles[y][x];
+        const posX = x * TILE_SIZE;
+        const posY = y * TILE_SIZE;
+
+        // Draw Zone Overlay
+        if (showZones && tile.zone) {
+          ctx.save();
+          switch (tile.zone) {
+            case 'residential':
+              ctx.fillStyle = 'rgba(0, 255, 0, 0.3)'; // Green
+              break;
+            case 'commercial':
+              ctx.fillStyle = 'rgba(0, 0, 255, 0.3)'; // Blue
+              break;
+            case 'industrial':
+              ctx.fillStyle = 'rgba(255, 255, 0, 0.3)'; // Yellow
+              break;
+            case 'park':
+              ctx.fillStyle = 'rgba(0, 128, 0, 0.3)'; // Dark Green
+              break;
+            default:
+              ctx.fillStyle = 'rgba(128, 128, 128, 0.3)'; // Gray
+          }
+          ctx.fillRect(posX, posY, TILE_SIZE, TILE_SIZE);
+          ctx.restore();
+        }
+
+        // Draw Building
+        if (tile.type === TileType.House) {
+          // Only draw house if we have the image. 
+          // If showZones is ON, we might still want to see the house on top? 
+          // Task says: "Buildings/Zones are drawn in the correct locations relative to the roads."
+          // Usually buildings sit on top of zones.
+          if (TILE_IMAGES['house'] && TILE_IMAGES['house'].complete) {
+            ctx.drawImage(TILE_IMAGES['house'], posX, posY, TILE_SIZE, TILE_SIZE);
+          }
+        }
+      }
+    }
+
+    // Draw Grid Overlay
+    if (showGrid) {
+      ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (let x = 0; x <= model.width; x++) {
+        ctx.moveTo(x * TILE_SIZE, 0);
+        ctx.lineTo(x * TILE_SIZE, mapHeight);
+      }
+      for (let y = 0; y <= model.height; y++) {
+        ctx.moveTo(0, y * TILE_SIZE);
+        ctx.lineTo(mapWidth, y * TILE_SIZE);
+      }
       ctx.stroke();
     }
 
-    ctx.fillStyle = `#${fill.toString(16)}`;
-    for (const block of blocks) {
-      ctx.beginPath();
-      for (const point of block.vertices) {
-        ctx.lineTo(point.x, point.y);
-      }
-      ctx.closePath();
-      ctx.fill();
-    }
-  };
+    ctx.restore();
 
-  return <canvas ref={canvasRef} width={800} height={600} />;
+    // Request animation frame to handle image loading if not ready?
+    // For now, we rely on re-renders or images being fast enough. 
+    // A simple timeout to force redraw once images load would be better but let's stick to this.
+
+  }, [model, scale, offset, imagesLoaded, showGrid, showZones, showWater]);
+
+  return (
+    <div
+      ref={containerRef}
+      className="canvas-wrapper"
+      onWheel={handleWheel}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+    >
+      <canvas ref={canvasRef} />
+
+      <div className="zoom-controls">
+        <button className="zoom-btn" onClick={handleZoomOut} title="Zoom Out">−</button>
+        <input
+          type="range"
+          className="zoom-slider"
+          min="0.1"
+          max="5"
+          step="0.1"
+          value={scale}
+          onChange={(e) => setScale(parseFloat(e.target.value))}
+          title={`Zoom: ${Math.round(scale * 100)}%`}
+        />
+        <button className="zoom-btn" onClick={handleZoomIn} title="Zoom In">+</button>
+        <button className="zoom-btn zoom-reset" onClick={handleZoomReset} title="Reset Zoom">⟲</button>
+      </div>
+    </div>
+  );
 };
