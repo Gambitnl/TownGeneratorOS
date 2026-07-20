@@ -1,9 +1,6 @@
 # Ignore Windows reserved device file accidentally added
 nul
 
-# Ignore embedded git repositories (should be submodules if intended)
-mcp-discord-server/discordmcp/
-
 # Local Claude settings
 .claude/*.local.json
 
@@ -21,12 +18,6 @@ dist/.project
 .env.*
 !.env.template
 
-# Discord integration segregation
-discord/messages/tmp/
-discord/config/.env
-discord/config/.env.*
-!discord/config/.env.discord.template
-discord/python/__pycache__/
 **/__pycache__/
 *.pyc
 codexcli-2025-09-18-111729.md
@@ -44,19 +35,6 @@ agents/completed/codexcli-2025-09-19-150654.md
 agents/active/codexcli-cod02-notes.md
 agents/active/codexcli-2025-09-16-1426.md
 
-# Files that previously contained Discord bot tokens (ignored to prevent accidental commits)
-MCP-SETUP-SUMMARY.md
-agents/claude/AGENT.md
-AGENT-SETUP-GUIDE.md
+# Local agent message caches that may contain secret tokens
 .codex_msgs.json
 .codex_last5.json
-ONBOARDING-MESSAGE-FOR-AGENTS.md
-
-# Discord bot assets
-discord/config/
-!discord/config/.env.discord.template
-discord/messages/
-discord/python/
-discord/scripts/
-discord/docs/
-temp_discord_message.txt
